@@ -10,3 +10,17 @@
   background-color: white;
   color: rgba(228, 115, 71, 1);
 }
+
+.secondary-button {
+  background-color: white;
+  color: rgba(228, 115, 71, 1);
+  padding: 10px 20px;
+  border-color: rgba(228, 115, 71, 1);
+  cursor: pointer;
+}
+
+.secondary-button:hover {
+  background-color: rgba(228, 115, 71, 1);
+  color: white;
+  border-color: rgba(228, 115, 71, 1);
+}
