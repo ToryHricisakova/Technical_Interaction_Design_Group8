@@ -16,13 +16,11 @@ const Welcomebar = () => {
       <div style={styles.welcomebarRight}>
         <div style={styles.buttonContainer}>
           <Link to="/login">
-            <p>Login</p> {/*To be added once buttons are ready*/}
+            <button>Login</button> {/*To be added once buttons are ready*/}
           </Link>
           <Link to="/register">
-            <p>Register</p> {/*To be added once buttons are ready*/}
+            <button>Register</button> {/*To be added once buttons are ready*/}
           </Link>
-          {/*</Primarybutton>*/}
-          {/*</Secondarybutton>*/}
         </div>
       </div>
     </nav>
