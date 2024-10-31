@@ -2,13 +2,14 @@
   background-color: rgba(228, 115, 71, 1);
   color: white;
   padding: 10px 20px;
-  border: none;
+  border-color: rgba(228, 115, 71, 1);
   cursor: pointer;
 }
 
 .primary-button:hover {
   background-color: white;
   color: rgba(228, 115, 71, 1);
+  border-color: rgba(228, 115, 71, 1);
 }
 
 .secondary-button {
