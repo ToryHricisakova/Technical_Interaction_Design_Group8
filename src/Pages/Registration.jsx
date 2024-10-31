@@ -3,8 +3,16 @@ import React from 'react';
 const Registration = () => {
   return (
     <div>
-        <h1>Welcome to the Register Page</h1>
-        <p>This is the main page where you can login or register.</p>
+      <Router>
+            
+            <Welcomebar />
+            <Routes>
+              <Route path="/home" element={<Welcomebar />} />
+              {/* <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Login />} /> */}
+            </Routes>
+          
+        </Router>
     </div>
   );
 };
