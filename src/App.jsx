@@ -8,9 +8,11 @@ import Jobs from './Pages/Jobs.jsx'
 import ConversionCourses from './Pages/ConversionCourses.jsx'
 import Profile from './Pages/Profile.jsx'
 import People from './Pages/People.jsx'
+import Welcomebar from './Components/Welcomebar'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
@@ -43,8 +45,47 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+
+    <Router>
+      
+        <Welcomebar />
+        <Routes>
+          <Route path="/home" element={<Welcomebar />} />
+          {/* <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Login />} /> */}
+        </Routes>
+      
+    </Router>
     </>
-  )
-}
+)}
+
+
+//   return (
+//     <>
+//     <Router>
+//       {isLoggedIn ? (
+//         <>
+//           <Navbar />  {/* NAVIGATION BAR */}
+//           <Routes>
+//             <Route path="/home" element={<Home />} />
+//             <Route path="/education" element={<ConversionCourses />} />
+//             <Route path="/people" element={<People />} />
+//             <Route path="/jobs" element={<Jobs />} />
+//             <Route path="/profile" element={<Profile />} />
+//           </Routes>
+//         </>
+//       ) : (
+//         <>
+//         <Welcomebar onlogin={handleLogin} />
+//         <Routes>
+//           <Route path="/home" element={<Welcomebar />} />
+//           <Route path="/login" element={<Login />} />
+//           <Route path="/register" element={<Login />} />
+//         </Routes>
+//         </>
+//     )}
+//     </Router>
+//     </>
+// )}
 
 export default App
