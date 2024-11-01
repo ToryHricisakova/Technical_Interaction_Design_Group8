@@ -7,7 +7,7 @@ const Welcomebar = () => {
     <nav style={styles.welcomebar}>
       {/* Left Side: Logo */}
       <div style={styles.welcomebarLeft}>
-      <Link to="/home">
+      <Link to="/">
           <img src="src/MediaFiles/Logo.png" alt="Logo" style={styles.logo} />
       </Link>
       </div>

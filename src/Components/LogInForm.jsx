@@ -1,31 +1,33 @@
 import React, { useState } from 'react';
+import PrimaryButton from './PrimaryButton';
+import CloseIcon from './CloseIcon';
 
-
-const LogIn = () => {
+const LogInForm = ({ setIsLoggedIn, onClose }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = (e) => {
     e.preventDefault();
-    alert(`Logging in as ${username}`);
+    alert(`Logging in...`);
+    setIsLoggedIn(true); 
   };
 
   return (
     <div style={styles.container}>
       <form onSubmit={handleLogin} style={styles.form}>
+        <CloseIcon onClick={onClose} />
         <h2 style={styles.title}>Welcome Back</h2>
-
         <div style={styles.lineSeparator}></div>
-        
-        <label htmlFor="username" style={styles.label}>Username or Email</label>
+
+        <label htmlFor="email" style={styles.label}>Email</label>
         <input
           type="text"
-          placeholder="Username or Email"
+          placeholder="Email"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           style={styles.input}
         />
-        
+
         <label htmlFor="password" style={styles.label}>Password</label>
         <input
           type="password"
@@ -34,7 +36,9 @@ const LogIn = () => {
           onChange={(e) => setPassword(e.target.value)}
           style={styles.input}
         />
-        
+
+        {/* Primary Button */}
+        <PrimaryButton type="submit">Log In</PrimaryButton>
       </form>
     </div>
   );
@@ -44,10 +48,11 @@ const LogIn = () => {
 const styles = {
     container: {
       display: 'flex',
-      alignItems: 'left',
+      alignItems: 'center',
       justifyContent: 'center',
-      height: '100vh', 
-      backgroundColor: '#f3f4f6',
+      height: '100vh',
+      width: '100%',
+      position: 'relative',
     },
     form: {
       display: 'flex',
@@ -55,10 +60,11 @@ const styles = {
       alignItems: 'center',
       padding: '30px',
       width: '100%',
-      maxWidth: '350px',
+      maxWidth: '400px',
       borderRadius: '20px',
       boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
       backgroundColor: '#FFFFFF',
+      position: 'relative',
     },
     title: {
       fontSize: '2em',
@@ -74,14 +80,13 @@ const styles = {
     },
     label: {
       alignSelf: 'flex-start',
-      marginBottom: '5px',
       fontSize: '0.9em',
       color: '#35415D',
       fontFamily: 'Inter, sans-serif',
     },
     input: {
       width: '100%',
-      padding: '12px',
+      padding: '10px',
       margin: '10px 0',
       borderRadius: '10px',
       border: '1px solid #ddd',
@@ -90,4 +95,4 @@ const styles = {
     },
 };
 
-export default LogIn;
+export default LogInForm;
