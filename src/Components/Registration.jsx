@@ -1,9 +1,11 @@
-import { faCheck, faTimes, faInfoCircle, fa0, faInfo } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import '../Registration.css';
 import { useState, useEffect } from "react";
 import HorizontalLine from "./HorizontalLine";
 import PrimaryButton from "./PrimaryButton";
+import CloseIcon from "./CloseIcon";
+import { Link } from "react-router-dom";
 
 const Registration = () => {
 
@@ -87,6 +89,9 @@ const Registration = () => {
     return ( 
         <div className="Registration">
             <h1>Registration</h1>
+            <Link to="/home">
+                <CloseIcon/>
+            </Link>
             <HorizontalLine width="320px"/>
 
             <div className="formContent">
@@ -197,7 +202,7 @@ const Registration = () => {
             {/* Display users in JSON format on page */}
             {/* <h2>Registered Users</h2>
             <pre>{JSON.stringify(users, null, 2)}</pre>  */}
-        
+            
         </div>
         
      );
