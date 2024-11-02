@@ -50,6 +50,7 @@ const styles = {
     fontSize: '4em',
     margin: '0 0 10px 0',
     color: '#35415D',
+    textAlign: 'left',
     fontFamily: 'Inter, sans-serif',
     fontWeight: 'bold',
   },

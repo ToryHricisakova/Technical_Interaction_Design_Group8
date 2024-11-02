@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PrimaryButton from "./PrimaryButton";
+import SecondaryButton from "./SecondaryButton";
 
 
 const Welcomebar = () => {
@@ -16,10 +18,10 @@ const Welcomebar = () => {
       <div style={styles.welcomebarRight}>
         <div style={styles.buttonContainer}>
           <Link to="/login">
-            <button>Login</button> {/*To be added once buttons are ready*/}
+            <PrimaryButton>Login</PrimaryButton>
           </Link>
           <Link to="/register">
-            <button>Register</button> {/*To be added once buttons are ready*/}
+            <SecondaryButton>Register</SecondaryButton>
           </Link>
         </div>
       </div>

@@ -7,7 +7,7 @@ import PrimaryButton from "./PrimaryButton";
 import CloseIcon from "./CloseIcon";
 import { Link } from "react-router-dom";
 
-const Registration = () => {
+const RegistrationForm = () => {
 
     const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // A simple check, e-mail might still not be valid.
     const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%?&_.,:;"'~=+-/|\\{}()^\[\]]).{8,24}$/; // Password requirements:
@@ -89,7 +89,7 @@ const Registration = () => {
     return ( 
         <div className="Registration">
             <h1>Registration</h1>
-            <Link to="/home">
+            <Link to="/">
                 <CloseIcon/>
             </Link>
             <HorizontalLine width="320px"/>
@@ -207,6 +207,6 @@ const Registration = () => {
         
      );
     
-}
+};
  
-export default Registration;
+export default RegistrationForm;

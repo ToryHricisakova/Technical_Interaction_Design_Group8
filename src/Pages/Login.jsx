@@ -1,18 +1,12 @@
 import React from 'react';
 import LogInForm from '../Components/LogInForm';
 import backgroundImage from '../MediaFiles/FrontpageBackground.png';
-import { useNavigate } from 'react-router-dom'; 
 
 const Login = ({ setIsLoggedIn }) => {
-    const navigate = useNavigate();
-
-    const handleClose = () => {
-        navigate(-1);
-    };
   
     return (
         <div style={styles.loginPage}>
-            <LogInForm setIsLoggedIn={setIsLoggedIn} onClose={handleClose} />
+            <LogInForm setIsLoggedIn={setIsLoggedIn} />
         </div>
     );
 };
