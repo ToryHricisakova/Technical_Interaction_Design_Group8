@@ -193,7 +193,6 @@ const RegistrationForm = () => {
                         />
                         <label className="checkboxLabel" htmlFor="terms">I agree to the terms and conditions as set out by the user agreement.</label>
                     </div>
-                    
                     <PrimaryButton type="submit">Register</PrimaryButton>
                     
                 </form>
