@@ -1,32 +1,30 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ setIsLoggedIn }) => {
+  const navigate = useNavigate(); // Use navigate to programmatically change routes
+
+  const handleLogout = () => {
+    setIsLoggedIn(false); // Reset the login state
+    navigate('/'); // Navigate to home or login page
+  };
+
   return (
     <nav style={styles.navbar}>
-      {/* Left Side: Logo */}
-      <div style={styles.navbarLeft}>
+      
+    <div style={styles.navbarLeft}>
         <Link to="/home">
           <img src="src/MediaFiles/Logo.png" alt="Logo" style={styles.logo} />
         </Link>
-      </div>
+    </div>
 
-      {/* Right Side: Icons and Search */}
-      <div style={styles.navbarRight}>
-        <div style={styles.iconContainer}>
+    <div style={styles.navbarRight}>
+       <div style={styles.iconContainer}>
           <Link to="/education">
-            <img
-              src="src/MediaFiles/ConversionCourses.png"
-              alt="ConversionCourses"
-              style={styles.icon}
-            />
+            <img src="src/MediaFiles/ConversionCourses.png" alt="ConversionCourses" style={styles.icon} />
           </Link>
           <Link to="/people">
-            <img
-              src="src/MediaFiles/Network.png"
-              alt="Network"
-              style={styles.icon}
-            />
+            <img src="src/MediaFiles/Network.png" alt="Network" style={styles.icon} />
           </Link>
           <Link to="/jobs">
             <img src="src/MediaFiles/Jobs.png" alt="Jobs" style={styles.icon} />
@@ -44,11 +42,11 @@ const Navbar = () => {
             style={styles.icon}
           />
           <Link to="/profile">
-            <img
-              src="src/MediaFiles/Profile.png"
-              alt="Profile"
-              style={styles.profileImage}
-            />
+            <img src="src/MediaFiles/Profile.png" alt="Profile" style={styles.profileImage} />
+          </Link>
+        </div>
+        <input type="text" placeholder="Start typing..." style={styles.searchBar} />
+        <SecondaryButton onClick={handleLogout}>Log Out</SecondaryButton>
           </Link>
         </div>
         <input
@@ -60,6 +58,7 @@ const Navbar = () => {
     </nav>
   );
 };
+
 
 // Styling
 const styles = {
