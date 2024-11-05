@@ -1,11 +1,11 @@
 import React from 'react';
 import WelcomeMessage from '../Components/WelcomeMessage';
-import LogIn from '../Components/LogIn';
-import Navbar from './Components/Navbar.jsx'
-import Jobs from './Pages/Jobs.jsx'
-import ConversionCourses from './Pages/ConversionCourses.jsx'
-import Profile from './Pages/Profile.jsx'
-import People from './Pages/People.jsx'
+import LogInForm from '../Components/LogInForm';
+import Navbar from '../Components/Navbar'
+import Jobs from '../Pages/Jobs'
+import ConversionCourses from '../Pages/ConversionCourses'
+import Profile from '../Pages/Profile'
+import People from '../Pages/People'
 
 
 const Home = () => {
