@@ -17,12 +17,8 @@ const Welcomebar = () => {
       {/* Right Side: Login and Register */}
       <div style={styles.welcomebarRight}>
         <div style={styles.buttonContainer}>
-          <Link to="/login">
-            <PrimaryButton>Login</PrimaryButton>
-          </Link>
-          <Link to="/register">
-            <SecondaryButton>Register</SecondaryButton>
-          </Link>
+          <Link to="/login"> <PrimaryButton>Login</PrimaryButton> </Link>
+          <Link to="/register"> <SecondaryButton>Register</SecondaryButton> </Link>
         </div>
       </div>
     </nav>
