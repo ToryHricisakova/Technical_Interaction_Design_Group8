@@ -1,5 +1,5 @@
 import React from "react";
-import closeIcon from "../MediaFiles/closeicon.png";
+import closeIcon from '../MediaFiles/closeicon.png';
 
 const CloseIcon = ({ onClick }) => {
   const iconStyle = {
@@ -7,8 +7,9 @@ const CloseIcon = ({ onClick }) => {
     height: "20px",
     cursor: "pointer",
     position: "absolute",
-    top: "20px",
-    right: "20px",
+    top: "30px",
+    right: "30px",
+    zIndex: 1000, // Ensure it's on top of other elements
   };
 
   return (
