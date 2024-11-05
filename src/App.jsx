@@ -1,27 +1,30 @@
-import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Welcome from './Pages/Welcome.jsx';
+import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Welcome from "./Pages/Welcome.jsx";
 import Home from "./Pages/Home.jsx";
-import Welcomebar from './Components/WelcomeBar.jsx';
-import Registration from './Pages/Registration.jsx';
+import Welcomebar from "./Components/WelcomeBar.jsx";
+import Registration from "./Pages/Registration.jsx";
 import Jobs from "./Pages/Jobs.jsx";
 import ConversionCourses from "./Pages/ConversionCourses.jsx";
 import Profile from "./Pages/Profile.jsx";
 import People from "./Pages/People.jsx";
 import Messages from "./Pages/Messages";
-import Login from './Pages/Login';
-import Navbar from './Components/Navbar';
-import { useState } from 'react';
+import Login from "./Pages/Login";
+import Navbar from "./Components/Navbar";
+import Onboarding1 from "./Pages/Onboarding1";
+import Onboarding2 from "./Pages/Onboarding2";
+import Onboarding3 from "./Pages/Onboarding3";
+import LandingPage from "./Pages/LandingPage";
+import { useState } from "react";
 
 function App() {
   document.body.style = "background: #D5DEE4";
-  
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
   };
-  
 
   return (
     <div>
@@ -34,7 +37,10 @@ function App() {
         )}
         <Routes>
           <Route path="/" element={<Welcome />} />
-          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+          <Route
+            path="/login"
+            element={<Login setIsLoggedIn={setIsLoggedIn} />}
+          />
           <Route path="/register" element={<Registration />} />
           <Route path="/home" element={<Home />} />
           <Route path="/education" element={<ConversionCourses />} />
@@ -42,10 +48,14 @@ function App() {
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/messages" element={<Messages />} />
+          <Route path="/onboarding1" element={<Onboarding1 />} />
+          <Route path="/onboarding2" element={<Onboarding2 />} />
+          <Route path="/onboarding3" element={<Onboarding3 />} />
+          <Route path="/landingpage" element={<LandingPage />} />
         </Routes>
       </Router>
     </div>
   );
-};
+}
 
 export default App;

@@ -6,6 +6,7 @@ import PrimaryButton from "../Components/PrimaryButton";
 import SecondaryButton from "../Components/SecondaryButton";
 import TypeAhead from "../Components/TypeAhead";
 import Tag from "../Components/Tag";
+import { Link } from "react-router-dom";
 
 const Onboarding2 = () => {
   return (
@@ -28,8 +29,9 @@ const Onboarding2 = () => {
       <div className="addedFields">
         <div style={styles.boldparagraph}>Added fields:</div>
       </div>
-
-      <PrimaryButton>Next</PrimaryButton>
+      <Link to="/onboarding3">
+        <PrimaryButton>Next</PrimaryButton>
+      </Link>
       <HorizontalLine />
     </div>
   );

@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PrimaryButton from "../Components/PrimaryButton";
 import SecondaryButton from "../Components/SecondaryButton";
+import { Link } from "react-router-dom";
 
 const Onboarding1 = () => {
   const [date, setDate] = useState(new Date());
@@ -82,7 +83,9 @@ const Onboarding1 = () => {
           Write your bio here...
         </textarea>
       </div>
-      <PrimaryButton>Next</PrimaryButton>
+      <Link to="/onboarding2">
+        <PrimaryButton>Next</PrimaryButton>
+      </Link>
       <HorizontalLine />
     </div>
   );
