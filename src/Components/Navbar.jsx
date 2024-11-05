@@ -44,10 +44,8 @@ const Navbar = ({ setIsLoggedIn }) => {
           <Link to="/profile">
             <img src="src/MediaFiles/Profile.png" alt="Profile" style={styles.profileImage} />
           </Link>
-        </div>
         <input type="text" placeholder="Start typing..." style={styles.searchBar} />
         <SecondaryButton onClick={handleLogout}>Log Out</SecondaryButton>
-          </Link>
         </div>
         <input
           type="text"
