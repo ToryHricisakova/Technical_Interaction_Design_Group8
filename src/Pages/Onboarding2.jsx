@@ -19,11 +19,11 @@ const Onboarding2 = () => {
       </div>
       <div className="Fields">
         <div style={styles.boldparagraph}>Field of work/study:</div>
-        <TypeAhead
+        {/* <TypeAhead
           items={fields}
           placeholder="Search career fields here..."
           tagType="field"
-        />
+        /> */}
       </div>
       <div className="addedFields">
         <div style={styles.boldparagraph}>Added fields:</div>
