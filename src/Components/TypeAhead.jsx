@@ -1,5 +1,6 @@
 import React from "react";
 import "../TypeAhead.css";
+import Tag from "./Tag";
 
 export default class TypeAhead extends React.Component {
   constructor(props) {
@@ -7,6 +8,7 @@ export default class TypeAhead extends React.Component {
     this.state = {
       suggestions: [],
       text: "",
+      selectedTags: [],
     };
   }
 
@@ -33,11 +35,29 @@ export default class TypeAhead extends React.Component {
   };
 
   suggestionSelected = (value) => {
-    this.setState(() => ({
-      text: value,
-      suggestions: [],
-    }));
+    this.setState((prevState) => {
+      if (prevState.selectedTags.includes(value)) { // Check if tag has already been added.
+        return {
+          text: value,
+          suggestions: [],
+        };
+      }
+
+      return { // Add new tag.
+        text: '', // Clear text field for next input
+        suggestions: [],
+        selectedTags: [...prevState.selectedTags, value],
+      };
+    }, () => {
+      console.log("selectedTags: ", this.state.selectedTags); // Debugging
+    });
   };
+  
+  createTags = () => {
+    return this.state.selectedTags.map((tag, index) => (
+      <Tag key={index} word={tag} tagType={this.props.tagType} removeable={true} />
+    ));
+  }
 
   renderSuggestions = () => {
     const { suggestions } = this.state;
@@ -58,18 +78,27 @@ export default class TypeAhead extends React.Component {
       </ul>
     );
   };
+
   render() {
     const { text } = this.state;
     const { placeholder } = this.props;
+
     return (
-      <div className="TypeAhead">
-        <input
-          onChange={this.onTextChange}
-          placeholder={placeholder}
-          value={text}
-          type="text"
-        />
-        {this.renderSuggestions()}
+      <div>
+        <div className="TypeAhead">
+          <input
+            onChange={this.onTextChange}
+            placeholder={placeholder}
+            value={text}
+            type="text"
+          />
+
+          {this.renderSuggestions()}
+        </div>
+
+        <div className="tag-container">
+          {this.createTags()}
+        </div>
       </div>
     );
   }

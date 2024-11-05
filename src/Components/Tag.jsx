@@ -1,20 +1,24 @@
 import React from "react";
 import "../Tag.css";
 
-const Tag = ({ word, category }) => {
-  if (category === "field") {
-    return (
-      <span className="fieldTag">
-        <p>{word}</p>
-      </span>
-    );
-  }
-  else if (category ==="skill")
-    return (
-      <span className="skillTag">
-        <p>{word}</p>
-      </span>
-  );  
+const Tag = ({ word, tagType, removeable }) => {
+
+  const handleRemove = () => {
+   
+  };
+
+  const tagStyle = tagType === "field" ? "fieldTag" : "skillTag";
+
+  return (
+    <span className={tagStyle}>
+    <p>{word}</p>
+    {/* {removeable && (
+      <button className="removeTag" onClick={handleRemove}>
+        
+      </button>
+    )} */}
+    </span>
+  );
 };
 
 export default Tag;
