@@ -6,6 +6,7 @@ import PrimaryButton from "../Components/PrimaryButton";
 import SecondaryButton from "../Components/SecondaryButton";
 import TypeAhead from "../Components/TypeAhead";
 import Tag from "../Components/Tag";
+import fields from "../MediaFiles/fields";
 import { Link } from "react-router-dom";
 
 const Onboarding2 = () => {
@@ -20,11 +21,13 @@ const Onboarding2 = () => {
       </div>
       <div className="Fields">
         <div style={styles.boldparagraph}>Field of work/study:</div>
-        {/* <TypeAhead
-          items={fields}
-          placeholder="Search career fields here..."
-          tagType="field"
-        /> */}
+        {
+          <TypeAhead
+            items={fields}
+            placeholder="Search career fields here..."
+            tagType="field"
+          />
+        }
       </div>
       <div className="addedFields">
         <div style={styles.boldparagraph}>Added fields:</div>
