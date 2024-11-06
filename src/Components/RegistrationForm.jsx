@@ -2,6 +2,10 @@ import {
   faCheck,
   faTimes,
   faInfoCircle,
+  faEye,
+  faEyeDropper,
+  faEyeLowVision,
+  faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../Registration.css";
@@ -35,6 +39,9 @@ const RegistrationForm = () => {
 
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+
+  const [hidePassword, setHidePassword] = useState(true);
+  const [hidePassword2, setHidePassword2] = useState(true);
 
   const [users, setUsers] = useState([]);
 
@@ -75,14 +82,25 @@ const RegistrationForm = () => {
   };
 
   const handlePasswordChange = (e) => {
+    console.log("password change: " + e);
     setPassword(e.target.value);
     setValidPassword(PASSWORD_REGEX.test(e.target.value));
+    setPasswordMatch(e.target.value === confirmPassword);
   };
 
   const handlePasswordConfirmation = (e) => {
     setConfirmPassword(e.target.value);
-    if (e.target.value === password) setPasswordMatch(true);
+    setPasswordMatch(e.target.value === password);
   };
+
+  const togglePasswordVisibility = (e) => {
+    setHidePassword(!hidePassword);
+  }
+
+  const togglePasswordVisibility2 = (e) => {
+    setHidePassword2(!hidePassword2);
+  }
+
 
   // useEffects added for troubleshooting.
   useEffect(() => {
@@ -92,6 +110,14 @@ const RegistrationForm = () => {
   useEffect(() => {
     console.log("password valid?", validPassword);
   }, [validPassword]);
+  
+  useEffect(() => {
+    console.log("confirmPassword = ", confirmPassword);
+  }, [confirmPassword])
+
+  useEffect(() => {
+    console.log("passwordMatch = ", passwordMatch);
+  }, [passwordMatch])
 
   // Print full user array whenever it is updated.
   useEffect(() => {
@@ -104,7 +130,7 @@ const RegistrationForm = () => {
       <Link to="/">
         <CloseIcon />
       </Link>
-      <HorizontalLine width="320px" />
+      <HorizontalLine width="100%" /> 
 
       <div className="formContent">
         {/* Error Message */}
@@ -112,7 +138,7 @@ const RegistrationForm = () => {
 
         <form onSubmit={handleRegister}>
           {" "}
-          {/*How to turn off autocomplete?*/}
+          {/*We need to turn off autocomplete in all fields*/}
           <div className="input-container">
             <label htmlFor="firstName">
               First name:
@@ -188,11 +214,11 @@ const RegistrationForm = () => {
           <div className="input-container">
             <label htmlFor="password">
               Password:
-              <FontAwesomeIcon
+              {/* <FontAwesomeIcon
                 icon={faInfoCircle}
                 title="Password has to be between 8 and 24 characters and contain at least one lowercase letter, one uppercase letter, a number, and a special character"
                 style={{ color: "grey", marginLeft: "8px" }}
-              />
+              /> */}
               {validPassword ? (
                 <FontAwesomeIcon
                   icon={faCheck}
@@ -205,14 +231,22 @@ const RegistrationForm = () => {
                 />
               )}
             </label>
-            <input
-              type="text"
-              id="password"
-              placeholder="Enter password"
-              value={password}
-              onChange={handlePasswordChange}
-              required
-            />
+            <div className="passwordWrapper">
+              <input
+                type={hidePassword ? "password" : "text"}
+                id="password"
+                placeholder="Enter password"
+                value={password}
+                onChange={handlePasswordChange}
+                required
+              />
+              <FontAwesomeIcon
+                icon={hidePassword ? faEyeSlash : faEye} // Icon changes when clicked.
+                onClick={togglePasswordVisibility} // Clicking toggles visibility of password
+                className="toggleVisibilityEye"
+              />
+            </div>
+            <p className="req"><u>Requirements:</u> <br/>Between 8 and 24 characters and must contain at least one lowercase letter, one uppercase letter, a number, and a special character.</p>
           </div>
           <div className="input-container">
             <label htmlFor="confirmPassword">
@@ -229,14 +263,21 @@ const RegistrationForm = () => {
                 />
               )}
             </label>
-            <input
-              type="text"
-              id="confirmPassword"
-              value={confirmPassword}
-              placeholder="Re-enter password"
-              onChange={handlePasswordConfirmation}
-              required
-            />
+            <div className="passwordWrapper">
+              <input
+                type={hidePassword2 ? "password" : "text"}
+                id="confirmPassword"
+                value={confirmPassword}
+                placeholder="Re-enter password"
+                onChange={handlePasswordConfirmation}
+                required
+              />
+              <FontAwesomeIcon
+                icon={hidePassword2 ? faEyeSlash : faEye} // Icon changes when clicked.
+                onClick={togglePasswordVisibility2} // Clicking toggles visibility of password
+                className="toggleVisibilityEye"
+              />
+            </div>
           </div>
           <div className="terms-container">
             <input
@@ -249,7 +290,7 @@ const RegistrationForm = () => {
             />
             <label className="checkboxLabel" htmlFor="terms">
               I agree to the terms and conditions as set out by the user
-              agreement.
+              agreement. {/*Should link to the user agreement.*/}
             </label>
           </div>
           <Link to="/onboarding1">
