@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import PrimaryButton from "../Components/PrimaryButton";
 import SecondaryButton from "../Components/SecondaryButton";
 import { Link } from "react-router-dom";
+import { width } from "@fortawesome/free-solid-svg-icons/fa0";
 
 const Onboarding1 = () => {
   const [date, setDate] = useState(new Date());
@@ -24,52 +25,54 @@ const Onboarding1 = () => {
           <DatePicker selected={date} onChange={(date) => setDate(date)} />
         </div>
       </div>
-      <div className="Pronouns">
+      <div className="pronouns" style={styles.pronouns}>
         <div style={styles.boldparagraph}>Pronouns:</div>
-        <div style={styles.paragraph}>
-          <input
-            className="radioButton"
-            type="radio"
-            name="pronouns"
-            id="hehim"
-          />
-          <label className="checkboxLabel" htmlFor="hehim">
-            He/Him
-          </label>
+        <div style={styles.radiobuttonGrouping}>
+          <div style={styles.radiobutton}>
+            <input
+              className="radioButton"
+              type="radio"
+              name="pronouns"
+              id="hehim"
+            />
+            <label className="checkboxLabel" style={styles.checkboxLabel} htmlFor="hehim">
+              He/Him
+            </label>
+          </div>
+          <div style={styles.radiobutton}>
+            <input
+              className="radioButton"
+              type="radio"
+              name="pronouns"
+              id="sheher"
+            />
+            <label className="checkboxLabel" style={styles.checkboxLabel} htmlFor="sheher">
+              She/Her
+            </label>
+          </div>
+          <div style={styles.radiobutton}>
+            <input
+              className="radioButton"
+              type="radio"
+              name="pronouns"
+              id="theythem"
+            />
+            <label className="checkboxLabel" style={styles.checkboxLabel} htmlFor="theythem">
+              They/Them
+            </label>
+          </div>
+          <div style={styles.radiobutton}>
+            <input
+              className="radioButton"
+              type="radio"
+              name="pronouns"
+              id="otherpro"
+            />
+            <label className="checkboxLabel" htmlFor="otherpro">
+              Other
+            </label>
+          </div>
         </div>
-        <div style={styles.paragraph}>
-          <input
-            className="radioButton"
-            type="radio"
-            name="pronouns"
-            id="sheher"
-          />
-          <label className="checkboxLabel" htmlFor="sheher">
-            She/Her
-          </label>
-        </div>
-      </div>
-      <div style={styles.paragraph}>
-        <input
-          className="radioButton"
-          type="radio"
-          name="pronouns"
-          id="theythem"
-        />
-        <label className="checkboxLabel" htmlFor="theythem">
-          They/Them
-        </label>
-      </div>
-      <div style={styles.paragraph}>
-        <input
-          className="radioButton"
-          type="radio"
-          name="pronouns"
-          id="otherpro"
-        />
-        <label className="checkboxLabel" htmlFor="otherpro">
-          Other
-        </label>
       </div>
 
       <div className="ProfilePicture">
@@ -83,7 +86,7 @@ const Onboarding1 = () => {
           Write your bio here...
         </textarea>
       </div>
-      <Link to="/onboarding2">
+      <Link to="/onboarding2" style={styles.nextButton}>
         <PrimaryButton>Next</PrimaryButton>
       </Link>
       <HorizontalLine />
@@ -128,7 +131,33 @@ const styles = {
   },
   biotext: {
     backgroundColor: "white",
-    width: "300px",
+    width: "70%",
     color: "black",
+    marginBottom: "1rem",
+  },
+
+  pronouns: {
+    margin: "5px 2",
+  },
+
+  radiobutton: {
+    display: "flex",
+    alignItems: "center",
+    gap: "0rem",
+  },
+  
+  radiobuttonGrouping: {
+    display: "flex",
+    gap: "1rem",
+    justifyContent: "left",
+  },
+
+  checkboxLabel: {
+    flexShrink: "0", // Prevents the labels from splitting into two lines.
+  },
+
+  nextButton: {
+    display: "flex",
+    justifyContent: "flex-end",
   },
 };
