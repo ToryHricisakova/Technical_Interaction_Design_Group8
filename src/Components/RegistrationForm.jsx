@@ -1,10 +1,7 @@
 import {
   faCheck,
   faTimes,
-  faInfoCircle,
   faEye,
-  faEyeDropper,
-  faEyeLowVision,
   faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
