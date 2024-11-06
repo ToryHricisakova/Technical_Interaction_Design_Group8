@@ -125,7 +125,7 @@ const RegistrationForm = () => {
   }, [users]);
 
   return (
-    <div className="Registration">
+    <div className="RegistrationForm">
       <h1>Registration</h1>
       <Link to="/">
         <CloseIcon />
@@ -246,7 +246,7 @@ const RegistrationForm = () => {
                 className="toggleVisibilityEye"
               />
             </div>
-            <p className="req"><u>Requirements:</u> <br/>Between 8 and 24 characters and must contain at least one lowercase letter, one uppercase letter, a number, and a special character.</p>
+            <p className="req">Password must be between 8 and 24 characters and must contain at least one lowercase letter, one uppercase letter, a number, and a special character.</p>
           </div>
           <div className="input-container">
             <label htmlFor="confirmPassword">

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PrimaryButton from './PrimaryButton';
 import CloseIcon from './CloseIcon';
 import { Link } from 'react-router-dom';
+import HorizontalLine from './HorizontalLine';
 
 const LogInForm = ({ setIsLoggedIn }) => {
   const [username, setUsername] = useState('');
@@ -20,8 +21,8 @@ const LogInForm = ({ setIsLoggedIn }) => {
           <CloseIcon />
         </Link>
         <h2 style={styles.title}>Welcome Back</h2>
-        <div style={styles.lineSeparator}></div>
-
+        {/* <div style={styles.lineSeparator}></div> */}
+        <HorizontalLine width="400px"/>
         <div style={styles.fieldContainer}>
           <label htmlFor="email" style={styles.label}>Email</label>
           <input
@@ -42,6 +43,10 @@ const LogInForm = ({ setIsLoggedIn }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+        </div>
+
+        <div style={styles.fieldContainer}>
+          <p><u>Forgot password?</u></p>
         </div>
 
         {/* Primary Button */}
@@ -74,7 +79,7 @@ const styles = {
     position: 'relative',
   },
   title: {
-    fontSize: '2em',
+    fontSize: '2.5em',
     marginBottom: '10px',
     color: '#35415D',
     fontFamily: 'Inter, sans-serif',
@@ -111,7 +116,7 @@ const styles = {
     padding: '10px',
     margin: '10px 0',
     borderRadius: '10px',
-    border: '1px solid #ddd',
+    border: '1px solid #838383',
     outline: 'none',
     fontSize: '1em',
   },
