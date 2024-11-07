@@ -11,8 +11,10 @@ import HorizontalLine from "./HorizontalLine";
 import PrimaryButton from "./PrimaryButton";
 import CloseIcon from "./CloseIcon";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const RegistrationForm = () => {
+  const navigate = useNavigate();
   const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // A simple check, e-mail might still not be valid.
   const PASSWORD_REGEX =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%?&_.,:;"'~=+-/|\\{}()^\[\]]).{8,24}$/; // Password requirements:
@@ -71,6 +73,7 @@ const RegistrationForm = () => {
     setEmail("");
     setPassword("");
     setConfirmPassword("");
+    navigate("/onboarding1");
   };
 
   const handleEmailChange = (e) => {
@@ -290,9 +293,7 @@ const RegistrationForm = () => {
               agreement. {/*Should link to the user agreement.*/}
             </label>
           </div>
-          <Link to="/onboarding1">
-            <PrimaryButton type="submit">Register</PrimaryButton>
-          </Link>
+          <PrimaryButton type="submit">Register</PrimaryButton>
         </form>
       </div>
 
