@@ -91,9 +91,7 @@ const Onboarding1 = () => {
 
           <div className="profileBio" style={styles.infoBlock}>
             <div style={styles.boldparagraph}>Profile bio:</div>
-            <textarea style={styles.biotext} id="bioinfo" rows="5" cols="33">
-              Write your bio here...
-            </textarea>
+            <textarea style={styles.biotext} id="bioinfo" rows="5" cols="33" placeholder="Write your bio here..."/>
           </div>
         </div>
         <Link to="/onboarding2" style={styles.nextButton}>
@@ -189,5 +187,7 @@ const styles = {
   },
   calenderIcon: {
     transform: "translateY(-8%)",
+    marginLeft: "5px",
+    color: "#424242",
   },
 };

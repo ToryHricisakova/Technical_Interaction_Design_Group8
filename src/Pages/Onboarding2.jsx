@@ -12,30 +12,37 @@ import { Link } from "react-router-dom";
 const Onboarding2 = () => {
   return (
     <div style={styles.container}>
-      <h1 style={styles.mainTitle}>Customize Profile - Career Fields</h1>
-      <HorizontalLine />
-      <div style={styles.paragraph}>
-        Add the professional fields that you are working or studying in. The
-        fields you add will help others to find you based on your combination of
-        areas of expertise.
-      </div>
-      <div className="Fields">
-        <div style={styles.boldparagraph}>Field of work/study:</div>
-        {
-          <TypeAhead
-            items={fields}
-            placeholder="Search career fields here..."
-            tagType="field"
-          />
-        }
-      </div>
-      <div className="addedFields">
-        <div style={styles.boldparagraph}>Added fields:</div>
-      </div>
-      <Link to="/onboarding3">
-        <PrimaryButton>Next</PrimaryButton>
-      </Link>
-      <HorizontalLine />
+      <form style={styles.form}>
+        <h1 style={styles.mainTitle}>Customize Profile - Career Fields</h1>
+        <HorizontalLine />
+        <div style={styles.paragraph}>
+          Add the professional fields that you are working or studying in. The
+          fields you add will help others to find you based on your combination of
+          areas of expertise.
+        </div>
+        <div className="Fields">
+          <div style={styles.boldparagraph}>Field of work/study:</div>
+          {
+            <TypeAhead
+              items={fields}
+              placeholder="Search career fields here..."
+              tagType="field"
+            />
+          }
+        </div>
+        <div className="addedFields">
+          <div style={styles.boldparagraph}>Added fields:</div>
+        </div>
+        <div style={styles.buttons}>
+          <Link to="/onboarding1">
+            <SecondaryButton>Back</SecondaryButton>
+          </Link>
+          <Link to="/onboarding3">
+            <PrimaryButton>Next</PrimaryButton>
+          </Link>
+        </div>
+        <HorizontalLine />
+      </form>
     </div>
   );
 };
@@ -45,13 +52,20 @@ export default Onboarding2;
 //Styling
 const styles = {
   container: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: "100vh",
+    height: '100vh',
+    width: '100vw',
+    position: 'relative',
+  },
+  form: {
     backgroundColor: "rgba(245, 245, 245, 1)",
     borderRadius: "20px",
     padding: "30px",
     width: "500px",
     position: "absolute",
-    bottom: "75px",
-    left: "75px",
     textAlign: "left",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
   },
@@ -80,4 +94,8 @@ const styles = {
     color: "black",
     fontFamily: "Inter, sans-serif",
   },
+  buttons: {
+    display: "flex",
+    justifyContent: "space-between",
+  }
 };
