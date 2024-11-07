@@ -3,15 +3,18 @@ import PrimaryButton from './PrimaryButton';
 import CloseIcon from './CloseIcon';
 import { Link } from 'react-router-dom';
 import HorizontalLine from './HorizontalLine';
+import { useNavigate } from 'react-router-dom';
 
 const LogInForm = ({ setIsLoggedIn }) => {
+  const navigate = useNavigate(); 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = (e) => {
     e.preventDefault();
     alert(`Logging in...`);
-    setIsLoggedIn(true); 
+    //setIsLoggedIn(true); // Doesn't seem to be working as intended atm, navbar doesn't change.
+    navigate("/LandingPage");
   };
 
   return (
