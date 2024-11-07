@@ -16,87 +16,87 @@ const Onboarding1 = () => {
       <form style={styles.form}>
         <h1 style={styles.mainTitle}>Customize Profile - Basic Info</h1>
         <HorizontalLine />
-        <div style={styles.paragraph}>
-          Personalize your profile by uploading a profile picture and adding some
-          basic information about yourself.
-        </div>
-        <div style={styles.infoGrid}>
-          <div className="DoB" style={styles.infoBlock}>
-            <div style={styles.boldparagraph}>Date of birth:</div>
-            <div style={styles.calenderContainer}>
-              <div>
-                <DatePicker selected={date} onChange={(date) => setDate(date)} />
-              </div>
-              <FontAwesomeIcon
-                icon={faCalendarAlt} style={styles.calenderIcon}
-              />
-            </div>
+        <div style={styles.section}>
+          <div style={styles.paragraph}>
+            Personalize your profile by uploading a profile picture and adding some
+            basic information about yourself.
           </div>
-          <div className="pronouns" style={styles.infoBlock}>
-            <div style={styles.boldparagraph}>Pronouns:</div>
-            <div style={styles.radiobuttonGrouping}>
-              <div style={styles.radiobutton}>
-                <input
-                  className="radioButton"
-                  type="radio"
-                  name="pronouns"
-                  id="hehim"
+          <div style={styles.infoGrid}>
+            <div className="DoB" style={styles.infoBlock}>
+              <div style={styles.boldparagraph}>Date of birth:</div>
+              <div style={styles.calenderContainer}>
+                <div>
+                  <DatePicker selected={date} onChange={(date) => setDate(date)} />
+                </div>
+                <FontAwesomeIcon
+                  icon={faCalendarAlt} style={styles.calenderIcon}
                 />
-                <label className="checkboxLabel" style={styles.checkboxLabel} htmlFor="hehim">
-                  He/Him
-                </label>
-              </div>
-              <div style={styles.radiobutton}>
-                <input
-                  className="radioButton"
-                  type="radio"
-                  name="pronouns"
-                  id="sheher"
-                />
-                <label className="checkboxLabel" style={styles.checkboxLabel} htmlFor="sheher">
-                  She/Her
-                </label>
-              </div>
-              <div style={styles.radiobutton}>
-                <input
-                  className="radioButton"
-                  type="radio"
-                  name="pronouns"
-                  id="theythem"
-                />
-                <label className="checkboxLabel" style={styles.checkboxLabel} htmlFor="theythem">
-                  They/Them
-                </label>
-              </div>
-              <div style={styles.radiobutton}>
-                <input
-                  className="radioButton"
-                  type="radio"
-                  name="pronouns"
-                  id="otherpro"
-                />
-                <label className="checkboxLabel" htmlFor="otherpro">
-                  Other
-                </label>
               </div>
             </div>
-          </div>
-          
-        
+            <div className="pronouns" style={styles.infoBlock}>
+              <div style={styles.boldparagraph}>Pronouns:</div>
+              <div style={styles.radiobuttonGrouping}>
+                <div style={styles.radiobutton}>
+                  <input
+                    className="radioButton"
+                    type="radio"
+                    name="pronouns"
+                    id="hehim"
+                  />
+                  <label className="checkboxLabel" style={styles.checkboxLabel} htmlFor="hehim">
+                    He/Him
+                  </label>
+                </div>
+                <div style={styles.radiobutton}>
+                  <input
+                    className="radioButton"
+                    type="radio"
+                    name="pronouns"
+                    id="sheher"
+                  />
+                  <label className="checkboxLabel" style={styles.checkboxLabel} htmlFor="sheher">
+                    She/Her
+                  </label>
+                </div>
+                <div style={styles.radiobutton}>
+                  <input
+                    className="radioButton"
+                    type="radio"
+                    name="pronouns"
+                    id="theythem"
+                  />
+                  <label className="checkboxLabel" style={styles.checkboxLabel} htmlFor="theythem">
+                    They/Them
+                  </label>
+                </div>
+                <div style={styles.radiobutton}>
+                  <input
+                    className="radioButton"
+                    type="radio"
+                    name="pronouns"
+                    id="otherpro"
+                  />
+                  <label className="checkboxLabel" htmlFor="otherpro">
+                    Other
+                  </label>
+                </div>
+              </div>
+            </div>
 
-          <div className="ProfilePicture" style={styles.infoBlock}>
-            <div style={styles.boldparagraph}>Profile picture:</div>
-            <SecondaryButton>Upload Picture</SecondaryButton>
-          </div>
+            <div className="ProfilePicture" style={styles.infoBlock}>
+              <div style={styles.boldparagraph}>Profile picture:</div>
+              <SecondaryButton>Upload Picture</SecondaryButton>
+            </div>
 
-          <div className="profileBio" style={styles.infoBlock}>
-            <div style={styles.boldparagraph}>Profile bio:</div>
-            <textarea style={styles.biotext} id="bioinfo" rows="5" cols="33" placeholder="Write your bio here..."/>
+            <div className="profileBio" style={styles.infoBlock}>
+              <div style={styles.boldparagraph}>Profile bio:</div>
+              <textarea style={styles.biotext} id="bioinfo" rows="5" cols="33" placeholder="Write your bio here..."/>
+            </div>
           </div>
+          <Link to="/onboarding2" style={styles.nextButton}>
+            <PrimaryButton>Next</PrimaryButton>
+          </Link>
         </div>
-        <Link to="/onboarding2" style={styles.nextButton}>
-          <PrimaryButton>Next</PrimaryButton>
-        </Link>
         <HorizontalLine />
         </form>
       </div>
@@ -119,12 +119,11 @@ const styles = {
   form: {    
     backgroundColor: "rgba(245, 245, 245, 1)",
     borderRadius: "20px",
-    padding: "30px",
-    width: "600px",
+    padding: "45px",
+    width: "550px",
     position: "relative",
     textAlign: "left",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    
   },
   mainTitle: {
     fontSize: "2em",
@@ -148,9 +147,11 @@ const styles = {
   },
   biotext: {
     backgroundColor: "white",
-    width: "70%",
+    width: "100%",
+    resize: "none",
     color: "black",
     marginBottom: "1rem",
+
   },
   radiobutton: {
     display: "flex",
@@ -189,5 +190,8 @@ const styles = {
     transform: "translateY(-8%)",
     marginLeft: "5px",
     color: "#424242",
+  },
+  section: {
+    margin: "20px 0 10px 0",
   },
 };

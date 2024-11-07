@@ -61,7 +61,7 @@ const styles = {
   form: {
     backgroundColor: "rgba(245, 245, 245, 1)",
     borderRadius: "20px",
-    padding: "30px",
+    padding: "45px",
     width: "500px",
     position: "absolute",
     textAlign: "left",
