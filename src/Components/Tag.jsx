@@ -1,23 +1,20 @@
 import React from "react";
 import "../Tag.css";
 
-const Tag = ({ word, tagType, removeable }) => {
-
-  const handleRemove = () => {
-   
-  };
-
+const Tag = ({ word, tagType, removeable, removeTag }) => {
   const tagStyle = tagType === "field" ? "fieldTag" : "skillTag";
 
+  const handleRemove = () => {
+    event.preventDefault(); // Prevent default button behavior
+    removeTag();
+  };
+
   return (
-    <span className={tagStyle}>
-    <p>{word}</p>
-    {/* {removeable && (
-      <button className="removeTag" onClick={handleRemove}>
-        
+    <div>
+      <button className={tagStyle} onClick={(event) => handleRemove(event)}>
+        <p>{word}</p>
       </button>
-    )} */}
-    </span>
+    </div>
   );
 };
 
