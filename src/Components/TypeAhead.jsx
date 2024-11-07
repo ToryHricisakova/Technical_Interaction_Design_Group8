@@ -35,29 +35,47 @@ export default class TypeAhead extends React.Component {
   };
 
   suggestionSelected = (value) => {
-    this.setState((prevState) => {
-      if (prevState.selectedTags.includes(value)) { // Check if tag has already been added.
-        return {
-          text: value,
-          suggestions: [],
-        };
-      }
+    this.setState(
+      (prevState) => {
+        if (prevState.selectedTags.includes(value)) {
+          // Check if tag has already been added.
+          return {
+            text: value,
+            suggestions: [],
+          };
+        }
 
-      return { // Add new tag.
-        text: '', // Clear text field for next input
-        suggestions: [],
-        selectedTags: [...prevState.selectedTags, value],
-      };
-    }, () => {
-      console.log("selectedTags: ", this.state.selectedTags); // Debugging
-    });
+        return {
+          // Add new tag.
+          text: "", // Clear text field for next input
+          suggestions: [],
+          selectedTags: [...prevState.selectedTags, value],
+        };
+      },
+      () => {
+        console.log("selectedTags: ", this.state.selectedTags); // Debugging
+      }
+    );
   };
-  
+
+  // Method to remove a tag
+  removeTag = (tag) => {
+    this.setState((prevState) => ({
+      selectedTags: prevState.selectedTags.filter((t) => t !== tag),
+    }));
+  };
+
   createTags = () => {
     return this.state.selectedTags.map((tag, index) => (
-      <Tag key={index} word={tag} tagType={this.props.tagType} removeable={true} />
+      <Tag
+        key={index}
+        word={tag}
+        tagType={this.props.tagType}
+        removeable={true}
+        removeTag={() => this.removeTag(tag)} // Pass removeTag function
+      />
     ));
-  }
+  };
 
   renderSuggestions = () => {
     const { suggestions } = this.state;
@@ -96,9 +114,7 @@ export default class TypeAhead extends React.Component {
           {this.renderSuggestions()}
         </div>
 
-        <div className="tag-container">
-          {this.createTags()}
-        </div>
+        <div className="tag-container">{this.createTags()}</div>
       </div>
     );
   }
