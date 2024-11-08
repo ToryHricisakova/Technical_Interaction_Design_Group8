@@ -7,6 +7,7 @@ import SecondaryButton from "../Components/SecondaryButton";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { width } from "@fortawesome/free-solid-svg-icons/fa0";
 
 const Onboarding1 = () => {
   const [date, setDate] = useState(new Date());
@@ -147,6 +148,7 @@ const styles = {
   },
   biotext: {
     backgroundColor: "white",
+    padding: "15px",
     width: "100%",
     resize: "none",
     color: "black",
@@ -174,6 +176,8 @@ const styles = {
   },
   infoBlock: {
     paddingBottom: "15px",
+    borderRadius: "20px",
+    width: "550px",
   },
   // infoGrid: {
   //   display: "flex",

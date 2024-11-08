@@ -13,8 +13,8 @@ const LogInForm = ({ setIsLoggedIn }) => {
   const handleLogin = (e) => {
     e.preventDefault();
     alert(`Logging in...`);
-    //setIsLoggedIn(true); // Doesn't seem to be working as intended atm, navbar doesn't change.
-    navigate("/LandingPage");
+    setIsLoggedIn(true);
+    navigate("/home");
   };
 
   return (
