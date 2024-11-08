@@ -13,7 +13,6 @@ export default [
   "Public Health",
   "Teaching",
   "Administration",
-  "Counseling",
   "Special Education",
   "Mechanical",
   "Electrical",
@@ -37,6 +36,5 @@ export default [
   "Public Policy",
   "Carpentry",
   "Plumbing",
-  "Electrical",
   "Event Planning",
 ];

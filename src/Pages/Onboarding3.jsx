@@ -10,30 +10,37 @@ import { Link } from "react-router-dom";
 const Onboarding3 = () => {
   return (
     <div style={styles.container}>
-      <h1 style={styles.mainTitle}>Customize Profile - Skills</h1>
-      <HorizontalLine />
-      <div style={styles.paragraph}>
-        Add tags to your profile to showcase your skills in different areas. The
-        more detailed you are, the more likely you are to find relevant
-        connections and posts on the site.
-      </div>
-      <div className="Skills">
-        <div style={styles.boldparagraph}>Skills:</div>
-        {
-          <TypeAhead
-            items={skills}
-            placeholder="Search skills here..."
-            tagType="skill"
-          />
-        }
-      </div>
-      <div className="addedSkills">
-        <div style={styles.boldparagraph}>Added skills:</div>
-      </div>
+      <form style={styles.form}>
+        <h1 style={styles.mainTitle}>Customize Profile - Skills</h1>
+        <HorizontalLine />
+        <div style={styles.paragraph}>
+          Add tags to your profile to showcase your skills in different areas. The
+          more detailed you are, the more likely you are to find relevant
+          connections and posts on the site.
+        </div>
+        <div className="Skills">
+          <div style={styles.boldparagraph}>Skills:</div>
+          {
+            <TypeAhead
+              items={skills}
+              placeholder="Search skills here..."
+              tagType="skill"
+            />
+          }
+        </div>
+        <div className="addedSkills">
+          <div style={styles.boldparagraph}>Added skills:</div>
+        </div>
+        <div style={styles.buttons}>
+          <Link to="/onboarding2" style={styles.backButton}>
+            <SecondaryButton>Back</SecondaryButton>
+          </Link>
 
-      <Link to="/landingpage">
-        <PrimaryButton>Finish</PrimaryButton>
-      </Link>
+          <Link to="/landingpage" style={styles.nextButton}>
+            <PrimaryButton>Finish</PrimaryButton>
+          </Link>
+        </div>
+      </form>
     </div>
   );
 };
@@ -43,13 +50,20 @@ export default Onboarding3;
 //Styling
 const styles = {
   container: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: "100vh",
+    height: '100vh',
+    width: '100vw',
+    position: 'relative',
+  },
+  form: {
     backgroundColor: "rgba(245, 245, 245, 1)",
     borderRadius: "20px",
-    padding: "30px",
+    padding: "45px",
     width: "500px",
     position: "absolute",
-    bottom: "75px",
-    left: "75px",
     textAlign: "left",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
   },
@@ -78,4 +92,8 @@ const styles = {
     color: "black",
     fontFamily: "Inter, sans-serif",
   },
+  buttons: {
+    display: "flex",
+    justifyContent: "space-between",
+  }
 };
