@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import HorizontalLine from "../Components/HorizontalLine";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PrimaryButton from "../Components/PrimaryButton";
 import SecondaryButton from "../Components/SecondaryButton";
@@ -10,10 +9,15 @@ import fields from "../MediaFiles/fields";
 import { Link } from "react-router-dom";
 import skills from "../MediaFiles/skills";
 
-const Onboarding2 = () => {
+const Onboarding2 = ({ setIsLoggedIn }) => {
+
+  const handleFinish = () => {
+    setIsLoggedIn(true); 
+  };
+
   return (
     <div style={styles.container}>
-      <form style={styles.form}>
+      <form style={styles.form} >
         <h1 style={styles.mainTitle}>Customize Profile - Career Fields</h1>
         <HorizontalLine />
         <div style={styles.section}>
@@ -62,9 +66,12 @@ const Onboarding2 = () => {
           <Link to="/onboarding1">
             <SecondaryButton>Back</SecondaryButton>
           </Link>
-          <Link to="/landingpage">
-            <PrimaryButton>Finish</PrimaryButton>
+          <Link to="/profile">
+            <PrimaryButton onClick={handleFinish} >Finish</PrimaryButton>
           </Link>
+          {/*<PrimaryButton onClick={handleFinish} style={styles.nextButton}>
+            Finish
+          </PrimaryButton>*/}
         </div>
         <HorizontalLine />
       </form>

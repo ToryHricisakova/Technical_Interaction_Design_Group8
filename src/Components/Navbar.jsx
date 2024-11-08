@@ -1,12 +1,13 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import SecondaryButton from "./SecondaryButton";
 
 const Navbar = ({ setIsLoggedIn }) => {
-  const navigate = useNavigate(); // Use navigate to programmatically change routes
+  const navigate = useNavigate(); // Use navigate to change routes
 
   const handleLogout = () => {
-    setIsLoggedIn(false); // Reset the login state
-    navigate('/'); // Navigate to home or login page
+    setIsLoggedIn(false);
+    navigate("/");
   };
 
   return (
@@ -14,20 +15,32 @@ const Navbar = ({ setIsLoggedIn }) => {
       
     <div style={styles.navbarLeft}>
         <Link to="/home">
-          <img src="src/MediaFiles/Logo.png" alt="Logo" style={styles.logo} />
+          <img 
+            src="src/MediaFiles/Logo.png" 
+            alt="Logo" 
+            style={styles.logo} />
         </Link>
     </div>
 
     <div style={styles.navbarRight}>
        <div style={styles.iconContainer}>
           <Link to="/education">
-            <img src="src/MediaFiles/ConversionCourses.png" alt="ConversionCourses" style={styles.icon} />
+            <img 
+              src="src/MediaFiles/ConversionCourses.png" 
+              alt="ConversionCourses" 
+              style={styles.icon} />
           </Link>
           <Link to="/people">
-            <img src="src/MediaFiles/Network.png" alt="Network" style={styles.icon} />
+            <img 
+              src="src/MediaFiles/Network.png" 
+              alt="Network" 
+              style={styles.icon} />
           </Link>
           <Link to="/jobs">
-            <img src="src/MediaFiles/Jobs.png" alt="Jobs" style={styles.icon} />
+            <img 
+              src="src/MediaFiles/Jobs.png" 
+              alt="Jobs" 
+              style={styles.icon} />
           </Link>
           <Link to="/messages">
             <img
@@ -36,24 +49,32 @@ const Navbar = ({ setIsLoggedIn }) => {
               style={styles.icon}
             />
           </Link>
-          <img
-            src="src/MediaFiles/Notifications.png"
-            alt="Notifications"
-            style={styles.icon}
-          />
+            <img
+              src="src/MediaFiles/Notifications.png"
+              alt="Notifications"
+              style={styles.icon}
+            />
           <Link to="/profile">
-            <img src="src/MediaFiles/Profile.png" alt="Profile" style={styles.profileImage} />
+            <img 
+              src="src/MediaFiles/Profile.png" 
+              alt="Profile" 
+              style={styles.profileImage} />
           </Link>
-        <input type="text" placeholder="Start typing..." style={styles.searchBar} />
-        <SecondaryButton onClick={handleLogout}>Log Out</SecondaryButton>
-        </div>
-        <input
-          type="text"
-          placeholder="Start typing..."
+
+        <input 
+          type="text" 
+          placeholder="Start typing..." 
           style={styles.searchBar}
         />
+
+        <SecondaryButton 
+          onClick={handleLogout}>
+            Log Out
+        </SecondaryButton>
+
       </div>
-    </nav>
+    </div>
+  </nav>
   );
 };
 
@@ -109,8 +130,8 @@ const styles = {
     outline: "none",
     width: "200px",
     backgroundColor: "#f9f9f9",
-    //boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-    //transition: "border-color 0.3s ease, box-shadow 0.3s ease",
+    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+    transition: "border-color 0.3s ease, box-shadow 0.3s ease",
   },
 };
 

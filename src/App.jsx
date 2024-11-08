@@ -13,8 +13,6 @@ import Login from "./Pages/Login";
 import Navbar from "./Components/Navbar";
 import Onboarding1 from "./Pages/Onboarding1";
 import Onboarding2 from "./Pages/Onboarding2";
-import Onboarding3 from "./Pages/Onboarding3";
-import LandingPage from "./Pages/LandingPage";
 import { useState } from "react";
 
 function App() {
@@ -22,36 +20,27 @@ function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
-
   return (
     <div>
       <Router>
         {/* Render the navigation bar based on login status */}
         {isLoggedIn ? (
-          <Navbar handleLogout={handleLogout} /> // Render Navbar if logged in
+          <Navbar setIsLoggedIn={setIsLoggedIn} />
         ) : (
           <Welcomebar />
         )}
         <Routes>
           <Route path="/" element={<Welcome />} />
-          <Route
-            path="/login"
-            element={<Login setIsLoggedIn={setIsLoggedIn} />}
-          />
+          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/home" element={<Home />} />
           <Route path="/education" element={<ConversionCourses />} />
           <Route path="/people" element={<People />} />
-          <Route path="/jobs" element={<Jobs />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/jobs" element={<Jobs />} /> 
+          <Route path="/profile" element={<Profile />} /> 
           <Route path="/messages" element={<Messages />} />
-          <Route path="/onboarding1" element={<Onboarding1 />} />
-          <Route path="/onboarding2" element={<Onboarding2 />} />
-          <Route path="/onboarding3" element={<Onboarding3 />} />
-          <Route path="/landingpage" element={<LandingPage />} />
+          <Route path="/onboarding1" element={<Onboarding1 />} /> 
+          <Route path="/onboarding2" element={<Onboarding2 setIsLoggedIn={setIsLoggedIn} />} />
         </Routes>
       </Router>
     </div>
