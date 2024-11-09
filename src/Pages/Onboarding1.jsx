@@ -103,48 +103,7 @@ const Onboarding1 = () => {
 
 export default Onboarding1;
 
-//Styling
-// const Container = styled.div`
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   min-height: 100vh;
-//   height: 100vh;
-//   width: 100vw;
-//   position: relative;
-// `
-// const Form = styled.form`
-//   background-color: rgba(245, 245, 245, 1);
-//   border-radius: 20px;
-//   padding: 45px;
-//   width: 550px;
-//   position: relative;
-//   text-align: left;
-//   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-// `
-// const MainTitle = styled.h1`
-//   font-size: 2em;
-//   margin: 0 0 10px 0;
-//   color: #35415D;
-//   font-family: Inter, sans-serif;
-//   font-weight: bold;
-// `
-// const Paragraph = styled.div`
-//   font-size: 1em;
-//   margin: 10px 0;
-//   line-height: 1.5;
-//   color: #333;
-// `
-// const Boldparagraph = styled.div`
-//   font-size: 1em;
-//   margin: 10px 0;
-//   line-height: 1.5;
-//   color: #333;
-//   font-weight: bold;
-// `
-// const Section = styled.div`
-//   margin: 20px 0 10px 0;
-// `
+// Styling
 const InfoBlock = styled.div`
   padding-bottom: 15px;
   border-radius: 20px;
@@ -157,11 +116,12 @@ const RadioButton = styled.div`
 `
 const BioText = styled.textarea`
   background-color: white;
-  padding: 5px;
+  padding: 15px;
   width: 100%;
   resize: none;
   color: black;
   margin-bottom: 1rem;
+  box-sizing: border-box; // Prevents box from expanding when extra padding is added.
 `
 const CalenderContainer = styled.div`
   display: flex;
@@ -181,10 +141,9 @@ const NextButton = styled(Link)`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 1rem;
-`;
-
+`
 const CalendarIcon = styled(FontAwesomeIcon)`
   transform: translateY(-8%);
   margin-left: 5px;
   color: #424242;
-`;
+`

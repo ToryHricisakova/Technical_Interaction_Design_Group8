@@ -25,7 +25,7 @@ const LogInForm = ({ setIsLoggedIn }) => {
         </Link>
         <h2 style={styles.title}>Welcome Back</h2>
         {/* <div style={styles.lineSeparator}></div> */}
-        <HorizontalLine width="400px"/>
+        <HorizontalLine width="100%"/>
         <div style={styles.fieldContainer}>
           <label htmlFor="email" style={styles.label}>Email</label>
           <input
