@@ -6,196 +6,185 @@ import PrimaryButton from "../Components/PrimaryButton";
 import SecondaryButton from "../Components/SecondaryButton";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
-import { width } from "@fortawesome/free-solid-svg-icons/fa0";
+import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
+import { Container, Form, MainTitle, Paragraph, Boldparagraph, Section } from '../onboardingCSS.jsx';
 
 const Onboarding1 = () => {
   const [date, setDate] = useState(new Date());
 
   return (
-    <div style={styles.container}>
-      <form style={styles.form}>
-        <h1 style={styles.mainTitle}>Customize Profile - Basic Info</h1>
+    <Container>
+      <Form>
+        <MainTitle>Customize Profile - Basic Info</MainTitle>
         <HorizontalLine />
-        <div style={styles.section}>
-          <div style={styles.paragraph}>
+        <Section>
+          <Paragraph> 
             Personalize your profile by uploading a profile picture and adding some
             basic information about yourself.
-          </div>
-          <div style={styles.infoGrid}>
-            <div className="DoB" style={styles.infoBlock}>
-              <div style={styles.boldparagraph}>Date of birth:</div>
-              <div style={styles.calenderContainer}>
-                <div>
-                  <DatePicker selected={date} onChange={(date) => setDate(date)} />
-                </div>
-                <FontAwesomeIcon
-                  icon={faCalendarAlt} style={styles.calenderIcon}
-                />
-              </div>
-            </div>
-            <div className="pronouns" style={styles.infoBlock}>
-              <div style={styles.boldparagraph}>Pronouns:</div>
-              <div style={styles.radiobuttonGrouping}>
-                <div style={styles.radiobutton}>
+          </Paragraph>
+            <InfoBlock className="DoB">
+              <Boldparagraph>Date of birth:</Boldparagraph>
+              <CalenderContainer>
+                <DatePicker selected={date} onChange={(date) => setDate(date)} />
+                <CalendarIcon icon={faCalendarAlt} />
+              </CalenderContainer>
+            </InfoBlock>
+
+            <InfoBlock className="pronouns">
+              <Boldparagraph>Pronouns:</Boldparagraph>
+              <RadiobuttonGrouping>
+                <RadioButton>
                   <input
                     className="radioButton"
                     type="radio"
                     name="pronouns"
                     id="hehim"
                   />
-                  <label className="checkboxLabel" style={styles.checkboxLabel} htmlFor="hehim">
+                  <CheckboxLabel className="checkboxLabel" htmlFor="hehim">
                     He/Him
-                  </label>
-                </div>
-                <div style={styles.radiobutton}>
+                  </CheckboxLabel>
+                </RadioButton>
+                <RadioButton>
                   <input
                     className="radioButton"
                     type="radio"
                     name="pronouns"
                     id="sheher"
                   />
-                  <label className="checkboxLabel" style={styles.checkboxLabel} htmlFor="sheher">
+                  <CheckboxLabel className="checkboxLabel" htmlFor="sheher">
                     She/Her
-                  </label>
-                </div>
-                <div style={styles.radiobutton}>
+                  </CheckboxLabel>
+                </RadioButton>
+                <RadioButton>
                   <input
                     className="radioButton"
                     type="radio"
                     name="pronouns"
                     id="theythem"
                   />
-                  <label className="checkboxLabel" style={styles.checkboxLabel} htmlFor="theythem">
+                  <CheckboxLabel className="checkboxLabel" htmlFor="theythem">
                     They/Them
-                  </label>
-                </div>
-                <div style={styles.radiobutton}>
+                  </CheckboxLabel>
+                </RadioButton>
+                <RadioButton>
                   <input
                     className="radioButton"
                     type="radio"
                     name="pronouns"
                     id="otherpro"
                   />
-                  <label className="checkboxLabel" htmlFor="otherpro">
+                  <CheckboxLabel className="checkboxLabel" htmlFor="otherpro">
                     Other
-                  </label>
-                </div>
-              </div>
-            </div>
+                  </CheckboxLabel>
+                </RadioButton>
+              </RadiobuttonGrouping>
+            </InfoBlock>
 
-            <div className="ProfilePicture" style={styles.infoBlock}>
-              <div style={styles.boldparagraph}>Profile picture:</div>
+            <InfoBlock className="ProfilePicture">
+              <Boldparagraph>Profile picture:</Boldparagraph>
               <SecondaryButton>Upload Picture</SecondaryButton>
-            </div>
+            </InfoBlock>
 
-            <div className="profileBio" style={styles.infoBlock}>
-              <div style={styles.boldparagraph}>Profile bio:</div>
-              <textarea style={styles.biotext} id="bioinfo" rows="5" cols="33" placeholder="Write your bio here..."/>
-            </div>
-          </div>
-          <Link to="/onboarding2" style={styles.nextButton}>
+            <InfoBlock className="profileBio">
+              <Boldparagraph>Profile bio:</Boldparagraph>
+              <BioText id="bioinfo" rows="5" cols="33" placeholder="Write your bio here..."/>
+            </InfoBlock>
+
+          <NextButton to="/onboarding2">
             <PrimaryButton>Next</PrimaryButton>
-          </Link>
-        </div>
+          </NextButton>
+        </Section>
         <HorizontalLine />
-        </form>
-      </div>
+        </Form>
+      </Container>
   );
 };
 
 export default Onboarding1;
 
 //Styling
-const styles = {
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: "100vh",
-    height: '100vh',
-    width: '100vw',
-    position: 'relative',
-  },
-  form: {    
-    backgroundColor: "rgba(245, 245, 245, 1)",
-    borderRadius: "20px",
-    padding: "45px",
-    width: "550px",
-    position: "relative",
-    textAlign: "left",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-  },
-  mainTitle: {
-    fontSize: "2em",
-    margin: "0 0 10px 0",
-    color: "#35415D",
-    fontFamily: "Inter, sans-serif",
-    fontWeight: "bold",
-  },
-  paragraph: {
-    fontSize: "1em",
-    margin: "10px 0",
-    lineHeight: "1.5",
-    color: "#333",
-  },
-  boldparagraph: {
-    fontSize: "1em",
-    margin: "10px 0",
-    lineHeight: "1.5",
-    color: "#333",
-    fontWeight: "bold",
-  },
-  biotext: {
-    backgroundColor: "white",
-    padding: "15px",
-    width: "100%",
-    resize: "none",
-    color: "black",
-    marginBottom: "1rem",
+// const Container = styled.div`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   min-height: 100vh;
+//   height: 100vh;
+//   width: 100vw;
+//   position: relative;
+// `
+// const Form = styled.form`
+//   background-color: rgba(245, 245, 245, 1);
+//   border-radius: 20px;
+//   padding: 45px;
+//   width: 550px;
+//   position: relative;
+//   text-align: left;
+//   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+// `
+// const MainTitle = styled.h1`
+//   font-size: 2em;
+//   margin: 0 0 10px 0;
+//   color: #35415D;
+//   font-family: Inter, sans-serif;
+//   font-weight: bold;
+// `
+// const Paragraph = styled.div`
+//   font-size: 1em;
+//   margin: 10px 0;
+//   line-height: 1.5;
+//   color: #333;
+// `
+// const Boldparagraph = styled.div`
+//   font-size: 1em;
+//   margin: 10px 0;
+//   line-height: 1.5;
+//   color: #333;
+//   font-weight: bold;
+// `
+// const Section = styled.div`
+//   margin: 20px 0 10px 0;
+// `
+const InfoBlock = styled.div`
+  padding-bottom: 15px;
+  border-radius: 20px;
+  width: 550px;
+`
+const RadioButton = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0rem;
+`
+const BioText = styled.textarea`
+  background-color: white;
+  padding: 5px;
+  width: 100%;
+  resize: none;
+  color: black;
+  margin-bottom: 1rem;
+`
+const CalenderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+`
+const RadiobuttonGrouping = styled.div`
+  display: flex;
+  gap: 1rem;
+  justify-content: left;
+  height: 15px;
+`
+const CheckboxLabel = styled.label`
+  flex-shrink: 0; // Prevents the labels from splitting into two lines.
+`
+const NextButton = styled(Link)`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+`;
 
-  },
-  radiobutton: {
-    display: "flex",
-    alignItems: "center",
-    gap: "0rem",
-  },
-  radiobuttonGrouping: {
-    display: "flex",
-    gap: "1rem",
-    justifyContent: "left",
-    height: "15px",
-  },
-  checkboxLabel: {
-    flexShrink: "0", // Prevents the labels from splitting into two lines.
-  },
-  nextButton: {
-    display: "flex",
-    justifyContent: "flex-end",
-    marginBottom: "1rem"
-  },
-  infoBlock: {
-    paddingBottom: "15px",
-    borderRadius: "20px",
-    width: "550px",
-  },
-  // infoGrid: {
-  //   display: "flex",
-  //   flexWrap: "wrap",
-  //   justifyContent: "space-between",
-  //   gap: "20px",
-  // }
-  calenderContainer: {
-    display: "flex",
-    alignItems: "center",
-    gap: "20px",
-  },
-  calenderIcon: {
-    transform: "translateY(-8%)",
-    marginLeft: "5px",
-    color: "#424242",
-  },
-  section: {
-    margin: "20px 0 10px 0",
-  },
-};
+const CalendarIcon = styled(FontAwesomeIcon)`
+  transform: translateY(-8%);
+  margin-left: 5px;
+  color: #424242;
+`;

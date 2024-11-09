@@ -121,6 +121,9 @@ const styles = {
     color: "#333",
     fontWeight: "bold",
   },
+    section: {
+    margin: "20px 0 10px 0",
+  },
   biotext: {
     width: "100%",
     color: "black",
@@ -137,8 +140,5 @@ const styles = {
   dividerLine: {
     border: "1px solid #dbdbdb",
     marginBottom: "30px",
-  },
-  section: {
-    margin: "20px 0 10px 0",
   },
 };
