@@ -5,19 +5,21 @@ import {
   faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../Registration.css";
 import { useState, useEffect } from "react";
 import HorizontalLine from "./HorizontalLine";
 import PrimaryButton from "./PrimaryButton";
 import CloseIcon from "./CloseIcon";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { BasicContainer, Title } from "../SharedCSS";
+import styled from "styled-components";
 
 const RegistrationForm = () => {
   const navigate = useNavigate();
   const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // A simple check, e-mail might still not be valid.
   const PASSWORD_REGEX =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%?&_.,:;"'~=+-/|\\{}()^\[\]]).{8,24}$/; // Password requirements:
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%?&_.,:;"'~=+-/|\\{}()^\[\]]).{8,24}$/;
+  // Password requirements:
   // between 8-24 characters and includes:
   // a lowercase letter
   // an uppercase letter
@@ -95,12 +97,11 @@ const RegistrationForm = () => {
 
   const togglePasswordVisibility = (e) => {
     setHidePassword(!hidePassword);
-  }
+  };
 
   const togglePasswordVisibility2 = (e) => {
     setHidePassword2(!hidePassword2);
-  }
-
+  };
 
   // useEffects added for troubleshooting.
   useEffect(() => {
@@ -110,14 +111,14 @@ const RegistrationForm = () => {
   useEffect(() => {
     console.log("password valid?", validPassword);
   }, [validPassword]);
-  
+
   useEffect(() => {
     console.log("confirmPassword = ", confirmPassword);
-  }, [confirmPassword])
+  }, [confirmPassword]);
 
   useEffect(() => {
     console.log("passwordMatch = ", passwordMatch);
-  }, [passwordMatch])
+  }, [passwordMatch]);
 
   // Print full user array whenever it is updated.
   useEffect(() => {
@@ -125,183 +126,260 @@ const RegistrationForm = () => {
   }, [users]);
 
   return (
-    <div className="RegistrationForm">
-      <h1>Registration</h1>
+    <BasicContainer>
+      <Title>Registration</Title>
       <Link to="/">
         <CloseIcon />
       </Link>
-      <HorizontalLine width="100%" /> 
+      <HorizontalLine width="100%" />
 
-      <div className="formContent">
+      <FormContent onSubmit={handleRegister}>
         {/* Error Message */}
-        {errorMsg && <p className="error-message">{errorMsg}</p>}
-
-        <form onSubmit={handleRegister}>
-          {" "}
-          {/*We need to turn off autocomplete in all fields*/}
-          <div className="input-container">
-            <label htmlFor="firstName">
-              First name:
-              {firstName !== "" ? (
-                <FontAwesomeIcon
-                  icon={faCheck}
-                  style={{ color: "green", marginLeft: "8px" }}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  style={{ color: "red", marginLeft: "8px" }}
-                />
-              )}
-            </label>
-            <input
-              type="text"
-              id="firstName"
-              placeholder="Enter first name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="input-container">
-            <label htmlFor="lastName">
-              Last name:
-              {lastName !== "" ? (
-                <FontAwesomeIcon
-                  icon={faCheck}
-                  style={{ color: "green", marginLeft: "8px" }}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  style={{ color: "red", marginLeft: "8px" }}
-                />
-              )}
-            </label>
-            <input
-              type="text"
-              id="lastName"
-              placeholder="Enter last name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="input-container">
-            <label htmlFor="email">
-              E-mail:
-              {validEmail ? (
-                <FontAwesomeIcon
-                  icon={faCheck}
-                  style={{ color: "green", marginLeft: "8px" }}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  style={{ color: "red", marginLeft: "8px" }}
-                />
-              )}
-            </label>
-            <input
-              type="text"
-              id="email"
-              placeholder="Enter e-mail address"
-              value={email}
-              onChange={handleEmailChange}
-              required
-            />
-          </div>
-          <div className="input-container">
-            <label htmlFor="password">
-              Password:
-              {/* <FontAwesomeIcon
+        {errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}{" "}
+        {/*We need to turn off autocomplete in all fields*/}
+        <InputContainer>
+          <StyledLabel htmlFor="firstName">
+            First name:
+            {firstName !== "" ? (
+              <FontAwesomeIcon
+                icon={faCheck}
+                style={{ color: "green", marginLeft: "8px" }}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faTimes}
+                style={{ color: "red", marginLeft: "8px" }}
+              />
+            )}
+          </StyledLabel>
+          <StyledInput
+            type="text"
+            id="firstName"
+            placeholder="Enter first name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+          />
+        </InputContainer>
+        <InputContainer>
+          <StyledLabel htmlFor="lastName">
+            Last name:
+            {lastName !== "" ? (
+              <FontAwesomeIcon
+                icon={faCheck}
+                style={{ color: "green", marginLeft: "8px" }}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faTimes}
+                style={{ color: "red", marginLeft: "8px" }}
+              />
+            )}
+          </StyledLabel>
+          <StyledInput
+            type="text"
+            id="lastName"
+            placeholder="Enter last name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            required
+          />
+        </InputContainer>
+        <InputContainer>
+          <StyledLabel htmlFor="email">
+            E-mail:
+            {validEmail ? (
+              <FontAwesomeIcon
+                icon={faCheck}
+                style={{ color: "green", marginLeft: "8px" }}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faTimes}
+                style={{ color: "red", marginLeft: "8px" }}
+              />
+            )}
+          </StyledLabel>
+          <StyledInput
+            type="text"
+            id="email"
+            placeholder="Enter e-mail address"
+            value={email}
+            onChange={handleEmailChange}
+            required
+          />
+        </InputContainer>
+        <InputContainer>
+          <StyledLabel htmlFor="password">
+            Password:
+            {/* <FontAwesomeIcon
                 icon={faInfoCircle}
                 title="Password has to be between 8 and 24 characters and contain at least one lowercase letter, one uppercase letter, a number, and a special character"
                 style={{ color: "grey", marginLeft: "8px" }}
               /> */}
-              {validPassword ? (
-                <FontAwesomeIcon
-                  icon={faCheck}
-                  style={{ color: "green", marginLeft: "8px" }}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  style={{ color: "red", marginLeft: "8px" }}
-                />
-              )}
-            </label>
-            <div className="passwordWrapper">
-              <input
-                type={hidePassword ? "password" : "text"}
-                id="password"
-                placeholder="Enter password"
-                value={password}
-                onChange={handlePasswordChange}
-                required
-              />
+            {validPassword ? (
               <FontAwesomeIcon
-                icon={hidePassword ? faEyeSlash : faEye} // Icon changes when clicked.
-                onClick={togglePasswordVisibility} // Clicking toggles visibility of password
-                className="toggleVisibilityEye"
+                icon={faCheck}
+                style={{ color: "green", marginLeft: "8px" }}
               />
-            </div>
-            <p className="req">Password must be between 8 and 24 characters and must contain at least one lowercase letter, one uppercase letter, a number, and a special character.</p>
-          </div>
-          <div className="input-container">
-            <label htmlFor="confirmPassword">
-              Confirm password:
-              {passwordMatch ? (
-                <FontAwesomeIcon
-                  icon={faCheck}
-                  style={{ color: "green", marginLeft: "8px" }}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  style={{ color: "red", marginLeft: "8px" }}
-                />
-              )}
-            </label>
-            <div className="passwordWrapper">
-              <input
-                type={hidePassword2 ? "password" : "text"}
-                id="confirmPassword"
-                value={confirmPassword}
-                placeholder="Re-enter password"
-                onChange={handlePasswordConfirmation}
-                required
-              />
+            ) : (
               <FontAwesomeIcon
-                icon={hidePassword2 ? faEyeSlash : faEye} // Icon changes when clicked.
-                onClick={togglePasswordVisibility2} // Clicking toggles visibility of password
-                className="toggleVisibilityEye"
+                icon={faTimes}
+                style={{ color: "red", marginLeft: "8px" }}
               />
-            </div>
-          </div>
-          <div className="terms-container">
-            <input
-              className="checkBox"
-              type="checkbox"
-              id="terms"
-              checked={termsAccepted}
-              onChange={() => setTermsAccepted(!termsAccepted)}
+            )}
+          </StyledLabel>
+          <PasswordWrapper>
+            <StyledInput
+              type={hidePassword ? "password" : "text"}
+              id="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={handlePasswordChange}
               required
             />
-            <label className="checkboxLabel" htmlFor="terms">
-              I agree to the terms and conditions as set out by the user
-              agreement. {/*Should link to the user agreement.*/}
-            </label>
-          </div>
-          <PrimaryButton type="submit">Register</PrimaryButton>
-        </form>
-      </div>
+            <ToggleVisibilityEye
+              icon={hidePassword ? faEye : faEyeSlash} // Icon changes when clicked.
+              onClick={togglePasswordVisibility} // Clicking toggles visibility of password
+            />
+          </PasswordWrapper>
+          <Req>
+            Password must be between 8 and 24 characters and must contain at
+            least one lowercase letter, one uppercase letter, a number, and a
+            special character.
+          </Req>
+        </InputContainer>
+        <InputContainer>
+          <StyledLabel htmlFor="confirmPassword">
+            Confirm password:
+            {passwordMatch ? (
+              <FontAwesomeIcon
+                icon={faCheck}
+                style={{ color: "green", marginLeft: "8px" }}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faTimes}
+                style={{ color: "red", marginLeft: "8px" }}
+              />
+            )}
+          </StyledLabel>
+          <PasswordWrapper>
+            <StyledInput
+              type={hidePassword2 ? "password" : "text"}
+              id="confirmPassword"
+              value={confirmPassword}
+              placeholder="Re-enter password"
+              onChange={handlePasswordConfirmation}
+              required
+            />
+            <ToggleVisibilityEye
+              icon={hidePassword2 ? faEye : faEyeSlash} // Icon changes when clicked.
+              onClick={togglePasswordVisibility2} // Clicking toggles visibility of password
+            />
+          </PasswordWrapper>
+        </InputContainer>
+        <TermsContainer>
+          <CheckBox
+            className="checkBox"
+            type="checkbox"
+            id="terms"
+            checked={termsAccepted}
+            onChange={() => setTermsAccepted(!termsAccepted)}
+            required
+          />
+          <CheckboxLabel htmlFor="terms">
+            I agree to the terms and conditions as set out by the user
+            agreement. {/*Should link to the user agreement.*/}
+          </CheckboxLabel>
+        </TermsContainer>
+        <PrimaryButton type="submit">Register</PrimaryButton>
+      </FormContent>
 
       {/* Display users in JSON format on page */}
       {/* <h2>Registered Users</h2>
             <pre>{JSON.stringify(users, null, 2)}</pre>  */}
-    </div>
+    </BasicContainer>
   );
 };
 
 export default RegistrationForm;
+
+// Styling:
+const StyledLabel = styled.label`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  //margin-bottom: 0px;
+  color: #3a3a3a;
+  //border: 1px solid black;
+`;
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Ensures items are left-aligned */
+  width: 95%;
+  margin: 12px 0;
+`;
+const StyledInput = styled.input`
+  width: 100%;
+  padding: 8px;
+  border-radius: 10px;
+  color: #000000;
+  box-shadow: none;
+  border-style: solid;
+  border-color: #838383;
+  border-width: 1px;
+  background-color: white;
+`;
+const FormContent = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  //gap: 15px;
+  max-width: 300px;
+`;
+const TermsContainer = styled.div`
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  width: 100%; /* Match the input width */
+  max-width: 250px; /* Keep it aligned with the formcontent */
+  margin: 12px 0 20px 0;
+`;
+const ErrorMessage = styled.p`
+  color: red;
+  font-weight: bold;
+  margin-bottom: 15px;
+  padding: 5px;
+`;
+const CheckBox = styled.input`
+  width: 16px;
+  height: 16px;
+  align-items: center;
+`;
+const CheckboxLabel = styled.label`
+  font-size: small;
+  text-align: left;
+`;
+const PasswordWrapper = styled.div`
+  width: 100%;
+  position: relative; /* Positions the icon inside the input field instead of outside */
+`;
+const ToggleVisibilityEye = styled(FontAwesomeIcon)`
+  position: absolute;
+  right: 0px; /* Positions the icon to the right inside the input field */
+  top: 50%;
+  transform: translateY(
+    -50%
+  ); /* Position the eye icon vertically in the middle of the input field */
+  cursor: pointer;
+  color: #888;
+`;
+const Req = styled.p`
+  font-size: x-small;
+  text-align: left;
+  margin-bottom: 0;
+`;
