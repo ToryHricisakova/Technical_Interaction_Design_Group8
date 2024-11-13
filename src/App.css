@@ -4,3 +4,14 @@
   max-width: 1280px;
   text-align: center;
 }
+
+/* <uniquifier>: Use a unique and descriptive class name
+weight>: Use a value from 300 to 800 */
+
+.open-sans-OpenSans {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}

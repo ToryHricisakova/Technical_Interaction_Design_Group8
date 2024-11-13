@@ -4,6 +4,7 @@
   padding: 10px 20px;
   border-color: rgba(228, 115, 71, 1);
   cursor: pointer;
+  border-radius: 8px;
 }
 
 .primary-button:hover {
@@ -18,6 +19,7 @@
   padding: 10px 20px;
   border-color: rgba(228, 115, 71, 1);
   cursor: pointer;
+  border-radius: 8px;
 }
 
 .secondary-button:hover {
