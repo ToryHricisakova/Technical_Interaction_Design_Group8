@@ -1,8 +1,8 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import Welcome from "./Pages/Welcome.jsx";
 import Home from "./Pages/Home.jsx";
-import Welcomebar from "./Components/WelcomeBar.jsx";
 import Registration from "./Pages/Registration.jsx";
 import Jobs from "./Pages/Jobs.jsx";
 import ConversionCourses from "./Pages/ConversionCourses.jsx";
@@ -18,7 +18,7 @@ import { useState } from "react";
 function App() {
   document.body.style = "background: #D5DEE4";
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   return (
     <div>

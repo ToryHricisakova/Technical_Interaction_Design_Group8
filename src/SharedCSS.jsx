@@ -1,6 +1,44 @@
 import styled from "styled-components";
 import backgroundImage from "./MediaFiles/FrontpageBackground.png";
 
+// Navigation bar & Welcome bar Shared Components
+export const BarBackground = styled.nav`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  width: 100vw;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+`;
+
+export const BarLeft = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const BarRight = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const ElementContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-right: 20px;
+`;
+
+export const Logo = styled.img`
+  height: 50px;
+  cursor: pointer;
+`;
+
 // Container for everything but the navbar:
 export const Page = styled.div`
   display: flex;
