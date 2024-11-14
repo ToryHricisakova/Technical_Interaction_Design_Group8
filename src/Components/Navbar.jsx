@@ -18,7 +18,7 @@ const Navbar = ({ setIsLoggedIn }) => {
         <Link to="/home">
           <Logo 
             src="src/MediaFiles/Logo.png" 
-            alt="Logo" 
+            alt="CrossConect Logo" 
           />
         </Link>
       </BarLeft>
