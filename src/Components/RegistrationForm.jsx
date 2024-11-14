@@ -60,6 +60,12 @@ const RegistrationForm = () => {
     }
     setErrorMsg("");
 
+    // Check if a user is currently logged in
+    if (Parse.User.current()) {
+      // Log out the current user if a session is active
+      await Parse.User.logOut();
+    }
+
     // Form submission is handled - implemented with backend.
     // Saving the user registration info to the "_User" table.
     const createdUser = await saveUser();

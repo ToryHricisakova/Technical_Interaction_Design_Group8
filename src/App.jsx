@@ -15,6 +15,7 @@ import Onboarding1 from "./Pages/Onboarding1";
 import Onboarding2 from "./Pages/Onboarding2";
 import { useState } from "react";
 import Parse from "parse";
+//import Parse from "parse/dist/parse.min.js";
 
 // Parse setup
 const PARSE_APPLICATION_ID = "ZsZHSwKRAw2ROTRjAeClzoVKIhwDYmBhEGUcjwHH";
