@@ -20,6 +20,7 @@ import {
   StyledLabel,
 } from "../SharedCSS";
 import styled from "styled-components";
+import Parse from "parse";
 
 const RegistrationForm = () => {
   const navigate = useNavigate();
@@ -51,9 +52,7 @@ const RegistrationForm = () => {
   const [hidePassword, setHidePassword] = useState(true);
   const [hidePassword2, setHidePassword2] = useState(true);
 
-  const [users, setUsers] = useState([]);
-
-  const handleRegister = (e) => {
+  const handleRegistration = async (e) => {
     e.preventDefault();
     if (!validEmail || !validPassword || !passwordMatch || !termsAccepted) {
       setErrorMsg("Please fill out all fields correctly.");
@@ -61,28 +60,53 @@ const RegistrationForm = () => {
     }
     setErrorMsg("");
 
-    // Handle form submission - needs to be implemented with backend.
-    {
-      console.log(firstName);
+    // Form submission is handled - implemented with backend.
+    // Saving the user registration info to the "_User" table.
+    const createdUser = await saveUser();
+    if (createdUser === null) {
+      setErrorMsg("An error occured during registration");
+      return;
     }
-    {
-      console.log(lastName);
+
+    // Saving additional information to the "Users" table.
+    const USERS = Parse.Object.extend("USERS");
+    const user = new USERS();
+
+    user.set("firstName", firstName);
+    user.set("lastName", lastName);
+    user.set("userId", createdUser.id);
+    user.set("fields", ["Engineering"]);
+
+    // "save" creates the new object in the database.
+    user.save().then(
+      (newObj) => {
+        console.log(
+          "Saved with USERS id: " +
+            newObj.id +
+            " and _User id: " +
+            createdUser.id
+        );
+        navigate("/onboarding1");
+      },
+      (error) => {
+        console.log(error.message);
+      }
+    );
+  };
+
+  // Registrering user in "_User" table.
+  const saveUser = async function () {
+    const usernameValue = email;
+    const passwordValue = password;
+
+    try {
+      const createdUser = await Parse.User.signUp(usernameValue, passwordValue);
+      console.log("User signed up with e-mail " + createdUser.getUsername());
+      return createdUser;
+    } catch (error) {
+      console.log(error.message);
+      return null;
     }
-    const newUser = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-    };
-
-    setUsers((prevUsers) => [...prevUsers, newUser]);
-
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
-    navigate("/onboarding1");
   };
 
   const handleEmailChange = (e) => {
@@ -112,11 +136,11 @@ const RegistrationForm = () => {
 
   // useEffects added for troubleshooting.
   useEffect(() => {
-    console.log("password =", password);
+    console.log("password = ", password);
   }, [password]);
 
   useEffect(() => {
-    console.log("password valid?", validPassword);
+    console.log("password valid = ", validPassword);
   }, [validPassword]);
 
   useEffect(() => {
@@ -127,11 +151,6 @@ const RegistrationForm = () => {
     console.log("passwordMatch = ", passwordMatch);
   }, [passwordMatch]);
 
-  // Print full user array whenever it is updated.
-  useEffect(() => {
-    console.log(users);
-  }, [users]);
-
   return (
     <BasicContainer>
       <Link to="/">
@@ -141,7 +160,7 @@ const RegistrationForm = () => {
       <HorizontalLine width="100%" />
 
       <FormContent>
-        <form onSubmit={handleRegister} style={{ width: "100%" }}>
+        <form onSubmit={handleRegistration} style={{ width: "100%" }}>
           {/* Error Message */}
           {errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}{" "}
           {/*We need to turn off autocomplete in all fields*/}
@@ -304,10 +323,6 @@ const RegistrationForm = () => {
           <PrimaryButton type="submit">Register</PrimaryButton>
         </form>
       </FormContent>
-
-      {/* Display users in JSON format on page */}
-      {/* <h2>Registered Users</h2>
-            <pre>{JSON.stringify(users, null, 2)}</pre>  */}
     </BasicContainer>
   );
 };
