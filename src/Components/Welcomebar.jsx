@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import PrimaryButton from "./PrimaryButton";
-import SecondaryButton from "./SecondaryButton";
+import Button from "./Button";
 import { BarBackground, BarLeft, BarRight, ElementContainer, Logo } from "../sharedCSS";
-
 
 const Welcomebar = () => {
   return (
@@ -19,11 +17,13 @@ const Welcomebar = () => {
 
       <BarRight>
         <ElementContainer>
-          <Link to="/login"> 
-            <PrimaryButton>Login</PrimaryButton> 
+          <Link to="/login">
+            {" "}
+            <Button className="primary-button">Login</Button>{" "}
           </Link>
-          <Link to="/register"> 
-            <SecondaryButton>Register</SecondaryButton> 
+          <Link to="/register">
+            {" "}
+            <Button className="secondary-button">Register</Button>{" "}
           </Link>
         </ElementContainer>
       </BarRight>
