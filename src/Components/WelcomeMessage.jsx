@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link } from "react-router-dom";
 import Button from "./Button";
 
 const WelcomeMessage = () => {
@@ -24,16 +24,13 @@ const WelcomeMessage = () => {
         explore job posts tailored to your unique skill set.
       </p>
 
-      {/* Button Container */}
       <div style={styles.buttonContainer}>
         <Link to="/login">
           {" "}
-          {/* Wrap PrimaryButton in Link */}
           <Button className="primary-button">Login</Button>
         </Link>
         <Link to="/register">
           {" "}
-          {/* Wrap SecondaryButton in Link */}
           <Button className="secondary-button">Register</Button>
         </Link>
       </div>
@@ -83,7 +80,7 @@ const styles = {
   },
   buttonContainer: {
     display: "flex",
-    gap: "15px", // Spacing between buttons
+    gap: "15px",
     marginTop: "20px",
   },
 };
