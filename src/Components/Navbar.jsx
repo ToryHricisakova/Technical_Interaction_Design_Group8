@@ -2,10 +2,16 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "./Button";
 import styled from "styled-components";
-import { BarBackground, BarLeft, BarRight, ElementContainer, Logo } from "../sharedCSS";
+import {
+  BarBackground,
+  BarLeft,
+  BarRight,
+  ElementContainer,
+  Logo,
+} from "../SharedCSS";
 
 const Navbar = ({ setIsLoggedIn }) => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -16,17 +22,17 @@ const Navbar = ({ setIsLoggedIn }) => {
     <BarBackground>
       <BarLeft>
         <Link to="/home">
-          <Logo 
-            src="src/MediaFiles/Logo.png" 
-            alt="CrossConect Logo" 
-          />
+          <Logo src="src/MediaFiles/Logo.png" alt="CrossConect Logo" />
         </Link>
       </BarLeft>
 
       <BarRight>
         <ElementContainer>
           <Link to="/education">
-            <Icon className="bi bi-mortarboard-fill" aria-label="ConversionCourses" />
+            <Icon
+              className="bi bi-mortarboard-fill"
+              aria-label="ConversionCourses"
+            />
           </Link>
           <Link to="/people">
             <Icon className="bi bi-people-fill" aria-label="Network" />
@@ -37,13 +43,10 @@ const Navbar = ({ setIsLoggedIn }) => {
           <Link to="/messages">
             <Icon className="bi bi-chat-fill" aria-label="Messages" />
           </Link>
-            <Icon className="bi bi-bell-fill" aria-label="Notifications" />
-          
+          <Icon className="bi bi-bell-fill" aria-label="Notifications" />
+
           <Link to="/profile">
-            <ProfileImage 
-              src="src/MediaFiles/Profile.png" 
-              alt="Profile" 
-            />
+            <ProfileImage src="src/MediaFiles/Profile.png" alt="Profile" />
           </Link>
 
           <SearchBar type="text" placeholder="Start typing..." />
@@ -51,10 +54,9 @@ const Navbar = ({ setIsLoggedIn }) => {
           <Button className="secondary-button" onClick={handleLogout}>
             Log Out
           </Button>
-
-       </ElementContainer>
-     </BarRight>
-   </BarBackground>
+        </ElementContainer>
+      </BarRight>
+    </BarBackground>
   );
 };
 
@@ -63,7 +65,7 @@ const Navbar = ({ setIsLoggedIn }) => {
 const Icon = styled.i`
   font-size: 1.5em;
   cursor: pointer;
-  color: #34415D;
+  color: #34415d;
 `;
 
 const ProfileImage = styled.img`

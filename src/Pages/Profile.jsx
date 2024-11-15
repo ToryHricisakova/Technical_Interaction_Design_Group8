@@ -1,7 +1,5 @@
 import React from "react";
 import Parse from "parse";
-import PrimaryButton from "../Components/PrimaryButton";
-import SecondaryButton from "../Components/SecondaryButton";
 
 const Profile = () => {
   const handleLogout = async function () {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import HorizontalLine from "../Components/HorizontalLine";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -14,7 +14,7 @@ import {
   Paragraph,
   Boldparagraph,
   Section,
-} from "../onboardingCSS.jsx";
+} from "../OnboardingCSS.jsx";
 
 const Onboarding1 = () => {
   const [date, setDate] = useState(new Date());

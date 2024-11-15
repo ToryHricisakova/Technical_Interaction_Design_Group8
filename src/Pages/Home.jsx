@@ -1,12 +1,4 @@
-import React from 'react';
-import WelcomeMessage from '../Components/WelcomeMessage';
-import LogInForm from '../Components/LogInForm';
-import Navbar from '../Components/Navbar'
-import Jobs from '../Pages/Jobs'
-import ConversionCourses from '../Pages/ConversionCourses'
-import Profile from '../Pages/Profile'
-import People from '../Pages/People'
-
+import React from "react";
 
 const Home = () => {
   return (

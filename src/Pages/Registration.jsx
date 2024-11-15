@@ -1,6 +1,6 @@
-import React from 'react';
-import RegistrationForm from '../Components/RegistrationForm';
-import { PageWithImage } from '../SharedCSS';
+import React from "react";
+import RegistrationForm from "../Components/RegistrationForm";
+import { PageWithImage } from "../SharedCSS";
 
 const Registration = () => {
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import HorizontalLine from "../Components/HorizontalLine";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../Components/Button";
@@ -14,7 +14,7 @@ import {
   Paragraph,
   Boldparagraph,
   Section,
-} from "../onboardingCSS";
+} from "../OnboardingCSS";
 
 const Onboarding2 = ({ setIsLoggedIn }) => {
   const handleFinish = () => {

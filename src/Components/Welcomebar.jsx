@@ -1,18 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Button from "./Button";
-import { BarBackground, BarLeft, BarRight, ElementContainer, Logo } from "../sharedCSS";
+import {
+  BarBackground,
+  BarLeft,
+  BarRight,
+  ElementContainer,
+  Logo,
+} from "../SharedCSS";
 
 const Welcomebar = () => {
   return (
     <BarBackground>
       <BarLeft>
-      <Link to="/">
-          <Logo 
-            src="src/MediaFiles/Logo.png" 
-            alt="Logo"
-          />
-      </Link>
+        <Link to="/">
+          <Logo src="src/MediaFiles/Logo.png" alt="Logo" />
+        </Link>
       </BarLeft>
 
       <BarRight>
