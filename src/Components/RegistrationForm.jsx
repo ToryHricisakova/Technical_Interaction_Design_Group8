@@ -60,9 +60,8 @@ const RegistrationForm = () => {
     }
     setErrorMsg("");
 
-    // Check if a user is currently logged in
+    // Check if a user is currently logged in and log them out if a session is active
     if (Parse.User.current()) {
-      // Log out the current user if a session is active
       await Parse.User.logOut();
     }
 
@@ -80,8 +79,9 @@ const RegistrationForm = () => {
 
     user.set("firstName", firstName);
     user.set("lastName", lastName);
-    user.set("userId", createdUser.id);
+    //user.set("userId", createdUser.id); // No need to return user!
     user.set("fields", ["Engineering"]);
+    user.set("user", Parse.User.current()); // links the "_user" and "USERS" tables.
 
     // "save" creates the new object in the database.
     user.save().then(
@@ -102,11 +102,14 @@ const RegistrationForm = () => {
 
   // Registrering user in "_User" table.
   const saveUser = async function () {
-    const usernameValue = email;
-    const passwordValue = password;
+    const user = new Parse.User();
+
+    user.set("username", email);
+    user.set("password", password);
+    user.set("email", email);
 
     try {
-      const createdUser = await Parse.User.signUp(usernameValue, passwordValue);
+      const createdUser = await user.signUp();
       console.log("User signed up with e-mail " + createdUser.getUsername());
       return createdUser;
     } catch (error) {

@@ -12,18 +12,43 @@ import {
   StyledInput,
   StyledLabel,
 } from "../SharedCSS";
+import Parse from "parse";
+
+// getCurrentUser and handleLogin inspired by back4app tutorials.
 
 const LogInForm = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async function (e) {
     e.preventDefault();
-    alert(`Logging in...`);
-    setIsLoggedIn(true);
-    navigate("/home");
+    const usernameValue = username;
+    const passwordValue = password;
+
+    try {
+      const loggedInUser = await Parse.User.logIn(usernameValue, passwordValue);
+      console.log("Logged in as " + loggedInUser.get(username));
+      const currentUser = await Parse.User.currentAsync();
+      console.log(
+        "Is logged in user equal to currentUser?" +
+          (loggedInUser === currentUser)
+      );
+      //getCurrentUser(); // superfluous?
+      navigate("/profile");
+      return true;
+    } catch (error) {
+      console.log(error.message);
+      return false;
+    }
   };
+
+  // const handleLogin = (e) => {
+  // e.preventDefault();
+  // alert(`Logging in...`);
+  // setIsLoggedIn(true);
+  // navigate("/home");
+  // };
 
   return (
     <BasicContainer>

@@ -29,6 +29,14 @@ function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const getCurrentUser = async function () {
+    const currentUser = Parse.User.current();
+    setCurrentUser(currentUser);
+    return currentUser;
+  };
+
   return (
     <div>
       <Router>
