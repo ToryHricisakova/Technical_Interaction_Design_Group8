@@ -11,19 +11,20 @@ import People from "./Pages/People.jsx";
 import Messages from "./Pages/Messages";
 import Login from "./Pages/Login";
 import Navbar from "./Components/Navbar";
+import Welcomebar from "./Components/Welcomebar.jsx";
 import Onboarding1 from "./Pages/Onboarding1";
 import Onboarding2 from "./Pages/Onboarding2";
 import { useState } from "react";
 
+
 function App() {
   document.body.style = "background: #D5DEE4";
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <div>
       <Router>
-        {/* Render the navigation bar based on login status */}
         {isLoggedIn ? (
           <Navbar setIsLoggedIn={setIsLoggedIn} />
         ) : (
@@ -40,7 +41,7 @@ function App() {
           <Route path="/profile" element={<Profile />} /> 
           <Route path="/messages" element={<Messages />} />
           <Route path="/onboarding1" element={<Onboarding1 />} /> 
-          <Route path="/onboarding2" element={<Onboarding2 setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/onboarding2" element={<Onboarding2 />} />
         </Routes>
       </Router>
     </div>

@@ -20,7 +20,6 @@ const WelcomeMessage = () => {
         Connect with colleagues across industries, discover opportunities, and explore job posts tailored to your unique skill set.
       </p>
 
-      {/* Button Container */}
       <div style={styles.buttonContainer}>
         <Link to="/login">
           <PrimaryButton>Login</PrimaryButton>
