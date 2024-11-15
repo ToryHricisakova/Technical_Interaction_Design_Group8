@@ -1,8 +1,8 @@
-import React from "react";
-import "../Button.css";
+// import React from "react";
+// import "../Button.css";
 
-const SecondaryButton = ({ children }) => {
-  return <button className="secondary-button">{children}</button>;
-};
+// const SecondaryButton = ({ children }) => {
+//   return <button className="secondary-button">{children}</button>;
+// };
 
-export default SecondaryButton;
+// export default SecondaryButton;

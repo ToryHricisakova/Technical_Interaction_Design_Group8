@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import SecondaryButton from "./SecondaryButton";
+import Button from "./Button";
 import styled from "styled-components";
 import { BarBackground, BarLeft, BarRight, ElementContainer, Logo } from "../sharedCSS";
 
@@ -38,6 +38,7 @@ const Navbar = ({ setIsLoggedIn }) => {
             <Icon className="bi bi-chat-fill" aria-label="Messages" />
           </Link>
             <Icon className="bi bi-bell-fill" aria-label="Notifications" />
+          
           <Link to="/profile">
             <ProfileImage 
               src="src/MediaFiles/Profile.png" 
@@ -47,11 +48,13 @@ const Navbar = ({ setIsLoggedIn }) => {
 
           <SearchBar type="text" placeholder="Start typing..." />
 
-          <SecondaryButton onClick={handleLogout}>Log Out</SecondaryButton>
+          <Button className="secondary-button" onClick={handleLogout}>
+            Log Out
+          </Button>
 
-        </ElementContainer>
-      </BarRight>
-    </BarBackground>
+       </ElementContainer>
+     </BarRight>
+   </BarBackground>
   );
 };
 
