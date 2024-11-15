@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import HorizontalLine from "../Components/HorizontalLine";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import PrimaryButton from "../Components/PrimaryButton";
-import SecondaryButton from "../Components/SecondaryButton";
+import Button from "../Components/Button";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
@@ -90,7 +89,7 @@ const Onboarding1 = () => {
 
           <InfoBlock className="ProfilePicture">
             <Boldparagraph>Profile picture:</Boldparagraph>
-            <SecondaryButton>Upload Picture</SecondaryButton>
+            <Button className="secondary-button">Upload Picture</Button>
           </InfoBlock>
 
           <InfoBlock className="profileBio">
@@ -104,7 +103,7 @@ const Onboarding1 = () => {
           </InfoBlock>
 
           <NextButton to="/onboarding2">
-            <PrimaryButton>Next</PrimaryButton>
+            <Button className="primary-button">Next</Button>
           </NextButton>
         </Section>
         <HorizontalLine />
@@ -147,7 +146,7 @@ const RadiobuttonGrouping = styled.div`
   height: 15px;
 `;
 const CheckboxLabel = styled.label`
-  flex-shrink: 0; // Prevents the labels from splitting into two lines.
+  white-space: nowrap;
 `;
 const NextButton = styled(Link)`
   display: flex;

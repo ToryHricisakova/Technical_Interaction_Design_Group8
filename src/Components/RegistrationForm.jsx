@@ -7,7 +7,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import HorizontalLine from "./HorizontalLine";
-import PrimaryButton from "./PrimaryButton";
+import Button from "./Button";
 import CloseIcon from "./CloseIcon";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -329,7 +329,9 @@ const RegistrationForm = () => {
               agreement. {/*Should link to the user agreement.*/}
             </CheckboxLabel>
           </TermsContainer>
-          <PrimaryButton type="submit">Register</PrimaryButton>
+          <Button className="primary-button" type="submit">
+            Register
+          </Button>
         </form>
       </FormContent>
     </BasicContainer>
@@ -358,7 +360,7 @@ const CheckBox = styled.input`
   align-items: center;
 `;
 const CheckboxLabel = styled.label`
-  font-size: small;
+  font-size: 12px;
   text-align: left;
 `;
 const PasswordWrapper = styled.div`

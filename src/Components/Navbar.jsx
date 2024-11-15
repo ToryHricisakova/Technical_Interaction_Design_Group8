@@ -1,9 +1,11 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import SecondaryButton from "./SecondaryButton";
+import Button from "./Button";
+import styled from "styled-components";
+import { BarBackground, BarLeft, BarRight, ElementContainer, Logo } from "../sharedCSS";
 
 const Navbar = ({ setIsLoggedIn }) => {
-  const navigate = useNavigate(); // Use navigate to change routes
+  const navigate = useNavigate(); 
 
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -11,128 +13,75 @@ const Navbar = ({ setIsLoggedIn }) => {
   };
 
   return (
-    <nav style={styles.navbar}>
-      
-    <div style={styles.navbarLeft}>
+    <BarBackground>
+      <BarLeft>
         <Link to="/home">
-          <img 
+          <Logo 
             src="src/MediaFiles/Logo.png" 
-            alt="Logo" 
-            style={styles.logo} />
+            alt="CrossConect Logo" 
+          />
         </Link>
-    </div>
+      </BarLeft>
 
-    <div style={styles.navbarRight}>
-       <div style={styles.iconContainer}>
+      <BarRight>
+        <ElementContainer>
           <Link to="/education">
-            <img 
-              src="src/MediaFiles/ConversionCourses.png" 
-              alt="ConversionCourses" 
-              style={styles.icon} />
+            <Icon className="bi bi-mortarboard-fill" aria-label="ConversionCourses" />
           </Link>
           <Link to="/people">
-            <img 
-              src="src/MediaFiles/Network.png" 
-              alt="Network" 
-              style={styles.icon} />
+            <Icon className="bi bi-people-fill" aria-label="Network" />
           </Link>
           <Link to="/jobs">
-            <img 
-              src="src/MediaFiles/Jobs.png" 
-              alt="Jobs" 
-              style={styles.icon} />
+            <Icon className="bi bi-briefcase-fill" aria-label="Jobs" />
           </Link>
           <Link to="/messages">
-            <img
-              src="src/MediaFiles/Messages.png"
-              alt="Messages"
-              style={styles.icon}
-            />
+            <Icon className="bi bi-chat-fill" aria-label="Messages" />
           </Link>
-            <img
-              src="src/MediaFiles/Notifications.png"
-              alt="Notifications"
-              style={styles.icon}
-            />
+            <Icon className="bi bi-bell-fill" aria-label="Notifications" />
+          
           <Link to="/profile">
-            <img 
+            <ProfileImage 
               src="src/MediaFiles/Profile.png" 
               alt="Profile" 
-              style={styles.profileImage} />
+            />
           </Link>
 
-        <input 
-          type="text" 
-          placeholder="Start typing..." 
-          style={styles.searchBar}
-        />
+          <SearchBar type="text" placeholder="Start typing..." />
 
-        <SecondaryButton 
-          onClick={handleLogout}>
+          <Button className="secondary-button" onClick={handleLogout}>
             Log Out
-        </SecondaryButton>
+          </Button>
 
-      </div>
-    </div>
-  </nav>
+       </ElementContainer>
+     </BarRight>
+   </BarBackground>
   );
 };
 
+// Styled Components for Navbar
 
-// Styling
-const styles = {
-  navbar: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "10px 20px",
-    width: "100vw",
-    boxSizing: "border-box",
-    backgroundColor: "#ffffff",
-    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-    position: "fixed",
-    top: 0,
-    left: 0,
-    zIndex: 1000,
-  },
-  navbarLeft: {
-    display: "flex",
-    alignItems: "center",
-  },
-  logo: {
-    height: "50px",
-    cursor: "pointer",
-  },
-  navbarRight: {
-    display: "flex",
-    alignItems: "center",
-  },
-  iconContainer: {
-    display: "flex",
-    alignItems: "center",
-    gap: "20px",
-    marginRight: "20px",
-  },
-  icon: {
-    height: "25px",
-    cursor: "pointer",
-  },
-  profileImage: {
-    height: "30px",
-    width: "30px",
-    borderRadius: "50%",
-    cursor: "pointer",
-  },
-  searchBar: {
-    padding: "10px 40px 10px 10px",
-    border: "1px solid #34415D",
-    borderRadius: "20px",
-    outline: "none",
-    width: "200px",
-    backgroundColor: "#f9f9f9",
-    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-    transition: "border-color 0.3s ease, box-shadow 0.3s ease",
-  },
-};
+const Icon = styled.i`
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #34415D;
+`;
+
+const ProfileImage = styled.img`
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+`;
+
+const SearchBar = styled.input`
+  padding: 10px 40px 10px 10px;
+  border: 1px solid #34415d;
+  border-radius: 20px;
+  outline: none;
+  width: 200px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+`;
 
 export default Navbar;

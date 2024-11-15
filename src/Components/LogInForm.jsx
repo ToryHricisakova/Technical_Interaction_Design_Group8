@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PrimaryButton from "./PrimaryButton";
+import Button from "./Button";
 import CloseIcon from "./CloseIcon";
 import { Link } from "react-router-dom";
 import HorizontalLine from "./HorizontalLine";
@@ -87,7 +87,9 @@ const LogInForm = ({ setIsLoggedIn }) => {
           </InputContainer>
 
           {/* Primary Button */}
-          <PrimaryButton type="submit">Log In</PrimaryButton>
+          <Button className="primary-button" type="submit">
+            Log In
+          </Button>
         </form>
       </FormContent>
     </BasicContainer>
