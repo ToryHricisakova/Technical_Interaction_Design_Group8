@@ -146,7 +146,7 @@ const RadiobuttonGrouping = styled.div`
   height: 15px;
 `;
 const CheckboxLabel = styled.label`
-  flex-shrink: 0; // Prevents the labels from splitting into two lines.
+  white-space: nowrap;
 `;
 const NextButton = styled(Link)`
   display: flex;

@@ -12,7 +12,8 @@ export const BarBackground = styled.nav`
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   position: fixed;
   left: 0;
-  z-index: 500;
+  top: 0;
+  z-index: 10;
 `;
 
 export const BarLeft = styled.div`
