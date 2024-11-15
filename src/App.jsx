@@ -1,8 +1,8 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import Welcome from "./Pages/Welcome.jsx";
 import Home from "./Pages/Home.jsx";
-import Welcomebar from "./Components/WelcomeBar.jsx";
 import Registration from "./Pages/Registration.jsx";
 import Jobs from "./Pages/Jobs.jsx";
 import ConversionCourses from "./Pages/ConversionCourses.jsx";
@@ -11,9 +11,11 @@ import People from "./Pages/People.jsx";
 import Messages from "./Pages/Messages";
 import Login from "./Pages/Login";
 import Navbar from "./Components/Navbar";
+import Welcomebar from "./Components/Welcomebar.jsx";
 import Onboarding1 from "./Pages/Onboarding1";
 import Onboarding2 from "./Pages/Onboarding2";
 import { useState } from "react";
+
 
 function App() {
   document.body.style = "background: #D5DEE4";
@@ -23,7 +25,6 @@ function App() {
   return (
     <div>
       <Router>
-        {/* Render the navigation bar based on login status */}
         {isLoggedIn ? (
           <Navbar setIsLoggedIn={setIsLoggedIn} />
         ) : (
@@ -40,7 +41,7 @@ function App() {
           <Route path="/profile" element={<Profile />} /> 
           <Route path="/messages" element={<Messages />} />
           <Route path="/onboarding1" element={<Onboarding1 />} /> 
-          <Route path="/onboarding2" element={<Onboarding2 setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/onboarding2" element={<Onboarding2 />} />
         </Routes>
       </Router>
     </div>

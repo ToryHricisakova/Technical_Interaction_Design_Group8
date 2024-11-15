@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link } from "react-router-dom";
 import PrimaryButton from "./PrimaryButton";
 import SecondaryButton from "./SecondaryButton";
 
@@ -20,12 +20,11 @@ const WelcomeMessage = () => {
         Connect with colleagues across industries, discover opportunities, and explore job posts tailored to your unique skill set.
       </p>
 
-      {/* Button Container */}
       <div style={styles.buttonContainer}>
-        <Link to="/login"> {/* Wrap PrimaryButton in Link */}
+        <Link to="/login">
           <PrimaryButton>Login</PrimaryButton>
         </Link>
-        <Link to="/register"> {/* Wrap SecondaryButton in Link */}
+        <Link to="/register"> 
           <SecondaryButton>Register</SecondaryButton>
         </Link>
       </div>
@@ -75,7 +74,7 @@ const styles = {
   },
   buttonContainer: {
     display: 'flex',
-    gap: '15px', // Spacing between buttons
+    gap: '15px',
     marginTop: '20px',
   },
 };
