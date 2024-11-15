@@ -6,7 +6,7 @@ const Tag = ({ word, tagType, removeable, removeTag }) => {
   const tagStyle = tagType === "field" ? "fieldTag" : "skillTag";
 
   const handleRemove = () => {
-    event.preventDefault(); // Prevent default button behavior
+    event.preventDefault(); // Prevent reloading the page
     removeTag();
   };
 

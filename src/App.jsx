@@ -18,7 +18,6 @@ import { useState } from "react";
 
 
 function App() {
-  document.body.style = "background: #D5DEE4";
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 

@@ -334,7 +334,7 @@ const CheckBox = styled.input`
   align-items: center;
 `;
 const CheckboxLabel = styled.label`
-  font-size: small;
+  font-size: 12px;
   text-align: left;
 `;
 const PasswordWrapper = styled.div`
