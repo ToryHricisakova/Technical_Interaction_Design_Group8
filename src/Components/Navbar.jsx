@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import SecondaryButton from "./SecondaryButton";
+import Button from "./Button";
 
 const Navbar = ({ setIsLoggedIn }) => {
   const navigate = useNavigate(); // Use navigate to change routes
@@ -12,35 +12,30 @@ const Navbar = ({ setIsLoggedIn }) => {
 
   return (
     <nav style={styles.navbar}>
-      
-    <div style={styles.navbarLeft}>
+      <div style={styles.navbarLeft}>
         <Link to="/home">
-          <img 
-            src="src/MediaFiles/Logo.png" 
-            alt="Logo" 
-            style={styles.logo} />
+          <img src="src/MediaFiles/Logo.png" alt="Logo" style={styles.logo} />
         </Link>
-    </div>
+      </div>
 
-    <div style={styles.navbarRight}>
-       <div style={styles.iconContainer}>
+      <div style={styles.navbarRight}>
+        <div style={styles.iconContainer}>
           <Link to="/education">
-            <img 
-              src="src/MediaFiles/ConversionCourses.png" 
-              alt="ConversionCourses" 
-              style={styles.icon} />
+            <img
+              src="src/MediaFiles/ConversionCourses.png"
+              alt="ConversionCourses"
+              style={styles.icon}
+            />
           </Link>
           <Link to="/people">
-            <img 
-              src="src/MediaFiles/Network.png" 
-              alt="Network" 
-              style={styles.icon} />
+            <img
+              src="src/MediaFiles/Network.png"
+              alt="Network"
+              style={styles.icon}
+            />
           </Link>
           <Link to="/jobs">
-            <img 
-              src="src/MediaFiles/Jobs.png" 
-              alt="Jobs" 
-              style={styles.icon} />
+            <img src="src/MediaFiles/Jobs.png" alt="Jobs" style={styles.icon} />
           </Link>
           <Link to="/messages">
             <img
@@ -49,35 +44,33 @@ const Navbar = ({ setIsLoggedIn }) => {
               style={styles.icon}
             />
           </Link>
-            <img
-              src="src/MediaFiles/Notifications.png"
-              alt="Notifications"
-              style={styles.icon}
-            />
+          <img
+            src="src/MediaFiles/Notifications.png"
+            alt="Notifications"
+            style={styles.icon}
+          />
           <Link to="/profile">
-            <img 
-              src="src/MediaFiles/Profile.png" 
-              alt="Profile" 
-              style={styles.profileImage} />
+            <img
+              src="src/MediaFiles/Profile.png"
+              alt="Profile"
+              style={styles.profileImage}
+            />
           </Link>
 
-        <input 
-          type="text" 
-          placeholder="Start typing..." 
-          style={styles.searchBar}
-        />
+          <input
+            type="text"
+            placeholder="Start typing..."
+            style={styles.searchBar}
+          />
 
-        <SecondaryButton 
-          onClick={handleLogout}>
+          <Button className="secondary-button" onClick={handleLogout}>
             Log Out
-        </SecondaryButton>
-
+          </Button>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
   );
 };
-
 
 // Styling
 const styles = {

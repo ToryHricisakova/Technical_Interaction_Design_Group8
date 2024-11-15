@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Welcome from "./Pages/Welcome.jsx";
 import Home from "./Pages/Home.jsx";
-import Welcomebar from "./Components/WelcomeBar.jsx";
+import Welcomebar from "./Components/Welcomebar.jsx";
 import Registration from "./Pages/Registration.jsx";
 import Jobs from "./Pages/Jobs.jsx";
 import ConversionCourses from "./Pages/ConversionCourses.jsx";
