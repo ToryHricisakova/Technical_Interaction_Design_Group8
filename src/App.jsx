@@ -15,11 +15,28 @@ import Welcomebar from "./Components/Welcomebar.jsx";
 import Onboarding1 from "./Pages/Onboarding1";
 import Onboarding2 from "./Pages/Onboarding2";
 import { useState } from "react";
+import Parse from "parse";
+//import Parse from "parse/dist/parse.min.js";
+
+// Parse setup
+const PARSE_APPLICATION_ID = "ZsZHSwKRAw2ROTRjAeClzoVKIhwDYmBhEGUcjwHH";
+const PARSE_HOST_URL = "https://parseapi.back4app.com/";
+const PARSE_JAVASCRIPT_KEY = "uQVGHspYWtfsxUVGSTDj1U0eiDSKZLFngeCaL6uP";
+Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
+Parse.serverURL = PARSE_HOST_URL;
 
 
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const getCurrentUser = async function () {
+    const currentUser = Parse.User.current();
+    setCurrentUser(currentUser);
+    return currentUser;
+  };
 
   return (
     <div>
@@ -29,15 +46,19 @@ function App() {
         ) : (
           <Welcomebar />
         )}
+
         <Routes>
           <Route path="/" element={<Welcome />} />
-          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+          <Route
+            path="/login"
+            element={<Login setIsLoggedIn={setIsLoggedIn} />}
+          />
           <Route path="/register" element={<Registration />} />
           <Route path="/home" element={<Home />} />
           <Route path="/education" element={<ConversionCourses />} />
           <Route path="/people" element={<People />} />
-          <Route path="/jobs" element={<Jobs />} /> 
-          <Route path="/profile" element={<Profile />} /> 
+          <Route path="/jobs" element={<Jobs />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/onboarding1" element={<Onboarding1 />} /> 
           <Route path="/onboarding2" element={<Onboarding2 />} />
