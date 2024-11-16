@@ -3,9 +3,9 @@ import HorizontalLine from "../Components/HorizontalLine";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../Components/Button";
 import TypeAhead from "../Components/TypeAhead";
-import fields from "../MediaFiles/fields";
+import fields from "../../public/MediaFiles/fields";
 import { Link } from "react-router-dom";
-import skills from "../MediaFiles/skills";
+import skills from "../../public/MediaFiles/skills";
 import styled from "styled-components";
 import {
   Container,
@@ -86,7 +86,7 @@ export default Onboarding2;
 const Buttons = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 15px;
 `;
 const TypeAheadWrapper = styled.div`
   padding: 0 0 30px 0;

@@ -1,6 +1,6 @@
 import React from "react";
 import WelcomeMessage from "../Components/WelcomeMessage";
-import backgroundImage from "../MediaFiles/FrontpageBackground.png";
+import backgroundImage from "../../public/MediaFiles/FrontpageBackground.png";
 
 const Welcome = () => {
   return (
@@ -31,7 +31,7 @@ const styles = {
     fontWeight: "bold",
   },
   subTitle: {
-    fontSize: "2em",
+    fontSize: "32px",
     margin: "0 0 20px 0",
     fontFamily: "Inter, sans-serif",
     fontWeight: "bold",
@@ -44,7 +44,7 @@ const styles = {
     color: "#35415D",
   },
   paragraph: {
-    fontSize: "1em",
+    fontSize: "16px",
     margin: "10px 0",
     lineHeight: "1.5",
     color: "#333",

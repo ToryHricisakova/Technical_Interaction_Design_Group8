@@ -1,17 +1,17 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import Welcome from "./Pages/Welcome.jsx";
+import Welcome from "./Pages/Welcome";
 import Home from "./Pages/Home.jsx";
-import Registration from "./Pages/Registration.jsx";
-import Jobs from "./Pages/Jobs.jsx";
+import Registration from "./Pages/Registration";
+import Jobs from "./Pages/Jobs";
 import ConversionCourses from "./Pages/ConversionCourses.jsx";
 import Profile from "./Pages/Profile.jsx";
 import People from "./Pages/People.jsx";
 import Messages from "./Pages/Messages";
 import Login from "./Pages/Login";
 import Navbar from "./Components/Navbar";
-import Welcomebar from "./Components/Welcomebar.jsx";
+import Welcomebar from "./Components/Welcomebar";
 import Onboarding1 from "./Pages/Onboarding1";
 import Onboarding2 from "./Pages/Onboarding2";
 import { useState } from "react";
@@ -26,7 +26,7 @@ Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
 Parse.serverURL = PARSE_HOST_URL;
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const [currentUser, setCurrentUser] = useState(null);
 

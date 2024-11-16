@@ -22,7 +22,7 @@ const Navbar = ({ setIsLoggedIn }) => {
     <BarBackground>
       <BarLeft>
         <Link to="/home">
-          <Logo src="src/MediaFiles/Logo.png" alt="CrossConect Logo" />
+          <Logo src="public/MediaFiles/Logo.png" alt="CrossConect Logo" />
         </Link>
       </BarLeft>
 
@@ -46,7 +46,7 @@ const Navbar = ({ setIsLoggedIn }) => {
           <Icon className="bi bi-bell-fill" aria-label="Notifications" />
 
           <Link to="/profile">
-            <ProfileImage src="src/MediaFiles/Profile.png" alt="Profile" />
+            <ProfileImage src="public/MediaFiles/Profile.png" alt="Profile" />
           </Link>
 
           <SearchBar type="text" placeholder="Start typing..." />
@@ -63,7 +63,7 @@ const Navbar = ({ setIsLoggedIn }) => {
 // Styled Components for Navbar
 
 const Icon = styled.i`
-  font-size: 1.5em;
+  font-size: 24px;
   cursor: pointer;
   color: #34415d;
 `;

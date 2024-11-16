@@ -131,7 +131,7 @@ const BioText = styled.textarea`
   width: 100%;
   resize: none;
   color: black;
-  margin-bottom: 1rem;
+  margin-bottom: 15px;
   box-sizing: border-box; // Prevents box from expanding when extra padding is added.
 `;
 const CalenderContainer = styled.div`
@@ -141,7 +141,7 @@ const CalenderContainer = styled.div`
 `;
 const RadiobuttonGrouping = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 15px;
   justify-content: left;
   height: 15px;
 `;
@@ -151,7 +151,7 @@ const CheckboxLabel = styled.label`
 const NextButton = styled(Link)`
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 1rem;
+  margin-bottom: 15px;
   text-decoration: none;
 `;
 const CalendarIcon = styled(FontAwesomeIcon)`
