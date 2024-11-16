@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import backgroundImage from "./MediaFiles/FrontpageBackground.png";
+import backgroundImage from "../public/MediaFiles/FrontpageBackground.png";
 
 // Navigation bar & Welcome bar Shared Components
 export const BarBackground = styled.nav`
@@ -57,7 +57,7 @@ export const PageWithImage = styled(Page)`
 `;
 // Container for our basic white box with rounded edges.
 export const BasicContainer = styled.div`
-  padding: 2rem 3rem;
+  padding: 32px 48px;
   border-radius: 40px;
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
@@ -69,7 +69,7 @@ export const BasicContainer = styled.div`
 `;
 // Title on login and registration page.
 export const Title = styled.h1`
-  font-size: 2.5em;
+  font-size: 40px;
   margin-bottom: 10px;
   color: #35415d;
   font-family: Inter, sans-serif;
@@ -85,7 +85,7 @@ export const FormContent = styled.div`
 export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Ensures items are left-aligned */
+  align-items: flex-start;
   width: 95%;
   margin: 15px 0;
 `;
@@ -115,7 +115,7 @@ export const ConnectButton = styled.button`
   border: 1px solid rgba(228, 115, 71, 1);
   cursor: pointer;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 16px;
   transition: background-color 0.3s, color 0.3s;
 
   &:hover {

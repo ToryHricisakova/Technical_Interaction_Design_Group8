@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../TypeAhead.css";
+import "../Components/TypeAhead.css";
 import Tag from "./Tag";
 
 // export default class TypeAhead extends React.Component {

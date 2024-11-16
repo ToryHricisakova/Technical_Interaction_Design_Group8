@@ -19,20 +19,20 @@ export const Form = styled.form`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `
 export const MainTitle = styled.h1`
-  font-size: 2em;
+  font-size: 32px;
   margin: 0 0 10px 0;
   color: #35415D;
   font-family: Inter, sans-serif;
   font-weight: bold;
 `
 export const Paragraph = styled.div`
-  font-size: 1em;
+  font-size: 16px;
   margin: 10px 0;
   line-height: 1.5;
   color: #333;
 `
 export const Boldparagraph = styled.div`
-  font-size: 1em;
+  font-size: 16px;
   margin: 10px 0;
   line-height: 1.5;
   color: #333;

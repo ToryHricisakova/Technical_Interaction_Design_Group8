@@ -1,7 +1,7 @@
 import React from "react";
-import fields from "../MediaFiles/fields";
+import fields from "../../public/MediaFiles/fields";
 import TypeAhead from "../Components/TypeAhead";
-import skills from "../MediaFiles/skills";
+import skills from "../../public/MediaFiles/skills";
 
 const People = () => {
   return (

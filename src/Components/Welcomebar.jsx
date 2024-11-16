@@ -14,7 +14,7 @@ const Welcomebar = () => {
     <BarBackground>
       <BarLeft>
         <Link to="/">
-          <Logo src="src/MediaFiles/Logo.png" alt="Logo" />
+          <Logo src="public/MediaFiles/Logo.png" alt="Logo" />
         </Link>
       </BarLeft>
 

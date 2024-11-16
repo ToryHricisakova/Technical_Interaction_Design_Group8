@@ -50,14 +50,14 @@ const ProfileImage = styled.img`
 `;
 
 const ProfileName = styled.span`
-  font-size: 1.1em;
+  font-size: 18px;
   font-weight: bold;
   color: #34415d;
 `;
 
 const PostText = styled.p`
-  font-size: 1em;
-  line-height: 1.5;
+  font-size: 16px;
+  line-height: 24px;
   color: #333;
   margin: 10px 0;
 `;
@@ -82,7 +82,7 @@ const ActionItem = styled.div`
 `;
 
 const ActionText = styled.span`
-  font-size: 0.9em;
+  font-size: 16px;
   color: inherit;
 `;
 

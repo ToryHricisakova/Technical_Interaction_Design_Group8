@@ -41,7 +41,7 @@ const WelcomeMessage = () => {
 // Styles (remains unchanged)
 const styles = {
   welcomeMessageContainer: {
-    backgroundColor: "rgba(255, 255, 255, 0.7)", // 70% opacity
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
     borderRadius: "20px",
     padding: "30px",
     width: "500px",
@@ -52,15 +52,15 @@ const styles = {
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
   },
   mainTitle: {
-    fontSize: "4em",
-    margin: "0 0 10px 0",
+    fontSize: "64px",
+    margin: "0 0 5px 0",
     color: "#35415D",
     textAlign: "left",
     fontFamily: "Inter, sans-serif",
     fontWeight: "bold",
   },
   subTitle: {
-    fontSize: "2em",
+    fontSize: "32px",
     margin: "0 0 20px 0",
     fontFamily: "Inter, sans-serif",
     fontWeight: "bold",
@@ -73,7 +73,7 @@ const styles = {
     color: "#35415D",
   },
   paragraph: {
-    fontSize: "1em",
+    fontSize: "16px",
     margin: "10px 0",
     lineHeight: "1.5",
     color: "#333",
