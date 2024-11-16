@@ -1,5 +1,5 @@
 import React from "react";
-import "../Button.css";
+import "../Components/Button.css";
 
 // "children" acts as a placholder for whatever value we want to put in later. This
 // is what will appear on the button.

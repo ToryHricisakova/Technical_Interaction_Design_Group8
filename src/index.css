@@ -1,3 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+#root {
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* <uniquifier>: Use a unique and descriptive class name
+weight>: Use a value from 300 to 800 */
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -31,11 +42,6 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
-
-/* h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-} */
 
 button {
   border: 1px solid transparent;

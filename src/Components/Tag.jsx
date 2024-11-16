@@ -1,5 +1,5 @@
 import React from "react";
-import "../Tag.css";
+import "../Components/Tag.css";
 //import closeIcon from "../MediaFiles/closeicon.svg";
 
 const Tag = ({ word, tagType, removeable, removeTag }) => {
