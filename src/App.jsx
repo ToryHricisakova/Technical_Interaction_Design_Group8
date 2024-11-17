@@ -13,7 +13,7 @@ import Navbar from "./Components/Navbar";
 import Welcomebar from "./Components/Welcomebar";
 import Onboarding1 from "./Pages/Onboarding1";
 import Onboarding2 from "./Pages/Onboarding2";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Parse from "parse";
 //import Parse from "parse/dist/parse.min.js";
 
@@ -25,15 +25,12 @@ Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
 Parse.serverURL = PARSE_HOST_URL;
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
 
-  const [currentUser, setCurrentUser] = useState(null);
-
-  // const getCurrentUser = async function () { // Not currently used - need to revisit if it is necessary.
-  //   const currentUser = Parse.User.current();
-  //   setCurrentUser(currentUser);
-  //   return currentUser;
-  // };
+  useEffect(() => {
+    const currentUser = Parse.User.current();
+    setIsLoggedIn(!(currentUser === null)); // Set to `true` if user exists, otherwise `false`
+  }, []);
 
   return (
     <div>

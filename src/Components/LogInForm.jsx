@@ -14,7 +14,7 @@ import {
 } from "../SharedCSS";
 import Parse from "parse";
 
-// getCurrentUser and handleLogin inspired by back4app tutorials.
+// handleLogin inspired by back4app tutorials.
 
 const LogInForm = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const LogInForm = ({ setIsLoggedIn }) => {
         "Is logged in user equal to currentUser?" +
           (loggedInUser === currentUser)
       );
-      //getCurrentUser(); // superfluous?
+      setIsLoggedIn(true);
       navigate("/profile");
       return true;
     } catch (error) {
@@ -42,13 +42,6 @@ const LogInForm = ({ setIsLoggedIn }) => {
       return false;
     }
   };
-
-  // const handleLogin = (e) => {
-  // e.preventDefault();
-  // alert(`Logging in...`);
-  // setIsLoggedIn(true);
-  // navigate("/home");
-  // };
 
   return (
     <BasicContainer>
