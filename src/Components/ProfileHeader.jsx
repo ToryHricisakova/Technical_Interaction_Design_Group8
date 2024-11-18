@@ -153,18 +153,19 @@ const MiddleBlock = styled.div`
   text-align: left;
   height: 100%;
   width: 51%;
+  overflow: hidden;
   //border: purple 1px solid;
 `;
 const RightBlock = styled.div`
   display: flex;
   height: 100%;
   width: 25%;
-  border: green 1px solid;
+  /* border: green 1px solid; */
   border-radius: 0 0 40px 0px;
 `;
 const Name = styled.h1`
   font-size: 24px;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   color: #35415d;
   font-family: Inter, sans-serif;
   line-height: 1.1;
