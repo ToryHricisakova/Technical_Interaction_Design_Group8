@@ -58,7 +58,6 @@ const RegistrationForm = () => {
       setErrorMsg("Please fill out all fields correctly.");
       return;
     }
-    setErrorMsg("");
 
     // Check if a user is currently logged in and log them out if a session is active
     if (Parse.User.current()) {
@@ -170,8 +169,7 @@ const RegistrationForm = () => {
 
       <FormContent>
         <form onSubmit={handleRegistration} style={{ width: "100%" }}>
-          {/* Error Message */}
-          {errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}{" "}
+          {errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}
           {/*We need to turn off autocomplete in all fields*/}
           <InputContainer>
             <StyledLabel htmlFor="firstName">

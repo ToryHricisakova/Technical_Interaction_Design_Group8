@@ -1,5 +1,6 @@
 import React from "react";
 import Parse from "parse";
+import ProfileHeader from "../Components/ProfileHeader";
 
 const Profile = () => {
   const handleLogout = async function () {
@@ -20,13 +21,13 @@ const Profile = () => {
     <div>
       <h1>Welcome to your Profile Page</h1>
       <p>Tell people about yourself.</p>
-      <button onClick={handleLogout}>Log out</button>
       <p>
         Current user:{" "}
         {Parse.User.current()
           ? Parse.User.current().get("username")
           : "No user logged in"}
       </p>
+      <ProfileHeader />
     </div>
   );
 };
