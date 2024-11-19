@@ -13,13 +13,15 @@ import {
   StyledLabel,
 } from "../SharedCSS";
 import Parse from "parse";
+import styled from "styled-components";
 
-// getCurrentUser and handleLogin inspired by back4app tutorials.
+// handleLogin inspired by back4app tutorials.
 
 const LogInForm = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleLogin = async function (e) {
     e.preventDefault();
@@ -34,21 +36,14 @@ const LogInForm = ({ setIsLoggedIn }) => {
         "Is logged in user equal to currentUser?" +
           (loggedInUser === currentUser)
       );
-      //getCurrentUser(); // superfluous?
+      setIsLoggedIn(true);
       navigate("/profile");
       return true;
     } catch (error) {
-      console.log(error.message);
+      setErrorMsg(error.message);
       return false;
     }
   };
-
-  // const handleLogin = (e) => {
-  // e.preventDefault();
-  // alert(`Logging in...`);
-  // setIsLoggedIn(true);
-  // navigate("/home");
-  // };
 
   return (
     <BasicContainer>
@@ -60,6 +55,7 @@ const LogInForm = ({ setIsLoggedIn }) => {
 
       <FormContent>
         <form onSubmit={handleLogin} style={{ width: "100%" }}>
+          {errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}
           <InputContainer>
             <StyledLabel htmlFor="email">E-mail</StyledLabel>
             <StyledInput
@@ -97,3 +93,11 @@ const LogInForm = ({ setIsLoggedIn }) => {
 };
 
 export default LogInForm;
+
+// style
+const ErrorMessage = styled.p`
+  color: red;
+  font-weight: bold;
+  margin-bottom: 15px;
+  padding: 5px;
+`;

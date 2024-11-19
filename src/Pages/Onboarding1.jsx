@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import HorizontalLine from "../Components/HorizontalLine";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -17,11 +17,45 @@ import {
 } from "../OnboardingCSS.jsx";
 
 const Onboarding1 = () => {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
+  const [file, setFile] = useState("src/MediaFiles/Profile2.svg");
+  const [pronouns, setPronouns] = useState("");
+
+  const fileRef = useRef(null);
+
+  const tempDate = new Date();
+  const startDate = tempDate.setFullYear(tempDate.getFullYear() - 18); // Open calendar at 18 years ago.
+
+  function getFile(event) {
+    setFile(URL.createObjectURL(event.target.files[0]));
+  }
+
+  function handleClick(e) {
+    e.preventDefault();
+    fileRef.current.click();
+  }
+
+  function handleSubmit() {
+    return; // needs to be implemented with backend.
+  }
+
+  // useEffects for debugging:
+
+  useEffect(() => {
+    console.log("Date of birth set to " + date);
+  }, [date]);
+
+  useEffect(() => {
+    console.log("pronouns set to " + pronouns);
+  }, [pronouns]);
+
+  useEffect(() => {
+    console.log("Profile picture URL is " + file);
+  }, [file]);
 
   return (
     <Container>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <MainTitle>Customize Profile - Basic Info</MainTitle>
         <HorizontalLine />
         <Section>
@@ -32,7 +66,13 @@ const Onboarding1 = () => {
           <InfoBlock className="DoB">
             <Boldparagraph>Date of birth:</Boldparagraph>
             <CalenderContainer>
-              <DatePicker selected={date} onChange={(date) => setDate(date)} />
+              <DatePicker
+                showYearDropdown
+                selected={date}
+                openToDate={startDate}
+                onChange={(date) => setDate(date)}
+                placeholderText="Click to select a date"
+              />
               <CalendarIcon icon={faCalendarAlt} />
             </CalenderContainer>
           </InfoBlock>
@@ -46,6 +86,8 @@ const Onboarding1 = () => {
                   type="radio"
                   name="pronouns"
                   id="hehim"
+                  value="He/Him"
+                  onChange={(e) => setPronouns(e.target.value)}
                 />
                 <CheckboxLabel className="checkboxLabel" htmlFor="hehim">
                   He/Him
@@ -57,6 +99,8 @@ const Onboarding1 = () => {
                   type="radio"
                   name="pronouns"
                   id="sheher"
+                  value="She/Her"
+                  onChange={(e) => setPronouns(e.target.value)}
                 />
                 <CheckboxLabel className="checkboxLabel" htmlFor="sheher">
                   She/Her
@@ -68,6 +112,8 @@ const Onboarding1 = () => {
                   type="radio"
                   name="pronouns"
                   id="theythem"
+                  value="They/Them"
+                  onChange={(e) => setPronouns(e.target.value)}
                 />
                 <CheckboxLabel className="checkboxLabel" htmlFor="theythem">
                   They/Them
@@ -79,6 +125,8 @@ const Onboarding1 = () => {
                   type="radio"
                   name="pronouns"
                   id="otherpro"
+                  value="Other"
+                  onChange={(e) => setPronouns(e.target.value)}
                 />
                 <CheckboxLabel className="checkboxLabel" htmlFor="otherpro">
                   Other
@@ -88,8 +136,14 @@ const Onboarding1 = () => {
           </InfoBlock>
 
           <InfoBlock className="ProfilePicture">
-            <Boldparagraph>Profile picture:</Boldparagraph>
-            <Button className="secondary-button">Upload Picture</Button>
+            <Boldparagraph>Profile Picture:</Boldparagraph>
+            <UploadWrapper>
+              <ProfileImage src={file} alt="Profile Picture" />
+              <HiddenInput type="file" onChange={getFile} ref={fileRef} />
+            </UploadWrapper>
+            <Button className="secondary-button" onClick={handleClick}>
+              Upload Picture
+            </Button>
           </InfoBlock>
 
           <InfoBlock className="profileBio">
@@ -103,7 +157,9 @@ const Onboarding1 = () => {
           </InfoBlock>
 
           <NextButton to="/onboarding2">
-            <Button className="primary-button">Next</Button>
+            <Button className="primary-button" type="submit">
+              Next
+            </Button>
           </NextButton>
         </Section>
         <HorizontalLine />
@@ -123,7 +179,6 @@ const InfoBlock = styled.div`
 const RadioButton = styled.div`
   display: flex;
   align-items: center;
-  gap: 0rem;
 `;
 const BioText = styled.textarea`
   background-color: white;
@@ -136,8 +191,8 @@ const BioText = styled.textarea`
 `;
 const CalenderContainer = styled.div`
   display: flex;
+  justify-content: left;
   align-items: center;
-  gap: 20px;
 `;
 const RadiobuttonGrouping = styled.div`
   display: flex;
@@ -147,6 +202,10 @@ const RadiobuttonGrouping = styled.div`
 `;
 const CheckboxLabel = styled.label`
   white-space: nowrap;
+  font-size: 16px;
+  margin: 10px 0;
+  line-height: 1.5;
+  color: #333;
 `;
 const NextButton = styled(Link)`
   display: flex;
@@ -155,7 +214,22 @@ const NextButton = styled(Link)`
   text-decoration: none;
 `;
 const CalendarIcon = styled(FontAwesomeIcon)`
-  transform: translateY(-8%);
   margin-left: 5px;
   color: #424242;
+`;
+const ProfileImage = styled.img`
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px hidden;
+`;
+const UploadWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 15px;
+`;
+const HiddenInput = styled.input`
+  display: none;
 `;

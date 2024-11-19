@@ -58,7 +58,6 @@ const RegistrationForm = () => {
       setErrorMsg("Please fill out all fields correctly.");
       return;
     }
-    setErrorMsg("");
 
     // Check if a user is currently logged in and log them out if a session is active
     if (Parse.User.current()) {
@@ -170,23 +169,12 @@ const RegistrationForm = () => {
 
       <FormContent>
         <form onSubmit={handleRegistration} style={{ width: "100%" }}>
-          {/* Error Message */}
-          {errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}{" "}
+          {errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}
           {/*We need to turn off autocomplete in all fields*/}
           <InputContainer>
             <StyledLabel htmlFor="firstName">
               First name
-              {firstName !== "" ? (
-                <FontAwesomeIcon
-                  icon={faCheck}
-                  style={{ color: "green", marginLeft: "8px" }}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  style={{ color: "red", marginLeft: "8px" }}
-                />
-              )}
+              {firstName !== "" && <CheckmarkGreen icon={faCheck} />}
             </StyledLabel>
             <StyledInput
               type="text"
@@ -200,17 +188,7 @@ const RegistrationForm = () => {
           <InputContainer>
             <StyledLabel htmlFor="lastName">
               Last name
-              {lastName !== "" ? (
-                <FontAwesomeIcon
-                  icon={faCheck}
-                  style={{ color: "green", marginLeft: "8px" }}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  style={{ color: "red", marginLeft: "8px" }}
-                />
-              )}
+              {lastName !== "" && <CheckmarkGreen icon={faCheck} />}
             </StyledLabel>
             <StyledInput
               type="text"
@@ -225,15 +203,9 @@ const RegistrationForm = () => {
             <StyledLabel htmlFor="email">
               E-mail
               {validEmail ? (
-                <FontAwesomeIcon
-                  icon={faCheck}
-                  style={{ color: "green", marginLeft: "8px" }}
-                />
+                <CheckmarkGreen icon={faCheck} />
               ) : (
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  style={{ color: "red", marginLeft: "8px" }}
-                />
+                <CrossRed icon={faTimes} />
               )}
             </StyledLabel>
             <StyledInput
@@ -254,15 +226,9 @@ const RegistrationForm = () => {
                 style={{ color: "grey", marginLeft: "8px" }}
               /> */}
               {validPassword ? (
-                <FontAwesomeIcon
-                  icon={faCheck}
-                  style={{ color: "green", marginLeft: "8px" }}
-                />
+                <CheckmarkGreen icon={faCheck} />
               ) : (
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  style={{ color: "red", marginLeft: "8px" }}
-                />
+                <CrossRed icon={faTimes} />
               )}
             </StyledLabel>
             <PasswordWrapper>
@@ -289,15 +255,9 @@ const RegistrationForm = () => {
             <StyledLabel htmlFor="confirmPassword">
               Confirm password
               {passwordMatch ? (
-                <FontAwesomeIcon
-                  icon={faCheck}
-                  style={{ color: "green", marginLeft: "8px" }}
-                />
+                <CheckmarkGreen icon={faCheck} />
               ) : (
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  style={{ color: "red", marginLeft: "8px" }}
-                />
+                <CrossRed icon={faTimes} />
               )}
             </StyledLabel>
             <PasswordWrapper>
@@ -381,4 +341,12 @@ const Req = styled.p`
   font-size: x-small;
   text-align: left;
   margin-bottom: 0;
+`;
+const CheckmarkGreen = styled(FontAwesomeIcon)`
+  color: green;
+  margin-left: 8px;
+`;
+const CrossRed = styled(FontAwesomeIcon)`
+  color: red;
+  margin-left: 8px;
 `;

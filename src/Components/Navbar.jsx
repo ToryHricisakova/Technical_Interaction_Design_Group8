@@ -9,13 +9,23 @@ import {
   ElementContainer,
   Logo,
 } from "../SharedCSS";
+import Parse from "parse";
 
 const Navbar = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    navigate("/");
+  const handleLogout = async function () {
+    try {
+      await Parse.User.logOut();
+      const currentUser = Parse.User.current();
+      if (currentUser === null) {
+        setIsLoggedIn(false);
+      }
+      navigate("/");
+    } catch (error) {
+      console.log(error.message);
+      return false;
+    }
   };
 
   return (
