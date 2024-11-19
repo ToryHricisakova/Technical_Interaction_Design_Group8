@@ -1,11 +1,13 @@
 import styled from "styled-components";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import Button from "./Button";
+import Parse from "parse";
 
 const ProfileHeader = () => {
-  // Banner edit:
+  const [user, setUser] = useState(null);
+
   const [bannerImg, setBannerImg] = useState(
     "src/MediaFiles/BannerDefault.svg"
   );
@@ -13,17 +15,53 @@ const ProfileHeader = () => {
   const bannerRef = useRef(null);
   const profileImgRef = useRef(null);
 
-  function getBannerImg(event) {
-    setBannerImg(URL.createObjectURL(event.target.files[0]));
-    setBannerImg(convertToBase64);
-    console.log(bannerImg);
-  }
+  // function getBannerImg(event) {
+  //   setBannerImg(URL.createObjectURL(event.target.files[0]));
+  //   setBannerImg(convertToBase64);
+  //   console.log(bannerImg);
+  // }
+
+  const getBannerImg = async (event) => {
+    const image = event.target.files[0];
+    const base64image = await convertToBase64(image);
+    setBannerImg(base64image);
+    updateBannerImg(base64image); // save to DB
+  };
+
+  const updateBannerImg = async (base64image) => {
+    const currentUser = Parse.User.current();
+    const query = new Parse.Query("USERS");
+    query.equalTo("user", currentUser);
+    const userRecord = await query.first();
+    console.log(userRecord);
+    userRecord.set("bannerImage", base64image);
+    await userRecord.save();
+    console.log(currentUser);
+    //let bannerImage = new Parse.Object("bannerImage");
+    //bannerImage.set(currentUser.objectId, )
+  };
+
+  useEffect(() => {
+    console.log("bannerImg set to " + bannerImg);
+  }, [bannerImg]);
+
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
 
   function handleBannerEdit(e) {
     e.preventDefault();
     bannerRef.current.click();
   }
-  // Profile image edit:
 
   function getProfileImg(event) {
     setProfileImg(URL.createObjectURL(event.target.files[0]));
@@ -33,6 +71,24 @@ const ProfileHeader = () => {
     e.preventDefault();
     profileImgRef.current.click();
   }
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      try {
+        const currentUser = Parse.User.current(); // get _User objectId
+        const query = new Parse.Query("USERS");
+        query.equalTo("user", currentUser);
+        const userRecord = await query.first();
+        setUser(userRecord);
+      } catch (error) {
+        console.log("Error fetching user data: " + error.message);
+      }
+    };
+    getCurrentUser();
+    console.log(user);
+  }, []);
+
+  const getProfileName = async () => {};
 
   return (
     <HeaderWrapper>
@@ -53,12 +109,10 @@ const ProfileHeader = () => {
           <Button className="secondary-button">Edit Profile</Button>
         </LeftBlock>
         <MiddleBlock>
-          <Name>Profile Name</Name>
-          <Bio>
-            Former legal professional turned IT enthusiast, leveraging a strong
-            foundation in analytical thinking, problem-solving, and attention to
-            detail to excel in the tech industry. Let's connect!
-          </Bio>
+          <Name>
+            {user && user.get("firstName") + " " + user.get("lastName")}
+          </Name>
+          <Bio>{user && user.get("bio")}</Bio>
         </MiddleBlock>
         <RightBlock>{/* Tags pulled from database */}</RightBlock>
       </ProfileBottom>

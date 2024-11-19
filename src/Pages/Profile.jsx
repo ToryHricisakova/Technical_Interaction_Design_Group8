@@ -17,13 +17,6 @@ const Profile = () => {
 
         <ExpandNetworkBox />
       </PageContentContainer>
-
-      {/* <p>
-        Current user:{" "}
-        {Parse.User.current()
-          ? Parse.User.current().get("username")
-          : "No user logged in"}
-      </p> */}
     </Page>
   );
 };

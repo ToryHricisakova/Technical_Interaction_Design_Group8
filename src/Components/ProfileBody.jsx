@@ -1,9 +1,16 @@
 import styled from "styled-components";
+import Parse from "parse";
 
 const ProfileBody = () => {
   return (
     <BodyWrapper>
       <p>*Body*</p>
+      <p>
+        Current user:{" "}
+        {Parse.User.current()
+          ? Parse.User.current().get("username")
+          : "No user logged in"}
+      </p>
     </BodyWrapper>
   );
 };
