@@ -15,6 +15,8 @@ const ProfileHeader = () => {
 
   function getBannerImg(event) {
     setBannerImg(URL.createObjectURL(event.target.files[0]));
+    setBannerImg(convertToBase64);
+    console.log(bannerImg);
   }
 
   function handleBannerEdit(e) {
