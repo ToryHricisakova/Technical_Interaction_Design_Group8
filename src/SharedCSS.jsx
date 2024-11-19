@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import backgroundImage from "../public/MediaFiles/FrontpageBackground.png";
+import backgroundImage from "./MediaFiles/FrontpageBackground.png";
 
 // Navigation bar & Welcome bar Shared Components
 export const BarBackground = styled.nav`

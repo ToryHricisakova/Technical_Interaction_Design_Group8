@@ -1,5 +1,5 @@
 import React from "react";
-import closeIcon from '../../public/MediaFiles/closeicon.svg';
+import closeIcon from "../MediaFiles/closeicon.svg";
 
 const CloseIcon = ({ onClick }) => {
   const iconStyle = {

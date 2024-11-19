@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import TypeAhead from "../Components/TypeAhead";
-//import fields from "../../public/MediaFiles/fields";
-//we need to import countries for the location typeahead once created
 import Button from "../Components/Button";
 import Parse from "parse";
 import HorizontalLine from "../Components/HorizontalLine";

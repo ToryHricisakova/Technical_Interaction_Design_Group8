@@ -32,7 +32,7 @@ const Navbar = ({ setIsLoggedIn }) => {
     <BarBackground>
       <BarLeft>
         <Link to="/home">
-          <Logo src="public/MediaFiles/Logo.png" alt="CrossConect Logo" />
+          <Logo src="src/MediaFiles/Logo.png" alt="CrossConect Logo" />
         </Link>
       </BarLeft>
 
@@ -56,7 +56,7 @@ const Navbar = ({ setIsLoggedIn }) => {
           <Icon className="bi bi-bell-fill" aria-label="Notifications" />
 
           <Link to="/profile">
-            <ProfileImage src="public/MediaFiles/Profile.png" alt="Profile" />
+            <ProfileImage src="src/MediaFiles/Profile.png" alt="Profile" />
           </Link>
 
           <SearchBar type="text" placeholder="Start typing..." />

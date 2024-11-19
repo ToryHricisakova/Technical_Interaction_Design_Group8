@@ -3,9 +3,7 @@ import HorizontalLine from "../Components/HorizontalLine";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../Components/Button";
 import TypeAhead from "../Components/TypeAhead";
-//import fields from "../../public/MediaFiles/fields";
 import { Link } from "react-router-dom";
-//import skills from "../../public/MediaFiles/skills";
 import styled from "styled-components";
 import {
   Container,
