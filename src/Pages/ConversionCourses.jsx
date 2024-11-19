@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TypeAhead from "../Components/TypeAhead";
-import fields from "../../public/MediaFiles/fields";
+//import fields from "../../public/MediaFiles/fields";
 //we need to import countries for the location typeahead once created
 import Button from "../Components/Button";
+import Parse from "parse";
 import HorizontalLine from "../Components/HorizontalLine";
 import {
   FilterContainer,
@@ -21,8 +22,41 @@ import {
   RadioButton,
   CheckboxLabel,
 } from "../ConversionCoursesCSS";
+import { fetchFields, fetchCountries } from "../DataforTypeAhead";
 
 const ConversionCourses = () => {
+  const [fields, setFields] = useState([]);
+  const [countries, setCountries] = useState([]);
+
+  useEffect(() => {
+    const loadFieldsAndCountries = async () => {
+      const fieldsData = await fetchFields();
+      const countryData = await fetchCountries();
+      setFields(fieldsData);
+      setCountries(countryData);
+    };
+
+    loadFieldsAndCountries();
+  }, []);
+
+  // Fetching conversion course data to display, based on the field being IT
+  // we should probably change the fields to be the same name as the fields in FIELDS
+  // so that it's easier to set up dynamic filtering (if the course name contains the field name, it is displayed)
+  const [queryResults, setQueryResults] = useState();
+  const doQueryByFieldID = async function () {
+    const parseQuery = new Parse.Query("CONVERSION_PROGRAMMES");
+    parseQuery.contains("field", "IT");
+
+    try {
+      let courses = await parseQuery.find();
+      setQueryResults(courses);
+      return true;
+    } catch (error) {
+      alert(`Error! ${error.message}`);
+      return false;
+    }
+  };
+
   return (
     <Container>
       <FilterContainer>
@@ -34,7 +68,7 @@ const ConversionCourses = () => {
           <FilterName>Field</FilterName>
           <TypeAhead
             items={fields}
-            placeholder="Search career fields here..."
+            placeholder="Choose the field here..."
             tagType="field"
           />
         </FilterWrapper>
@@ -58,43 +92,45 @@ const ConversionCourses = () => {
         <FilterWrapper>
           <FilterName>Location</FilterName>
           <TypeAhead
-            items={fields}
-            placeholder="Search career fields here..."
-            tagType="field"
+            items={countries}
+            placeholder="Search countries here..."
+            tagType="country"
           />
         </FilterWrapper>
         <HorizontalLine width={150}></HorizontalLine>
-        <Button className="primary-button">Reset filters</Button>
+        <Button className="primary-button" onClick={() => doQueryByFieldID()}>
+          Search courses
+        </Button>
       </FilterContainer>
       <DisplayContainer>
-        <CourseContainer>
-          <UniLogo
-            src="public/MediaFiles/UniBirmingham.png"
-            alt="University of Birmingham Logo"
-          />
-          <CourseInformation>
-            <CourseName>Computer Science, MSc</CourseName>
-            <UniName>University of Birmingham</UniName>
-            <LocationName>Birmingham, United Kingdom</LocationName>
-          </CourseInformation>
-          <ButtonContainer>
-            <Button className="secondary-button">Go to website</Button>
-          </ButtonContainer>
-        </CourseContainer>
-        <CourseContainer>
-          <UniLogo
-            src="public/MediaFiles/UniBirmingham.png"
-            alt="University of Birmingham Logo"
-          />
-          <CourseInformation>
-            <CourseName>Computer Science, MSc</CourseName>
-            <UniName>University of Birmingham</UniName>
-            <LocationName>Birmingham, United Kingdom</LocationName>
-          </CourseInformation>
-          <ButtonContainer>
-            <Button className="secondary-button">Go to website</Button>
-          </ButtonContainer>
-        </CourseContainer>
+        {queryResults && queryResults.length === 0 ? (
+          <p>{"No results here!"}</p>
+        ) : (
+          queryResults !== undefined &&
+          queryResults.map((course) => {
+            return (
+              <CourseContainer key={course.objectId || course.id}>
+                <UniLogo
+                  src={course.get("uniLogoUrl")}
+                  alt="University of Birmingham Logo"
+                />
+                <CourseInformation>
+                  <CourseName>{course.get("programmeName")}</CourseName>
+                  <UniName>{course.get("institution")}</UniName>
+                  <LocationName>{course.get("location")}</LocationName>
+                </CourseInformation>
+                <ButtonContainer>
+                  <Button
+                    className="secondary-button"
+                    href={course.get("webUrl")}
+                  >
+                    Go to website
+                  </Button>
+                </ButtonContainer>
+              </CourseContainer>
+            );
+          })
+        )}
       </DisplayContainer>
     </Container>
   );

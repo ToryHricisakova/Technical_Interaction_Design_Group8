@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
+  margin-top: 100px;
 `;
 
 export const FilterContainer = styled.div`
@@ -29,7 +30,6 @@ export const CourseContainer = styled.div`
   display: flex;
   width: 500px;
   padding: 10px;
-  position: relative;
   justify-content: space-between;
   align-items: center;
 `;
@@ -83,9 +83,8 @@ export const LocationName = styled.p`
 `;
 
 export const ButtonContainer = styled.div`
-  position: absolute;
-  right: 10px;
-  top: 10px;
+  margin-left: auto;
+  flex-shrink: 0;
 `;
 
 export const CourseInformation = styled.div`
