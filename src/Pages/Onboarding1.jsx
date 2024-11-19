@@ -15,19 +15,23 @@ import {
   Boldparagraph,
   Section,
 } from "../OnboardingCSS.jsx";
+import Parse from "parse";
 
 const Onboarding1 = () => {
-  const [date, setDate] = useState(null);
-  const [file, setFile] = useState("src/MediaFiles/Profile2.svg");
+  const [dateOfBirth, setDateOfBirth] = useState(null);
+  const [profilePhoto, setProfilePhoto] = useState(
+    "src/MediaFiles/Profile2.svg"
+  );
   const [pronouns, setPronouns] = useState("");
+  const [profileBio, setProfileBio] = useState("");
 
   const fileRef = useRef(null);
 
   const tempDate = new Date();
   const startDate = tempDate.setFullYear(tempDate.getFullYear() - 18); // Open calendar at 18 years ago.
 
-  function getFile(event) {
-    setFile(URL.createObjectURL(event.target.files[0]));
+  function getProfilePhoto(event) {
+    setProfilePhoto(URL.createObjectURL(event.target.files[0]));
   }
 
   function handleClick(e) {
@@ -42,16 +46,20 @@ const Onboarding1 = () => {
   // useEffects for debugging:
 
   useEffect(() => {
-    console.log("Date of birth set to " + date);
-  }, [date]);
+    console.log("Date of birth set to " + dateOfBirth);
+  }, [dateOfBirth]);
 
   useEffect(() => {
-    console.log("pronouns set to " + pronouns);
+    console.log("Pronouns set to " + pronouns);
   }, [pronouns]);
 
   useEffect(() => {
-    console.log("Profile picture URL is " + file);
-  }, [file]);
+    console.log("Profile picture URL is " + profilePhoto);
+  }, [profilePhoto]);
+
+  useEffect(() => {
+    console.log("Bio is set to " + profileBio);
+  }, [profileBio]);
 
   return (
     <Container>
@@ -68,9 +76,9 @@ const Onboarding1 = () => {
             <CalenderContainer>
               <DatePicker
                 showYearDropdown
-                selected={date}
+                selected={dateOfBirth}
                 openToDate={startDate}
-                onChange={(date) => setDate(date)}
+                onChange={(dateOfBirth) => setDateOfBirth(dateOfBirth)}
                 placeholderText="Click to select a date"
               />
               <CalendarIcon icon={faCalendarAlt} />
@@ -138,8 +146,12 @@ const Onboarding1 = () => {
           <InfoBlock className="ProfilePicture">
             <Boldparagraph>Profile Picture:</Boldparagraph>
             <UploadWrapper>
-              <ProfileImage src={file} alt="Profile Picture" />
-              <HiddenInput type="file" onChange={getFile} ref={fileRef} />
+              <ProfileImage src={profilePhoto} alt="Profile Picture" />
+              <HiddenInput
+                type="file"
+                onChange={getProfilePhoto}
+                ref={fileRef}
+              />
             </UploadWrapper>
             <Button className="secondary-button" onClick={handleClick}>
               Upload Picture
@@ -153,6 +165,7 @@ const Onboarding1 = () => {
               rows="5"
               cols="33"
               placeholder="Write your bio here..."
+              onChange={(e) => setProfileBio(e.target.value)}
             />
           </InfoBlock>
 
