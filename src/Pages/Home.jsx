@@ -3,6 +3,10 @@ import styled from "styled-components";
 import Post from "../Components/Post";
 import PostingContainer from "../Components/PostingContainer";
 
+{/* The home page is static for now as we are trying to figure out how
+  to fetch post data from the backend.*/}
+
+
 const Home = () => {
   return (
     <HomePage>
