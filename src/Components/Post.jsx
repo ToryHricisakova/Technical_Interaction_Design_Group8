@@ -1,89 +1,110 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import BasicContainer from "../SharedCSS";
+import LikeIcon from "./LikeIcon";
 
-const Post = ({ profileImage, name, text }) => {
-  const [likes, setLikes] = useState(0);
-
-  const handleLike = () => {
-    setLikes(likes + 1);
-  };
-
+const Post = ({ profileImage, name, profession, text }) => {
   return (
-    <BasicContainer>
-      <ProfileSection>
+    <PostContainer>
+      <PostHeader>
         <ProfileImage src={profileImage} alt={`${name}'s profile`} />
-        <ProfileName>{name}</ProfileName>
-      </ProfileSection>
-
-      <PostText>{text}</PostText>
-
-      <ActionSection>
-        <ActionItem onClick={handleLike}>
-          <BsHeart />
-          <ActionText>{likes} Likes</ActionText>
-        </ActionItem>
-        <ActionItem>
-          <BsChat />
-          <ActionText>Comment</ActionText>
-        </ActionItem>
-        <ActionItem>
-          <BsShare />
-          <ActionText>Share</ActionText>
-        </ActionItem>
-      </ActionSection>
-    </BasicContainer>
+        <UserInfo>
+          <UserName>{name}</UserName>
+          <UserProfession>{profession}</UserProfession>
+        </UserInfo>
+      </PostHeader>
+      <PostContent>{text}</PostContent>
+      <PostDate>Just now</PostDate>
+      <PostActions>
+        <LikeIcon />
+        <ActionIcon className="bi bi-chat" />
+        <ActionIcon className="bi bi-share" />
+      </PostActions>
+    </PostContainer>
   );
 };
 
-const ProfileSection = styled.div`
+// Styled Components
+
+const PostContainer = styled.div`
+  max-width: 500px;  
+  width: 100%;      
+  padding: 32px 48px;
+  border-radius: 10px;
+  box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  position: relative;
+`;
+
+const PostHeader = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  gap: 10px;
+  justify-content: flex-start;
 `;
 
 const ProfileImage = styled.img`
-  height: 40px;
   width: 40px;
+  height: 40px;
   border-radius: 50%;
   margin-right: 10px;
+  align-items: flex-start;
 `;
 
-const ProfileName = styled.span`
-  font-size: 18px;
+const UserInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
+
+const UserName = styled.span`
+  font-size: 16px;
   font-weight: bold;
   color: #34415d;
+
 `;
 
-const PostText = styled.p`
-  font-size: 16px;
-  line-height: 24px;
+const UserProfession = styled.span`
+  font-size: 14px;
+  color: #888;
+  margin-top: 4px;
+  justify-content: flex-start;
+`;
+
+const PostDate = styled.span`
+  font-size: 12px;
+  color: #888;
+  text-align: left;
+`;
+
+const PostContent = styled.div`
+  font-size: 14px;
   color: #333;
-  margin: 10px 0;
+  margin-bottom: 12px;
+  line-height: 1.5;
+  text-align: left;
 `;
 
-const ActionSection = styled.div`
+const PostActions = styled.div`
+  justify-content: flex-start;  
   display: flex;
-  justify-content: space-around;
-  margin-top: 10px;
+  gap: 20px;
+  margin-top: 10px; 
 `;
 
-const ActionItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
+const ActionIcon = styled.i`
+  font-size: 20px;
   color: #34415d;
-  transition: color 0.3s ease;
+  cursor: pointer;
 
   &:hover {
     color: #e47347;
   }
-`;
-
-const ActionText = styled.span`
-  font-size: 16px;
-  color: inherit;
 `;
 
 export default Post;
