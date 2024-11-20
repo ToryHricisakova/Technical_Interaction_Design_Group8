@@ -19,6 +19,7 @@ import Parse from "parse";
 import { useNavigate } from "react-router-dom";
 
 const Onboarding1 = () => {
+
   const navigate = useNavigate();
 
   async function handleSavingAdditionalInfo() {
@@ -57,6 +58,7 @@ const Onboarding1 = () => {
   const [profilePhoto, setProfilePhoto] = useState(
     "src/MediaFiles/Profile2.svg"
   );
+  
   const [pronouns, setPronouns] = useState("");
   const [profileBio, setProfileBio] = useState("");
 
