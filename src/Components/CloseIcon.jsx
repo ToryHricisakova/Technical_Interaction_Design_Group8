@@ -1,5 +1,5 @@
 import React from "react";
-import closeIcon from '../MediaFiles/closeicon.svg';
+import closeIcon from "../MediaFiles/closeicon.svg";
 
 const CloseIcon = ({ onClick }) => {
   const iconStyle = {
@@ -9,7 +9,6 @@ const CloseIcon = ({ onClick }) => {
     position: "absolute",
     top: "30px",
     right: "30px",
-    //zIndex: 1000, // Ensure it's on top of other elements
   };
 
   return (

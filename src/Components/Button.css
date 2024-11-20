@@ -4,6 +4,7 @@
   padding: 10px 20px;
   border-color: rgba(228, 115, 71, 1);
   cursor: pointer;
+  border-radius: 8px;
 }
 
 .primary-button:hover {
@@ -14,10 +15,13 @@
 
 .secondary-button {
   background-color: white;
+  border-color: rgba(228, 115, 71, 1);
+  border: 1px solid;
   color: rgba(228, 115, 71, 1);
   padding: 10px 20px;
-  border-color: rgba(228, 115, 71, 1);
   cursor: pointer;
+  border-radius: 8px;
+  text-decoration: none;
 }
 
 .secondary-button:hover {

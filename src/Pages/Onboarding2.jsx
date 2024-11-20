@@ -1,144 +1,185 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import HorizontalLine from "../Components/HorizontalLine";
 import "react-datepicker/dist/react-datepicker.css";
-import PrimaryButton from "../Components/PrimaryButton";
-import SecondaryButton from "../Components/SecondaryButton";
+import Button from "../Components/Button";
 import TypeAhead from "../Components/TypeAhead";
-import Tag from "../Components/Tag";
-import fields from "../MediaFiles/fields";
 import { Link } from "react-router-dom";
-import skills from "../MediaFiles/skills";
+import styled from "styled-components";
+import {
+  Container,
+  Form,
+  MainTitle,
+  Paragraph,
+  Boldparagraph,
+  Section,
+} from "../OnboardingCSS";
+import { fetchFields, fetchSkills } from "../DataforTypeAhead";
+import { useNavigate } from "react-router-dom";
+import Parse from "parse";
 
+// Mark the user as logged in (this has to be reflected in App.jsx!)
 const Onboarding2 = ({ setIsLoggedIn }) => {
+  const navigate = useNavigate();
+  // adding functionality for back4app
+
+  const [fields, setFields] = useState([]); //setting the fields array
+  const [skills, setSkills] = useState([]); //setting the skills array
+  const [selectedFields, setSelectedFields] = useState([]); //array that will store the selected fields by the user
+  const [selectedSkills, setSelectedSkills] = useState([]); //array that will store the selected skills by the user
+
+  useEffect(() => {
+    const loadFieldsAndSkills = async () => {
+      //asynchronously fetches data for fields and skills from fetchFields() and fetchSkills()
+      const fieldsData = await fetchFields();
+      const skillsData = await fetchSkills();
+      setFields(fieldsData); //once data is fetched, fields array is updated with selected values
+      setSkills(skillsData);
+    };
+
+    loadFieldsAndSkills();
+  }, []);
+
+  async function handleSavingAdditionalInfo() {
+    //saves the selected fields and skills into USERS
+    const currentUser = Parse.User.current(); //fetches current user
+
+    if (!currentUser) {
+      console.error("No user is logged in.");
+      return;
+    }
+
+    const USERS = Parse.Object.extend("USERS");
+    const query = new Parse.Query(USERS);
+    query.equalTo("user", currentUser);
+
+    try {
+      const userRow = await query.first();
+      // console.log("Queried user row:", userRow);
+
+      if (!userRow) {
+        //if the row exists, it is populated with the selected field(s) and skill(s)
+        console.error("No USERS entry found for the current user.");
+        return;
+      }
+
+      userRow.set("fields", selectedFields);
+      userRow.set("skills", selectedSkills);
+
+      // console.log("Selected Fields:", selectedFields);
+      // console.log("Selected Skills:", selectedSkills);
+
+      await userRow.save(); //saving the updated skills and fields and navigates to the profile
+      // console.log("USERS entry updated successfully!");
+      navigate("/profile");
+    } catch (error) {
+      console.error("Error updating USERS entry:", error.message);
+    }
+  }
 
   const handleFinish = () => {
-    setIsLoggedIn(true); 
+    //marks the user as logged in, saves the selected fields and skills to USERS (upon clicking Finish)
+    setIsLoggedIn(true);
+    handleSavingAdditionalInfo();
   };
 
+  useEffect(() => {
+    console.log("Updated selected fields:", selectedFields); // Debugging
+  }, [selectedFields]); // This will run whenever selectedFields changes
+
+  useEffect(() => {
+    console.log("Updated selected skills:", selectedSkills); // Debugging
+  }, [selectedSkills]);
+
   return (
-    <div style={styles.container}>
-      <form style={styles.form} >
-        <h1 style={styles.mainTitle}>Customize Profile - Career Fields</h1>
+    <Container>
+      <Form>
+        <MainTitle>Customize Profile - Career Fields</MainTitle>
         <HorizontalLine />
-        <div style={styles.section}>
-          <div style={styles.boldparagraph}>Field of work/study</div>
-          <div style={styles.paragraph}>
+        <Section>
+          <Boldparagraph>Field of work/study</Boldparagraph>
+          <Paragraph>
             Add the professional fields that you are working or studying in. The
-            fields you add will help others to find you based on your combination of
-            areas of expertise.
-          </div>
-          <div className="Fields" style={styles.typeAhead}>
+            fields you add will help others to find you based on your
+            combination of areas of expertise.
+          </Paragraph>
+          <TypeAheadWrapper>
             {
               <TypeAhead
-                items={fields}
+                items={fields} //should be from the dynamically fetched data
                 placeholder="Search career fields here..."
                 tagType="field"
+                //onSelectionChange={(selected) => setSelectedFields(selected)}
+                onSelectionChange={(updatedFields) => {
+                  // console.log("Updated Fields from TypeAhead:", updatedFields),
+                  setSelectedFields(updatedFields);
+                }}
               />
             }
-          </div>
-          {/* <div className="addedFields">
-            <div style={styles.boldparagraph}>Added fields:</div>
-          </div> */}
-        </div>
-        <hr style={styles.dividerLine}/>
-        <div style={styles.section}>
-          <div style={styles.boldparagraph}>Skills</div>
-          <div style={styles.paragraph}>  
-            Add tags to your profile to showcase your skills in different areas. The
-            more detailed you are, the more likely you are to find relevant
+          </TypeAheadWrapper>
+        </Section>
+
+        <DividerLine />
+
+        <Section>
+          <Boldparagraph>Skills</Boldparagraph>
+          <Paragraph>
+            Add tags to your profile to showcase your skills in different areas.
+            The more detailed you are, the more likely you are to find relevant
             connections and posts on the site.
-          </div>
-          <div className="Skills" style={styles.typeAhead}>
+          </Paragraph>
+          <TypeAheadWrapper>
             {
               <TypeAhead
-                items={skills}
+                items={skills} //should be from dynamically fetched data
                 placeholder="Search skills here..."
                 tagType="skill"
+                //onSelectionChange={(selected) => setSelectedSkills(selected)}
+                onSelectionChange={(updatedSkills) =>
+                  setSelectedSkills(updatedSkills)
+                }
               />
             }
-          </div>
-          {/* <div className="addedSkills">
-            <div style={styles.boldparagraph}>Added skills:</div>
-          </div> */}
-        </div>
+          </TypeAheadWrapper>
+        </Section>
 
-        <div style={styles.buttons}>
+        <Buttons>
           <Link to="/onboarding1">
-            <SecondaryButton>Back</SecondaryButton>
+            <Button
+              className="secondary-button"
+              onClick={() => navigate("/onboarding1")}
+            >
+              Back
+            </Button>
           </Link>
           <Link to="/profile">
-            <PrimaryButton onClick={handleFinish} >Finish</PrimaryButton>
+            <Button
+              className="primary-button"
+              onClick={() => {
+                handleFinish();
+              }}
+            >
+              Finish
+            </Button>
           </Link>
-          {/*<PrimaryButton onClick={handleFinish} style={styles.nextButton}>
-            Finish
-          </PrimaryButton>*/}
-        </div>
+        </Buttons>
         <HorizontalLine />
-      </form>
-    </div>
+      </Form>
+    </Container>
   );
 };
 
 export default Onboarding2;
 
 //Styling
-const styles = {
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: "100vh",
-    height: '100vh',
-    width: '100vw',
-    position: 'relative',
-  },
-  form: {
-    backgroundColor: "rgba(245, 245, 245, 1)",
-    borderRadius: "20px",
-    padding: "45px",
-    width: "550px",
-    position: "absolute",
-    textAlign: "left",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-  },
-  mainTitle: {
-    fontSize: "2em",
-    margin: "0 0 10px 0",
-    color: "#35415D",
-    fontFamily: "Inter, sans-serif",
-    fontWeight: "bold",
-  },
-  paragraph: {
-    fontSize: "1em",
-    margin: "10px 0",
-    lineHeight: "1.5",
-    color: "#333",
-  },
-  boldparagraph: {
-    fontSize: "1em",
-    margin: "10px 0",
-    lineHeight: "1.5",
-    color: "#333",
-    fontWeight: "bold",
-  },
-  biotext: {
-    width: "100%",
-    color: "black",
-    fontFamily: "Inter, sans-serif",
-  },
-  buttons: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: "1rem",
-  },
-  typeAhead: {
-    padding: "0 0 30px 0",
-  },
-  dividerLine: {
-    border: "1px solid #dbdbdb",
-    marginBottom: "30px",
-  },
-  section: {
-    margin: "20px 0 10px 0",
-  },
-};
+const Buttons = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+`;
+const TypeAheadWrapper = styled.div`
+  padding: 0 0 30px 0;
+`;
+const DividerLine = styled.hr`
+  border: 1px solid #dbdbdb;
+  margin-bottom: 30px;
+`;

@@ -1,201 +1,290 @@
-import React, { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import HorizontalLine from "../Components/HorizontalLine";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import PrimaryButton from "../Components/PrimaryButton";
-import SecondaryButton from "../Components/SecondaryButton";
+import Button from "../Components/Button";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
-import { width } from "@fortawesome/free-solid-svg-icons/fa0";
+import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
+import {
+  Container,
+  Form,
+  MainTitle,
+  Paragraph,
+  Boldparagraph,
+  Section,
+} from "../OnboardingCSS.jsx";
+import Parse from "parse";
+import { useNavigate } from "react-router-dom";
 
 const Onboarding1 = () => {
-  const [date, setDate] = useState(new Date());
+
+  const navigate = useNavigate();
+
+  async function handleSavingAdditionalInfo() {
+    const currentUser = Parse.User.current();
+
+    if (!currentUser) {
+      console.error("No user is logged in.");
+      return;
+    }
+
+    const USERS = Parse.Object.extend("USERS");
+    const query = new Parse.Query(USERS);
+    query.equalTo("user", currentUser);
+
+    try {
+      const userRow = await query.first();
+      if (!userRow) {
+        console.error("No USERS entry found for the current user.");
+        return;
+      }
+
+      userRow.set("dateOfBirth", dateOfBirth);
+      userRow.set("gender", pronouns);
+      userRow.set("profileBio", profileBio);
+      userRow.set("profilePhoto", profilePhoto);
+      await userRow.save();
+      console.log("USERS entry updated successfully!");
+
+      navigate("/onboarding2");
+    } catch (error) {
+      console.error("Error updating USERS entry:", error.message);
+    }
+  }
+
+  const [dateOfBirth, setDateOfBirth] = useState(null);
+  const [profilePhoto, setProfilePhoto] = useState(
+    "src/MediaFiles/Profile2.svg"
+  );
+  
+  const [pronouns, setPronouns] = useState("");
+  const [profileBio, setProfileBio] = useState("");
+
+  const fileRef = useRef(null);
+
+  const tempDate = new Date();
+  const startDate = tempDate.setFullYear(tempDate.getFullYear() - 18); // Open calendar at 18 years ago.
+
+  function getProfilePhoto(event) {
+    setProfilePhoto(URL.createObjectURL(event.target.files[0]));
+  }
+
+  function handleClick(e) {
+    e.preventDefault();
+    fileRef.current.click();
+  }
+
+  // function handleSubmit() {
+  //   return; // needs to be implemented with backend.
+  // }
+
+  // useEffects for debugging:
+
+  useEffect(() => {
+    console.log("Date of birth set to " + dateOfBirth);
+  }, [dateOfBirth]);
+
+  useEffect(() => {
+    console.log("Pronouns set to " + pronouns);
+  }, [pronouns]);
+
+  useEffect(() => {
+    console.log("Profile picture URL is " + profilePhoto);
+  }, [profilePhoto]);
+
+  useEffect(() => {
+    console.log("Bio is set to " + profileBio);
+  }, [profileBio]);
 
   return (
-    <div style={styles.container}>
-      <form style={styles.form}>
-        <h1 style={styles.mainTitle}>Customize Profile - Basic Info</h1>
+    <Container>
+      {/* <Form onSubmit={handleSubmit}> */}
+      <Form>
+        <MainTitle>Customize Profile - Basic Info</MainTitle>
         <HorizontalLine />
-        <div style={styles.section}>
-          <div style={styles.paragraph}>
-            Personalize your profile by uploading a profile picture and adding some
-            basic information about yourself.
-          </div>
-          <div style={styles.infoGrid}>
-            <div className="DoB" style={styles.infoBlock}>
-              <div style={styles.boldparagraph}>Date of birth:</div>
-              <div style={styles.calenderContainer}>
-                <div>
-                  <DatePicker selected={date} onChange={(date) => setDate(date)} />
-                </div>
-                <FontAwesomeIcon
-                  icon={faCalendarAlt} style={styles.calenderIcon}
+        <Section>
+          <Paragraph>
+            Personalize your profile by uploading a profile picture and adding
+            some basic information about yourself.
+          </Paragraph>
+          <InfoBlock className="DoB">
+            <Boldparagraph>Date of birth:</Boldparagraph>
+            <CalenderContainer>
+              <DatePicker
+                showYearDropdown
+                selected={dateOfBirth}
+                openToDate={startDate}
+                onChange={(dateOfBirth) => setDateOfBirth(dateOfBirth)}
+                placeholderText="Click to select a date"
+              />
+              <CalendarIcon icon={faCalendarAlt} />
+            </CalenderContainer>
+          </InfoBlock>
+
+          <InfoBlock className="pronouns">
+            <Boldparagraph>Pronouns:</Boldparagraph>
+            <RadiobuttonGrouping>
+              <RadioButton>
+                <input
+                  className="radioButton"
+                  type="radio"
+                  name="pronouns"
+                  id="hehim"
+                  value="He/Him"
+                  onChange={(e) => setPronouns(e.target.value)}
                 />
-              </div>
-            </div>
-            <div className="pronouns" style={styles.infoBlock}>
-              <div style={styles.boldparagraph}>Pronouns:</div>
-              <div style={styles.radiobuttonGrouping}>
-                <div style={styles.radiobutton}>
-                  <input
-                    className="radioButton"
-                    type="radio"
-                    name="pronouns"
-                    id="hehim"
-                  />
-                  <label className="checkboxLabel" style={styles.checkboxLabel} htmlFor="hehim">
-                    He/Him
-                  </label>
-                </div>
-                <div style={styles.radiobutton}>
-                  <input
-                    className="radioButton"
-                    type="radio"
-                    name="pronouns"
-                    id="sheher"
-                  />
-                  <label className="checkboxLabel" style={styles.checkboxLabel} htmlFor="sheher">
-                    She/Her
-                  </label>
-                </div>
-                <div style={styles.radiobutton}>
-                  <input
-                    className="radioButton"
-                    type="radio"
-                    name="pronouns"
-                    id="theythem"
-                  />
-                  <label className="checkboxLabel" style={styles.checkboxLabel} htmlFor="theythem">
-                    They/Them
-                  </label>
-                </div>
-                <div style={styles.radiobutton}>
-                  <input
-                    className="radioButton"
-                    type="radio"
-                    name="pronouns"
-                    id="otherpro"
-                  />
-                  <label className="checkboxLabel" htmlFor="otherpro">
-                    Other
-                  </label>
-                </div>
-              </div>
-            </div>
+                <CheckboxLabel className="checkboxLabel" htmlFor="hehim">
+                  He/Him
+                </CheckboxLabel>
+              </RadioButton>
+              <RadioButton>
+                <input
+                  className="radioButton"
+                  type="radio"
+                  name="pronouns"
+                  id="sheher"
+                  value="She/Her"
+                  onChange={(e) => setPronouns(e.target.value)}
+                />
+                <CheckboxLabel className="checkboxLabel" htmlFor="sheher">
+                  She/Her
+                </CheckboxLabel>
+              </RadioButton>
+              <RadioButton>
+                <input
+                  className="radioButton"
+                  type="radio"
+                  name="pronouns"
+                  id="theythem"
+                  value="They/Them"
+                  onChange={(e) => setPronouns(e.target.value)}
+                />
+                <CheckboxLabel className="checkboxLabel" htmlFor="theythem">
+                  They/Them
+                </CheckboxLabel>
+              </RadioButton>
+              <RadioButton>
+                <input
+                  className="radioButton"
+                  type="radio"
+                  name="pronouns"
+                  id="otherpro"
+                  value="Other"
+                  onChange={(e) => setPronouns(e.target.value)}
+                />
+                <CheckboxLabel className="checkboxLabel" htmlFor="otherpro">
+                  Other
+                </CheckboxLabel>
+              </RadioButton>
+            </RadiobuttonGrouping>
+          </InfoBlock>
 
-            <div className="ProfilePicture" style={styles.infoBlock}>
-              <div style={styles.boldparagraph}>Profile picture:</div>
-              <SecondaryButton>Upload Picture</SecondaryButton>
-            </div>
+          <InfoBlock className="ProfilePicture">
+            <Boldparagraph>Profile Picture:</Boldparagraph>
+            <UploadWrapper>
+              <ProfileImage src={profilePhoto} alt="Profile Picture" />
+              <HiddenInput
+                type="file"
+                onChange={getProfilePhoto}
+                ref={fileRef}
+              />
+            </UploadWrapper>
+            <Button className="secondary-button" onClick={handleClick}>
+              Upload Picture
+            </Button>
+          </InfoBlock>
 
-            <div className="profileBio" style={styles.infoBlock}>
-              <div style={styles.boldparagraph}>Profile bio:</div>
-              <textarea style={styles.biotext} id="bioinfo" rows="5" cols="33" placeholder="Write your bio here..."/>
-            </div>
-          </div>
-          <Link to="/onboarding2" style={styles.nextButton}>
-            <PrimaryButton>Next</PrimaryButton>
-          </Link>
-        </div>
+          <InfoBlock className="profileBio">
+            <Boldparagraph>Profile bio:</Boldparagraph>
+            <BioText
+              id="bioinfo"
+              rows="5"
+              cols="33"
+              placeholder="Write your bio here..."
+              onChange={(e) => setProfileBio(e.target.value)}
+            />
+          </InfoBlock>
+
+          <NextButton to="/onboarding2">
+            <Button
+              className="primary-button"
+              type="button"
+              onClick={handleSavingAdditionalInfo}
+            >
+              Next
+            </Button>
+          </NextButton>
+        </Section>
         <HorizontalLine />
-        </form>
-      </div>
+      </Form>
+    </Container>
   );
 };
 
 export default Onboarding1;
 
-//Styling
-const styles = {
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: "100vh",
-    height: '100vh',
-    width: '100vw',
-    position: 'relative',
-  },
-  form: {    
-    backgroundColor: "rgba(245, 245, 245, 1)",
-    borderRadius: "20px",
-    padding: "45px",
-    width: "550px",
-    position: "relative",
-    textAlign: "left",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-  },
-  mainTitle: {
-    fontSize: "2em",
-    margin: "0 0 10px 0",
-    color: "#35415D",
-    fontFamily: "Inter, sans-serif",
-    fontWeight: "bold",
-  },
-  paragraph: {
-    fontSize: "1em",
-    margin: "10px 0",
-    lineHeight: "1.5",
-    color: "#333",
-  },
-  boldparagraph: {
-    fontSize: "1em",
-    margin: "10px 0",
-    lineHeight: "1.5",
-    color: "#333",
-    fontWeight: "bold",
-  },
-  biotext: {
-    backgroundColor: "white",
-    padding: "15px",
-    width: "100%",
-    resize: "none",
-    color: "black",
-    marginBottom: "1rem",
-
-  },
-  radiobutton: {
-    display: "flex",
-    alignItems: "center",
-    gap: "0rem",
-  },
-  radiobuttonGrouping: {
-    display: "flex",
-    gap: "1rem",
-    justifyContent: "left",
-    height: "15px",
-  },
-  checkboxLabel: {
-    flexShrink: "0", // Prevents the labels from splitting into two lines.
-  },
-  nextButton: {
-    display: "flex",
-    justifyContent: "flex-end",
-    marginBottom: "1rem"
-  },
-  infoBlock: {
-    paddingBottom: "15px",
-    borderRadius: "20px",
-    width: "550px",
-  },
-  // infoGrid: {
-  //   display: "flex",
-  //   flexWrap: "wrap",
-  //   justifyContent: "space-between",
-  //   gap: "20px",
-  // }
-  calenderContainer: {
-    display: "flex",
-    alignItems: "center",
-    gap: "20px",
-  },
-  calenderIcon: {
-    transform: "translateY(-8%)",
-    marginLeft: "5px",
-    color: "#424242",
-  },
-  section: {
-    margin: "20px 0 10px 0",
-  },
-};
+// Styling
+const InfoBlock = styled.div`
+  padding-bottom: 15px;
+  border-radius: 20px;
+  width: 550px;
+`;
+const RadioButton = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const BioText = styled.textarea`
+  background-color: white;
+  padding: 15px;
+  width: 100%;
+  resize: none;
+  color: black;
+  margin-bottom: 15px;
+  box-sizing: border-box; // Prevents box from expanding when extra padding is added.
+`;
+const CalenderContainer = styled.div`
+  display: flex;
+  justify-content: left;
+  align-items: center;
+`;
+const RadiobuttonGrouping = styled.div`
+  display: flex;
+  gap: 15px;
+  justify-content: left;
+  height: 15px;
+`;
+const CheckboxLabel = styled.label`
+  white-space: nowrap;
+  font-size: 16px;
+  margin: 10px 0;
+  line-height: 1.5;
+  color: #333;
+`;
+const NextButton = styled(Link)`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+  text-decoration: none;
+`;
+const CalendarIcon = styled(FontAwesomeIcon)`
+  margin-left: 5px;
+  color: #424242;
+`;
+const ProfileImage = styled.img`
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px hidden;
+`;
+const UploadWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 15px;
+`;
+const HiddenInput = styled.input`
+  display: none;
+`;

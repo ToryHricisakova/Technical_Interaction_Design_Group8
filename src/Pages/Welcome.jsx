@@ -1,59 +1,53 @@
-import React from 'react';
-import WelcomeMessage from '../Components/WelcomeMessage';
-import backgroundImage from '../MediaFiles/FrontpageBackground.png';
+import React from "react";
+import { Link } from "react-router-dom";
+import Button from "../Components/Button";
+import {
+  Container,
+  MainTitle,
+  SubTitle,
+  HighlightTextColor,
+  PrimaryTextColor,
+  Paragraph,
+  ButtonContainer,
+} from "../WelcomeMessageCSS.jsx";
+import { PageWithImage } from "../SharedCSS";
 
 const Welcome = () => {
   return (
-    <div style={styles.welcome}>
-      <WelcomeMessage />
-    </div>
-  );
-};
+    <PageWithImage>
+      <Container>
+        <MainTitle>Welcome</MainTitle>
+        <SubTitle>
+          <HighlightTextColor>Join</HighlightTextColor>{" "}
+          <PrimaryTextColor>the</PrimaryTextColor>{" "}
+          <HighlightTextColor>community</HighlightTextColor>
+        </SubTitle>
+        <Paragraph>
+          Welcome to CrossConnect, the social hub for cross-disciplinary
+          professionals!
+        </Paragraph>
+        <Paragraph>
+          Add tags to your profile to showcase the fields you work in, whether
+          it’s law, IT, marketing, or beyond.
+        </Paragraph>
+        <Paragraph>
+          Connect with colleagues across industries, discover opportunities, and
+          explore job posts tailored to your unique skill set.
+        </Paragraph>
 
-// Combined Styles
-const styles = {
-  welcome: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-end',
-    height: '100vh',
-    width: '100vw',
-    backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    position: 'relative',
-  },
-  mainTitle: {
-    fontSize: '4em',
-    margin: '0 0 10px 0',
-    color: '#35415D',
-    fontFamily: 'Inter, sans-serif',
-    fontWeight: 'bold',
-  },
-  subTitle: {
-    fontSize: '2em',
-    margin: '0 0 20px 0',
-    fontFamily: 'Inter, sans-serif',
-    fontWeight: 'bold',
-  },
-  highlight: {
-    color: '#E47347',
-    fontWeight: 'bold',
-  },
-  secondary: {
-    color: '#35415D',
-  },
-  paragraph: {
-    fontSize: '1em',
-    margin: '10px 0',
-    lineHeight: '1.5',
-    color: '#333',
-  },
-  buttonContainer: {
-    display: 'flex',
-    gap: '15px',
-    marginTop: '20px',
-  },
+        <ButtonContainer>
+          <Link to="/login">
+            {" "}
+            <Button className="primary-button">Login</Button>
+          </Link>
+          <Link to="/register">
+            {" "}
+            <Button className="secondary-button">Register</Button>
+          </Link>
+        </ButtonContainer>
+      </Container>
+    </PageWithImage>
+  );
 };
 
 export default Welcome;

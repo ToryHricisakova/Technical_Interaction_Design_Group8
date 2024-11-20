@@ -1,29 +1,14 @@
 import React from 'react';
 import LogInForm from '../Components/LogInForm';
-import backgroundImage from '../MediaFiles/FrontpageBackground.png';
+import { PageWithImage } from '../SharedCSS';
 
 const Login = ({ setIsLoggedIn }) => {
   
     return (
-        <div style={styles.loginPage}>
+        <PageWithImage>
             <LogInForm setIsLoggedIn={setIsLoggedIn} />
-        </div>
+        </PageWithImage>
     );
-};
-
-// Styling
-const styles = {
-    loginPage: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100vh', 
-      width: '100vw',
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundSize: 'cover', 
-      backgroundPosition: 'center',
-      position: 'relative', 
-    },
 };
 
 export default Login;
