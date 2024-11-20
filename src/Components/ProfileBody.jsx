@@ -33,7 +33,7 @@ const ProfileBody = () => {
     <BodyWrapper>
       <ActivityWrapper>
         <Title>Your Activity</Title>
-        <HorizontalLine width="90%" />
+        <HorizontalLine width="200px" />
         <p>Coming soon...</p>
         <p>
           Current user:{" "}
@@ -44,7 +44,7 @@ const ProfileBody = () => {
       </ActivityWrapper>
       <TagContainer>
         <Title>Your Tags</Title>
-        <HorizontalLine width="90%" />
+        <HorizontalLine width="200px" />
         <div>
           <SubTitle>Fields</SubTitle>
           <TagsLayout>

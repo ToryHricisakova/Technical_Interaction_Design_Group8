@@ -1,12 +1,62 @@
 import styled from "styled-components";
 import HorizontalLine from "./HorizontalLine";
+import { useState, useEffect } from "react";
+import Parse from "parse";
+import Tag from "./Tag";
 
 const ExpandNetworkBox = () => {
+  const [field, setField] = useState(null);
+
+  // user/setUser state needs to passed down from further up to avoid duplicate code. Is on our to-do list.
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Retrieve "USERS" database object from the logged in "_User" objectId.
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      try {
+        const currentUser = Parse.User.current(); // get _User objectId
+        const query = new Parse.Query("USERS");
+        query.equalTo("user", currentUser);
+        const userRecord = await query.first();
+        setUser(userRecord);
+      } catch (error) {
+        console.log("Error fetching user data: " + error.message);
+      } finally {
+        setLoading(false); // Allows page to be shown.
+      }
+    };
+    getCurrentUser();
+  }, []);
+
+  useEffect(() => {
+    if (user && user.get("fields")) {
+      // ensure user has been fetched.
+      try {
+        const fields = user.get("fields");
+
+        // Choose a random field-tag from the current user.
+        if (fields.length > 0) {
+          const num = Math.floor(Math.random() * fields.length);
+          setField(fields[num]);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [user]);
+
+  if (loading) return <p>Loading</p>;
+
   return (
     <Container>
       <TextContainer>
         <Title>Expand your network</Title>
-        <p>Based on your field:</p>
+        <SubTextContainer>
+          <p>Based on your field:</p>
+
+          <Tag word={field} tagType={"field"} removeable={false} />
+        </SubTextContainer>
       </TextContainer>
 
       <ProfilesContainer>
@@ -52,6 +102,10 @@ const ProfilesContainer = styled.div`
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  /* align-items: left; // Text is aligned left in prototype, but I prefer it centered.
-  text-align: left; */
+`;
+const SubTextContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 `;
