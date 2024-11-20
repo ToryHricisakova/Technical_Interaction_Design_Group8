@@ -79,7 +79,6 @@ const RegistrationForm = () => {
     user.set("firstName", firstName);
     user.set("lastName", lastName);
     //user.set("userId", createdUser.id); // No need to return user!
-    user.set("fields", ["Engineering"]);
     user.set("user", Parse.User.current()); // links the "_user" and "USERS" tables.
 
     // "save" creates the new object in the database.

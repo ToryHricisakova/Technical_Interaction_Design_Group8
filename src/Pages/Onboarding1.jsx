@@ -16,8 +16,43 @@ import {
   Section,
 } from "../OnboardingCSS.jsx";
 import Parse from "parse";
+import { useNavigate } from "react-router-dom";
 
 const Onboarding1 = () => {
+  const navigate = useNavigate();
+
+  async function handleSavingAdditionalInfo() {
+    const currentUser = Parse.User.current();
+
+    if (!currentUser) {
+      console.error("No user is logged in.");
+      return;
+    }
+
+    const USERS = Parse.Object.extend("USERS");
+    const query = new Parse.Query(USERS);
+    query.equalTo("user", currentUser);
+
+    try {
+      const userRow = await query.first();
+      if (!userRow) {
+        console.error("No USERS entry found for the current user.");
+        return;
+      }
+
+      userRow.set("dateOfBirth", dateOfBirth);
+      userRow.set("gender", pronouns);
+      userRow.set("profileBio", profileBio);
+      userRow.set("profilePhoto", profilePhoto);
+      await userRow.save();
+      console.log("USERS entry updated successfully!");
+
+      navigate("/onboarding2");
+    } catch (error) {
+      console.error("Error updating USERS entry:", error.message);
+    }
+  }
+
   const [dateOfBirth, setDateOfBirth] = useState(null);
   const [profilePhoto, setProfilePhoto] = useState(
     "src/MediaFiles/Profile2.svg"
@@ -39,9 +74,9 @@ const Onboarding1 = () => {
     fileRef.current.click();
   }
 
-  function handleSubmit() {
-    return; // needs to be implemented with backend.
-  }
+  // function handleSubmit() {
+  //   return; // needs to be implemented with backend.
+  // }
 
   // useEffects for debugging:
 
@@ -63,7 +98,8 @@ const Onboarding1 = () => {
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit}>
+      {/* <Form onSubmit={handleSubmit}> */}
+      <Form>
         <MainTitle>Customize Profile - Basic Info</MainTitle>
         <HorizontalLine />
         <Section>
@@ -170,7 +206,11 @@ const Onboarding1 = () => {
           </InfoBlock>
 
           <NextButton to="/onboarding2">
-            <Button className="primary-button" type="submit">
+            <Button
+              className="primary-button"
+              type="button"
+              onClick={handleSavingAdditionalInfo}
+            >
               Next
             </Button>
           </NextButton>
