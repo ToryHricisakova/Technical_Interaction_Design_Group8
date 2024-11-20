@@ -51,7 +51,10 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/onboarding1" element={<Onboarding1 />} />
-          <Route path="/onboarding2" element={<Onboarding2 />} />
+          <Route
+            path="/onboarding2"
+            element={<Onboarding2 setIsLoggedIn={setIsLoggedIn} />}
+          />
         </Routes>
       </Router>
     </div>
