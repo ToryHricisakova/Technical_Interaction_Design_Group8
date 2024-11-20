@@ -25,11 +25,12 @@ export default Profile;
 
 const PageContentContainer = styled.div`
   display: flex;
+  justify-content: center;
   flex-direction: row;
   position: absolute;
   top: 150px;
   gap: 30px;
-  width: 100vw; // To ensure page is horizontally scrollable.
+  width: 100vw; // To ensure page is horizontally scrollable (doesn't seem to make a difference at the moment).
 `;
 const ProfileContainer = styled.div`
   display: flex;

@@ -7,6 +7,7 @@ import Parse from "parse";
 import TagGenerator from "./TagGenerator";
 
 const ProfileHeader = () => {
+  // user/setUser state needs to passed down from further up to avoid duplicate code. Is on our to-do list.
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -78,13 +79,6 @@ const ProfileHeader = () => {
     }
   };
 
-  const getUserTags = () => {
-    const fields = user.get("fields");
-    const tags = TagGenerator({ array: fields, tagType: "field" });
-
-    return tags;
-  };
-
   if (loading) return <p>Loading</p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
 
   return (
@@ -116,7 +110,7 @@ const ProfileHeader = () => {
           <Bio>{user.get("profileBio")}</Bio>
         </MiddleBlock>
         <RightBlock>
-          {getUserTags()} {/* Tags pulled from database */}
+          {TagGenerator({ array: user.get("fields"), tagType: "field" })}
         </RightBlock>
       </ProfileBottom>
     </HeaderWrapper>
@@ -227,6 +221,7 @@ const MiddleBlock = styled.div`
 `;
 const RightBlock = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
