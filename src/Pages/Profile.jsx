@@ -29,6 +29,7 @@ const PageContentContainer = styled.div`
   position: absolute;
   top: 150px;
   gap: 30px;
+  width: 100vw; // To ensure page is horizontally scrollable.
 `;
 const ProfileContainer = styled.div`
   display: flex;

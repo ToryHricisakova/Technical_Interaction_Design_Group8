@@ -18,7 +18,7 @@ import {
 
 const Onboarding1 = () => {
   const [date, setDate] = useState(null);
-  const [file, setFile] = useState("src/MediaFiles/Profile2.svg");
+  const [file, setFile] = useState("src/MediaFiles/DefaultProfile.svg");
   const [pronouns, setPronouns] = useState("");
 
   const fileRef = useRef(null);

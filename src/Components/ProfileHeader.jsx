@@ -7,71 +7,15 @@ import Parse from "parse";
 
 const ProfileHeader = () => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const [bannerImg, setBannerImg] = useState(
-    "src/MediaFiles/BannerDefault.svg"
-  );
-  const [profileImg, setProfileImg] = useState("src/MediaFiles/Profile2.svg");
+  const [bannerImg, setBannerImg] = useState(null);
+  const [profileImg, setProfileImg] = useState(null);
+
   const bannerRef = useRef(null);
   const profileImgRef = useRef(null);
 
-  // function getBannerImg(event) {
-  //   setBannerImg(URL.createObjectURL(event.target.files[0]));
-  //   setBannerImg(convertToBase64);
-  //   console.log(bannerImg);
-  // }
-
-  const getBannerImg = async (event) => {
-    const image = event.target.files[0];
-    const base64image = await convertToBase64(image);
-    setBannerImg(base64image);
-    updateBannerImg(base64image); // save to DB
-  };
-
-  const updateBannerImg = async (base64image) => {
-    const currentUser = Parse.User.current();
-    const query = new Parse.Query("USERS");
-    query.equalTo("user", currentUser);
-    const userRecord = await query.first();
-    console.log(userRecord);
-    userRecord.set("bannerImage", base64image);
-    await userRecord.save();
-    console.log(currentUser);
-    //let bannerImage = new Parse.Object("bannerImage");
-    //bannerImage.set(currentUser.objectId, )
-  };
-
-  useEffect(() => {
-    console.log("bannerImg set to " + bannerImg);
-  }, [bannerImg]);
-
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
-
-  function handleBannerEdit(e) {
-    e.preventDefault();
-    bannerRef.current.click();
-  }
-
-  function getProfileImg(event) {
-    setProfileImg(URL.createObjectURL(event.target.files[0]));
-  }
-
-  function handleProfileEdit(e) {
-    e.preventDefault();
-    profileImgRef.current.click();
-  }
-
+  // Retrieve "USERS" database object from the logged in "_User" objectId.
   useEffect(() => {
     const getCurrentUser = async () => {
       try {
@@ -80,39 +24,88 @@ const ProfileHeader = () => {
         query.equalTo("user", currentUser);
         const userRecord = await query.first();
         setUser(userRecord);
+        setBannerImg(userRecord.get("bannerImage").url());
+        setProfileImg(userRecord.get("profileImage").url());
       } catch (error) {
         console.log("Error fetching user data: " + error.message);
+      } finally {
+        setLoading(false); // Allows page to be shown.
       }
     };
     getCurrentUser();
-    console.log(user);
   }, []);
 
-  const getProfileName = async () => {};
+  const handleBannerEdit = (e) => {
+    e.preventDefault();
+    bannerRef.current.click();
+  };
+
+  const saveBannerImg = async (event) => {
+    const image = event.target.files[0];
+    try {
+      const bannerImage = new Parse.File(image.name, image);
+      await bannerImage.save();
+      console.log("bannerimg url: " + bannerImage.url());
+      user.set("bannerImage", bannerImage);
+      await user.save();
+
+      setBannerImg(bannerImage.url());
+      console.log("bannerImage uploaded succesfully");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleProfileImageEdit = (e) => {
+    e.preventDefault();
+    profileImgRef.current.click();
+  };
+
+  const saveProfileImg = async (event) => {
+    const image = event.target.files[0];
+    try {
+      const profileImage = new Parse.File(image.name, image);
+      await profileImage.save();
+      console.log("profileImg url: " + profileImage.url());
+      user.set("profileImage", profileImage);
+      await user.save();
+
+      setProfileImg(profileImage.url());
+      console.log("profileImage uploaded succesfully");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  if (loading) return <p>Loading</p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
 
   return (
     <HeaderWrapper>
-      <Banner bannerImg={bannerImg}>
-        <HiddenInput type="file" onChange={getBannerImg} ref={bannerRef} />
+      <BannerWrapper>
+        <Banner src={bannerImg} />
+        <HiddenInput type="file" onChange={saveBannerImg} ref={bannerRef} />
         <EditIconWrapper onClick={handleBannerEdit}>
           <EditIcon icon={faEdit} />
         </EditIconWrapper>
-      </Banner>
-      <ProfileImage profileImg={profileImg}>
-        <HiddenInput type="file" onChange={getProfileImg} ref={profileImgRef} />
-        <EditIconWrapper onClick={handleProfileEdit}>
+      </BannerWrapper>
+      <ProfileImageWrapper>
+        <ProfileImage src={profileImg} />
+        <HiddenInput
+          type="file"
+          onChange={saveProfileImg}
+          ref={profileImgRef}
+        />
+        <EditIconWrapper onClick={handleProfileImageEdit}>
           <EditIcon icon={faEdit} />
         </EditIconWrapper>
-      </ProfileImage>
+      </ProfileImageWrapper>
       <ProfileBottom>
         <LeftBlock>
           <Button className="secondary-button">Edit Profile</Button>
         </LeftBlock>
         <MiddleBlock>
-          <Name>
-            {user && user.get("firstName") + " " + user.get("lastName")}
-          </Name>
-          <Bio>{user && user.get("bio")}</Bio>
+          <Name>{user.get("firstName") + " " + user.get("lastName")}</Name>
+          <Bio>{user.get("bio")}</Bio>
         </MiddleBlock>
         <RightBlock>{/* Tags pulled from database */}</RightBlock>
       </ProfileBottom>
@@ -133,8 +126,9 @@ const HeaderWrapper = styled.div`
   background-color: #ffffff;
   height: 350px;
   width: 800px;
+  min-width: 400px;
 `;
-const Banner = styled.div`
+const BannerWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -142,9 +136,16 @@ const Banner = styled.div`
   width: 100%;
   border-radius: 40px 40px 0 0;
   border: 1px solid #ccc;
-  background-image: url(${(props) => props.bannerImg});
-  background-size: cover;
-  background-position: center;
+`;
+const Banner = styled.img`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  border-radius: 40px 40px 0 0;
+  border: 1px solid #ccc;
+  object-fit: cover;
 `;
 const EditIconWrapper = styled.div`
   display: flex;
@@ -158,6 +159,7 @@ const EditIconWrapper = styled.div`
   top: 20px;
   right: 20px;
   cursor: pointer;
+  z-index: 3;
 `;
 const EditIcon = styled(FontAwesomeIcon)`
   width: 15px;
@@ -167,7 +169,16 @@ const EditIcon = styled(FontAwesomeIcon)`
 const HiddenInput = styled.input`
   display: none;
 `;
-const ProfileImage = styled.div`
+const ProfileImageWrapper = styled.div`
+  display: flex;
+  position: relative;
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  left: 20px;
+  top: 100px; // (350px-150px/2)
+`;
+const ProfileImage = styled.img`
   display: flex;
   width: 150px;
   height: 150px;
@@ -175,11 +186,6 @@ const ProfileImage = styled.div`
   object-fit: cover;
   border: 1px hidden;
   position: absolute;
-  left: 20px;
-  top: 100px; // (350px-150px/2)
-  background-image: url(${(props) => props.profileImg});
-  background-size: cover;
-  background-position: center;
   z-index: 2;
 `;
 const ProfileBottom = styled.div`
@@ -189,13 +195,11 @@ const ProfileBottom = styled.div`
   width: 100%;
   height: 50%;
   border-radius: 0 0 40px 40px;
-  //border: solid black 1px;
 `;
 const LeftBlock = styled.div`
   display: flex;
   align-items: end;
   justify-content: center;
-  //border: blue 1px solid;
   height: 100%;
   width: 24%;
   border-radius: 0 0 0px 40px;
@@ -210,13 +214,11 @@ const MiddleBlock = styled.div`
   height: 100%;
   width: 51%;
   overflow: hidden;
-  //border: purple 1px solid;
 `;
 const RightBlock = styled.div`
   display: flex;
   height: 100%;
   width: 25%;
-  /* border: green 1px solid; */
   border-radius: 0 0 40px 0px;
 `;
 const Name = styled.h1`

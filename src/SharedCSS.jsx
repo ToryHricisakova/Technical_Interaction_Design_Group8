@@ -47,7 +47,6 @@ export const Page = styled.div`
   position: relative;
   padding: 76px 0 20px 0;
   min-height: 100vh;
-  overflow-x: hidden;
 `;
 // Container for pages with the background image
 export const PageWithImage = styled(Page)`
