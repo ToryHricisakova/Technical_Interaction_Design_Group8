@@ -15,19 +15,60 @@ import {
   Boldparagraph,
   Section,
 } from "../OnboardingCSS.jsx";
+import Parse from "parse";
+import { useNavigate } from "react-router-dom";
 
 const Onboarding1 = () => {
-  const [date, setDate] = useState(null);
-  const [file, setFile] = useState("src/MediaFiles/DefaultProfile.svg");
+
+  const navigate = useNavigate();
+
+  async function handleSavingAdditionalInfo() {
+    const currentUser = Parse.User.current();
+
+    if (!currentUser) {
+      console.error("No user is logged in.");
+      return;
+    }
+
+    const USERS = Parse.Object.extend("USERS");
+    const query = new Parse.Query(USERS);
+    query.equalTo("user", currentUser);
+
+    try {
+      const userRow = await query.first();
+      if (!userRow) {
+        console.error("No USERS entry found for the current user.");
+        return;
+      }
+
+      userRow.set("dateOfBirth", dateOfBirth);
+      userRow.set("gender", pronouns);
+      userRow.set("profileBio", profileBio);
+      userRow.set("profilePhoto", profilePhoto);
+      await userRow.save();
+      console.log("USERS entry updated successfully!");
+
+      navigate("/onboarding2");
+    } catch (error) {
+      console.error("Error updating USERS entry:", error.message);
+    }
+  }
+
+  const [dateOfBirth, setDateOfBirth] = useState(null);
+  const [profilePhoto, setProfilePhoto] = useState(
+    "src/MediaFiles/Profile2.svg"
+  );
+  
   const [pronouns, setPronouns] = useState("");
+  const [profileBio, setProfileBio] = useState("");
 
   const fileRef = useRef(null);
 
   const tempDate = new Date();
   const startDate = tempDate.setFullYear(tempDate.getFullYear() - 18); // Open calendar at 18 years ago.
 
-  function getFile(event) {
-    setFile(URL.createObjectURL(event.target.files[0]));
+  function getProfilePhoto(event) {
+    setProfilePhoto(URL.createObjectURL(event.target.files[0]));
   }
 
   function handleClick(e) {
@@ -35,27 +76,32 @@ const Onboarding1 = () => {
     fileRef.current.click();
   }
 
-  function handleSubmit() {
-    return; // needs to be implemented with backend.
-  }
+  // function handleSubmit() {
+  //   return; // needs to be implemented with backend.
+  // }
 
   // useEffects for debugging:
 
   useEffect(() => {
-    console.log("Date of birth set to " + date);
-  }, [date]);
+    console.log("Date of birth set to " + dateOfBirth);
+  }, [dateOfBirth]);
 
   useEffect(() => {
-    console.log("pronouns set to " + pronouns);
+    console.log("Pronouns set to " + pronouns);
   }, [pronouns]);
 
   useEffect(() => {
-    console.log("Profile picture URL is " + file);
-  }, [file]);
+    console.log("Profile picture URL is " + profilePhoto);
+  }, [profilePhoto]);
+
+  useEffect(() => {
+    console.log("Bio is set to " + profileBio);
+  }, [profileBio]);
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit}>
+      {/* <Form onSubmit={handleSubmit}> */}
+      <Form>
         <MainTitle>Customize Profile - Basic Info</MainTitle>
         <HorizontalLine />
         <Section>
@@ -68,9 +114,9 @@ const Onboarding1 = () => {
             <CalenderContainer>
               <DatePicker
                 showYearDropdown
-                selected={date}
+                selected={dateOfBirth}
                 openToDate={startDate}
-                onChange={(date) => setDate(date)}
+                onChange={(dateOfBirth) => setDateOfBirth(dateOfBirth)}
                 placeholderText="Click to select a date"
               />
               <CalendarIcon icon={faCalendarAlt} />
@@ -138,8 +184,12 @@ const Onboarding1 = () => {
           <InfoBlock className="ProfilePicture">
             <Boldparagraph>Profile Picture:</Boldparagraph>
             <UploadWrapper>
-              <ProfileImage src={file} alt="Profile Picture" />
-              <HiddenInput type="file" onChange={getFile} ref={fileRef} />
+              <ProfileImage src={profilePhoto} alt="Profile Picture" />
+              <HiddenInput
+                type="file"
+                onChange={getProfilePhoto}
+                ref={fileRef}
+              />
             </UploadWrapper>
             <Button className="secondary-button" onClick={handleClick}>
               Upload Picture
@@ -153,11 +203,16 @@ const Onboarding1 = () => {
               rows="5"
               cols="33"
               placeholder="Write your bio here..."
+              onChange={(e) => setProfileBio(e.target.value)}
             />
           </InfoBlock>
 
           <NextButton to="/onboarding2">
-            <Button className="primary-button" type="submit">
+            <Button
+              className="primary-button"
+              type="button"
+              onClick={handleSavingAdditionalInfo}
+            >
               Next
             </Button>
           </NextButton>
