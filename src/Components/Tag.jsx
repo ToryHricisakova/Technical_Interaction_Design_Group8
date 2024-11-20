@@ -5,9 +5,9 @@ import "../Components/Tag.css";
 const Tag = ({ word, tagType, removeable, removeTag }) => {
   const tagStyle = tagType === "field" ? "fieldTag" : "skillTag";
 
-  const handleRemove = () => {
-    event.preventDefault(); 
-    // Prevent reloading the page on click. We do this because otherwise if we have more than one tag and we click on one of them the page reloads and both tags are deleted. 
+  const handleRemove = (event) => {
+    event.preventDefault();
+    // Prevent reloading the page on click. We do this because otherwise if we have more than one tag and we click on one of them the page reloads and both tags are deleted.
     removeTag();
   };
 

@@ -33,7 +33,7 @@ function App() {
   }, []);
 
   return (
-    <div style={{ overflowX: "auto" }}>
+    <div>
       <Router>
         {isLoggedIn ? <Navbar setIsLoggedIn={setIsLoggedIn} /> : <Welcomebar />}
 

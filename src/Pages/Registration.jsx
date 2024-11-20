@@ -2,10 +2,10 @@ import React from "react";
 import RegistrationForm from "../Components/RegistrationForm";
 import { PageWithImage } from "../SharedCSS";
 
-const Registration = ({ setIsLoggedIn }) => {
+const Registration = () => {
   return (
     <PageWithImage>
-      <RegistrationForm setIsLoggedIn={setIsLoggedIn} />
+      <RegistrationForm />
     </PageWithImage>
   );
 };

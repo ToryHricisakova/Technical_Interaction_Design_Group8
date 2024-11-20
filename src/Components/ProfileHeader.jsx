@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import Button from "./Button";
 import Parse from "parse";
+import TagGenerator from "./TagGenerator";
 
 const ProfileHeader = () => {
   const [user, setUser] = useState(null);
@@ -77,6 +78,13 @@ const ProfileHeader = () => {
     }
   };
 
+  const getUserTags = () => {
+    const fields = user.get("fields");
+    const tags = TagGenerator({ array: fields, tagType: "field" });
+
+    return tags;
+  };
+
   if (loading) return <p>Loading</p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
 
   return (
@@ -105,9 +113,11 @@ const ProfileHeader = () => {
         </LeftBlock>
         <MiddleBlock>
           <Name>{user.get("firstName") + " " + user.get("lastName")}</Name>
-          <Bio>{user.get("bio")}</Bio>
+          <Bio>{user.get("profileBio")}</Bio>
         </MiddleBlock>
-        <RightBlock>{/* Tags pulled from database */}</RightBlock>
+        <RightBlock>
+          {getUserTags()} {/* Tags pulled from database */}
+        </RightBlock>
       </ProfileBottom>
     </HeaderWrapper>
   );
@@ -217,6 +227,8 @@ const MiddleBlock = styled.div`
 `;
 const RightBlock = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
   width: 25%;
   border-radius: 0 0 40px 0px;
