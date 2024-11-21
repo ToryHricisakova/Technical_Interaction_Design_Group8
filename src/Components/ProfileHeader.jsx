@@ -110,7 +110,8 @@ const ProfileHeader = () => {
           <Bio>{user.get("profileBio")}</Bio>
         </MiddleBlock>
         <RightBlock>
-          {TagGenerator({ array: user.get("fields"), tagType: "field" })}
+          {user &&
+            TagGenerator({ array: user.get("fields"), tagType: "field" })}
         </RightBlock>
       </ProfileBottom>
     </HeaderWrapper>
