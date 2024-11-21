@@ -25,7 +25,7 @@ const LogInForm = ({ setIsLoggedIn }) => {
 
   const handleLogin = async function (e) {
     e.preventDefault();
-    const usernameValue = username;
+    const usernameValue = username.toLowerCase();
     const passwordValue = password;
 
     try {
@@ -63,7 +63,8 @@ const LogInForm = ({ setIsLoggedIn }) => {
               placeholder="Email"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-            />
+            />{" "}
+            {console.log(username)}
           </InputContainer>
 
           <InputContainer>

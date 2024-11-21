@@ -102,7 +102,7 @@ const RegistrationForm = () => {
   const saveUser = async function () {
     const user = new Parse.User();
 
-    user.set("username", email);
+    user.set("username", email.toLowerCase());
     user.set("password", password);
     user.set("email", email);
 
