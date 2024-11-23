@@ -7,6 +7,7 @@ export const Container = styled.div`
 
 export const FilterContainer = styled.div`
   width: 150px;
+  height: 500px;
   display: inline-block;
   padding: 30px;
   border-radius: 20px;
@@ -17,7 +18,10 @@ export const FilterContainer = styled.div`
 
 export const DisplayContainer = styled.div`
   width: 500px;
+  height: 550px;
   display: inline-block;
+  overflow-y: auto;
+  scrollbar-width: none;
   padding: 30px;
   margin: 0px 30px;
   border-radius: 20px;

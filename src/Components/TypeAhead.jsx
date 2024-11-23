@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import "../Components/TypeAhead.css";
 import Tag from "./Tag";
 
-const TypeAhead = ({ items, placeholder, tagType, onSelectionChange }) => {
+const TypeAhead = ({
+  items,
+  placeholder,
+  tagType,
+  onSelectionChange,
+  maxNumber,
+}) => {
   const [suggestions, setSuggestions] = useState([]);
   const [text, setText] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
@@ -25,6 +31,13 @@ const TypeAhead = ({ items, placeholder, tagType, onSelectionChange }) => {
   const suggestionSelected = (value) => {
     setSelectedTags((prevTags) => {
       if (!prevTags.includes(value)) {
+        if (prevTags.length >= maxNumber) {
+          //limiting the number of fields (or any type of tag) that can be added
+          alert(
+            "You can only select up to " + maxNumber + " " + tagType + "s."
+          );
+          return prevTags;
+        }
         const updatedTags = [...prevTags, value];
         onSelectionChange(updatedTags);
         return updatedTags;
@@ -63,9 +76,9 @@ const TypeAhead = ({ items, placeholder, tagType, onSelectionChange }) => {
     }
     return (
       <ul>
-        {suggestions.map((careerfield) => (
-          <li key={careerfield} onClick={() => suggestionSelected(careerfield)}>
-            {careerfield}
+        {suggestions.map((item) => (
+          <li key={item} onClick={() => suggestionSelected(item)}>
+            {item}
           </li>
         ))}
       </ul>
