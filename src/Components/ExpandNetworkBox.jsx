@@ -55,7 +55,7 @@ const ExpandNetworkBox = () => {
         <SubTextContainer>
           <p>Based on your field:</p>
 
-          <Tag word={field} tagType={"field"} removeable={false} />
+          <Tag word={field} tagType={"field"} closable={false} />
         </SubTextContainer>
       </TextContainer>
 

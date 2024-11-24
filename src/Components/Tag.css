@@ -1,29 +1,40 @@
 .fieldTag {
-    display: inline-block;
-    background-color: #f19e7d;
-    color: #000000;
-    font-weight: bold;
-    padding: 2px 15px;         
-    border-radius: 20px;       
-    font-size: 12px;
-    margin: 5px;
-    text-align: center;
-    user-select: none; 
-    line-height: 0;
-    margin-top: 5px;
+  display: inline-block;
+  background-color: #f19e7d;
+  color: #000000;
+  font-weight: bold;
+  padding: 2px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin: 5px;
+  text-align: center;
+  user-select: none;
+  line-height: 0;
+  margin-top: 5px;
 }
 
 .skillTag {
-    display: inline-block;
-    background-color: #d5dee4;
-    color: #000000; 
-    font-weight: bold;
-    padding: 2px 15px;         
-    border-radius: 20px;       
-    font-size: 12px;  
-    margin: 5px;
-    text-align: center;
-    user-select: none;
-    line-height: 0;
-    margin-top: 8px;
+  display: inline-block;
+  background-color: #d5dee4;
+  color: #000000;
+  font-weight: bold;
+  padding: 2px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin: 5px;
+  text-align: center;
+  user-select: none;
+  line-height: 0;
+  margin-top: 8px;
+}
+
+.closingTag {
+  background-color: transparent;
+  border-color: #ed7748;
+  border-radius: 40px;
+  color: #ed7748;
+  font-weight: bold;
+  font-size: 12px;
+  margin-left: 10px;
+  padding: 1px 5px;
 }
