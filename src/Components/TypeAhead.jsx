@@ -64,7 +64,7 @@ const TypeAhead = ({
         key={index}
         word={tag}
         tagType={tagType}
-        removeable={true}
+        closable={true}
         removeTag={() => removeTag(tag)} // Pass removeTag function
       />
     ));
