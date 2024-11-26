@@ -145,13 +145,6 @@ const ConversionCourses = () => {
         </Button>
       </FilterContainer>
       <DisplayContainer>
-        {/* <CourseContainer>
-          <UniLogo></UniLogo>
-          <CourseInformation></CourseInformation>
-          <ButtonContainer>
-            <Button></Button>
-          </ButtonContainer>
-        </CourseContainer> */}
         {queryResults && queryResults.length === 0 ? (
           <p>{"No results here!"}</p>
         ) : (

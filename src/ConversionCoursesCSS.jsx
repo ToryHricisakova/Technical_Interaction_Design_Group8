@@ -7,8 +7,8 @@ export const Container = styled.div`
 
 export const FilterContainer = styled.div`
   width: 150px;
-  height: 500px;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
   padding: 30px;
   border-radius: 20px;
   background-color: rgba(255, 255, 255, 1);
