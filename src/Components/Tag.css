@@ -53,3 +53,7 @@ so we would need to change all instances. */
   padding: 1px 5px;
   cursor: pointer;
 }
+
+p {
+  margin-right: 20px;
+}

@@ -146,7 +146,11 @@ const ConversionCourses = () => {
       </FilterContainer>
       <DisplayContainer>
         {queryResults && queryResults.length === 0 ? (
-          <p>{"No results here!"}</p>
+          <p>
+            {
+              "No results here! Try typing 'Information Technology' or 'Law' in Field."
+            }
+          </p>
         ) : (
           queryResults !== undefined &&
           queryResults.map((course) => {
