@@ -37,6 +37,30 @@ const ProfileHeader = () => {
     getCurrentUser();
   }, []);
 
+  // Awaiting pointer resolution.
+  // useEffect(() => {
+  //   const getCurrentUser = async () => {
+  //     try {
+  //       const currentUser = Parse.User.current(); // get _User objectId
+  //       console.log("current user: " + Parse.User.current());
+  //       console.log("pointerUSER = " + currentUser.get("pointerUSER"));
+  //       const usersPointer = await currentUser.get("pointerUSER");
+  //       const userRecord = await usersPointer.fetch();
+  //       console.log("userRecord = " + userRecord);
+  //       console.log("User info found:", userRecord);
+  //       setUser(userRecord);
+  //       setBannerImg(userRecord.get("bannerImage").url());
+  //       setProfileImg(userRecord.get("profileImage").url());
+  //     } catch (error) {
+  //       console.log("Error fetching user data: " + error.message);
+  //     } finally {
+  //       setLoading(false); // Allows page to be shown.
+  //     }
+  //   };
+
+  //   getCurrentUser();
+  // }, []);
+
   const handleBannerEdit = (e) => {
     e.preventDefault();
     bannerRef.current.click();

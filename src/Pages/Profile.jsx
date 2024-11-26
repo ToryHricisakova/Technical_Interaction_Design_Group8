@@ -12,10 +12,10 @@ const Profile = () => {
       <PageContentContainer>
         <ProfileContainer>
           <ProfileHeader />
-          <ProfileBody />
+          {/* <ProfileBody /> */}
         </ProfileContainer>
 
-        <ExpandNetworkBox />
+        {/* <ExpandNetworkBox /> */}
       </PageContentContainer>
     </Page>
   );

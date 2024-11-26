@@ -71,7 +71,7 @@ const RegistrationForm = () => {
 
     user.set("firstName", firstName);
     user.set("lastName", lastName);
-    //user.set("user", Parse.User.current()); // links the "_user" and "USERS" tables.
+    user.set("user", Parse.User.current()); // links the "_user" and "USERS" tables.
 
     // "save()" creates the new object in the database.
     try {
@@ -93,7 +93,7 @@ const RegistrationForm = () => {
   // Registrering user in "_User" table.
   const saveUser = async function (usersObjectId) {
     const user = new Parse.User();
-
+    console.log("objectId in USERS table:", usersObjectId);
     user.set("username", email.toLowerCase());
     user.set("password", password);
     user.set("email", email);

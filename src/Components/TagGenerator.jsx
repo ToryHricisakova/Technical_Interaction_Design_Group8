@@ -1,9 +1,12 @@
 import Tag from "./Tag";
 
 const TagGenerator = ({ array, tagType }) => {
-  const tags = array.map((word, index) => (
-    <Tag key={index} word={word} tagType={tagType} closable={false} />
-  ));
+  const tags = [""];
+  if (!array === null) {
+    tags = array.map((word, index) => (
+      <Tag key={index} word={word} tagType={tagType} closable={false} />
+    ));
+  }
 
   return tags;
 };
