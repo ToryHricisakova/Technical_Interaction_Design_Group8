@@ -53,6 +53,7 @@ const RegistrationForm = () => {
   const [hidePassword2, setHidePassword2] = useState(true);
 
   const handleRegistration = async (e) => {
+    // Form submission is handled - implemented with backend by using Parse via Back4App.
     e.preventDefault();
     if (!validEmail || !validPassword || !passwordMatch || !termsAccepted) {
       setErrorMsg("Please fill out all fields correctly.");
@@ -64,54 +65,55 @@ const RegistrationForm = () => {
       await Parse.User.logOut();
     }
 
-    // Form submission is handled - implemented with backend.
-    // Saving the user registration info to the "_User" table.
-    const createdUser = await saveUser();
-    if (createdUser === null) {
-      setErrorMsg("An error occured during registration");
-      return;
-    }
-
-    // Saving additional information to the "Users" table.
+    // Creating row in "USERS" table.
     const USERS = Parse.Object.extend("USERS");
     const user = new USERS();
 
     user.set("firstName", firstName);
     user.set("lastName", lastName);
-    //user.set("userId", createdUser.id); // No need to return user!
-    user.set("user", Parse.User.current()); // links the "_user" and "USERS" tables.
+    //user.set("user", Parse.User.current()); // links the "_user" and "USERS" tables.
 
-    // "save" creates the new object in the database.
-    user.save().then(
-      (newObj) => {
-        console.log(
-          "Saved with USERS id: " +
-            newObj.id +
-            " and _User id: " +
-            createdUser.id
-        );
-        navigate("/onboarding1");
-      },
-      (error) => {
-        console.log(error.message);
+    // "save()" creates the new object in the database.
+    try {
+      const savedUser = await user.save();
+      const usersObjectId = savedUser.id;
+      console.log("Saved with USERS id: " + usersObjectId);
+
+      // Calling function for creating row for new user in "_User" table:
+      const createdUser = await saveUser(usersObjectId);
+      if (createdUser === null) {
+        throw new Error('An error occured during "_User" registration');
       }
-    );
+      navigate("/onboarding1");
+    } catch (error) {
+      console.log("Error during user registration:" + error.message);
+    }
   };
 
   // Registrering user in "_User" table.
-  const saveUser = async function () {
+  const saveUser = async function (usersObjectId) {
     const user = new Parse.User();
 
     user.set("username", email.toLowerCase());
     user.set("password", password);
     user.set("email", email);
+    user.set("pointerUSER", {
+      __type: "Pointer",
+      className: "USERS",
+      objectId: usersObjectId,
+    });
 
     try {
       const createdUser = await user.signUp();
-      console.log("User signed up with e-mail " + createdUser.getUsername());
+      console.log(
+        "User signed up with e-mail " +
+          createdUser.getUsername() +
+          " and a pointer to USERS objectId " +
+          usersObjectId
+      );
       return createdUser;
     } catch (error) {
-      console.log(error.message);
+      console.log("Error during parse signup: " + error.message);
       return null;
     }
   };
@@ -143,16 +145,8 @@ const RegistrationForm = () => {
 
   // useEffects added for troubleshooting.
   useEffect(() => {
-    console.log("password = ", password);
-  }, [password]);
-
-  useEffect(() => {
     console.log("password valid = ", validPassword);
   }, [validPassword]);
-
-  useEffect(() => {
-    console.log("confirmPassword = ", confirmPassword);
-  }, [confirmPassword]);
 
   useEffect(() => {
     console.log("passwordMatch = ", passwordMatch);
@@ -219,11 +213,6 @@ const RegistrationForm = () => {
           <InputContainer>
             <StyledLabel htmlFor="password">
               Password
-              {/* <FontAwesomeIcon
-                icon={faInfoCircle}
-                title="Password has to be between 8 and 24 characters and contain at least one lowercase letter, one uppercase letter, a number, and a special character"
-                style={{ color: "grey", marginLeft: "8px" }}
-              /> */}
               {validPassword ? (
                 <CheckmarkGreen icon={faCheck} />
               ) : (
