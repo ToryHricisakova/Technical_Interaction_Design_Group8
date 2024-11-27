@@ -79,6 +79,13 @@ const ProfileHeader = () => {
     }
   };
 
+  const generateTags = () => {
+    // console.log("generateTags running - " + user.get("fields"));
+    if (user.get("fields") !== undefined) {
+      return TagGenerator({ array: user.get("fields"), tagType: "field" });
+    }
+  };
+
   if (loading) return <p>Loading</p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
 
   return (
@@ -109,10 +116,7 @@ const ProfileHeader = () => {
           <Name>{user.get("firstName") + " " + user.get("lastName")}</Name>
           <Bio>{user.get("profileBio")}</Bio>
         </MiddleBlock>
-        <RightBlock>
-          {user &&
-            TagGenerator({ array: user.get("fields"), tagType: "field" })}
-        </RightBlock>
+        <RightBlock>{generateTags()}</RightBlock>
       </ProfileBottom>
     </HeaderWrapper>
   );

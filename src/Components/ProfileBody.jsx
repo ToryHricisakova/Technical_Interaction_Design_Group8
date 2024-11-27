@@ -27,6 +27,18 @@ const ProfileBody = () => {
     getCurrentUser();
   }, []);
 
+  const generateFields = () => {
+    if (user.get("fields") !== undefined) {
+      return TagGenerator({ array: user.get("fields"), tagType: "field" });
+    }
+  };
+
+  const generateSkills = () => {
+    if (user.get("skills") !== undefined) {
+      return TagGenerator({ array: user.get("skills"), tagType: "skill" });
+    }
+  };
+
   if (loading) return <p>Loading</p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
 
   return (
@@ -47,16 +59,12 @@ const ProfileBody = () => {
         <HorizontalLine width="200px" />
         <div>
           <SubTitle>Fields</SubTitle>
-          <TagsLayout>
-            {TagGenerator({ array: user.get("fields"), tagType: "field" })}
-          </TagsLayout>
+          <TagsLayout>{generateFields()}</TagsLayout>
         </div>
 
         <div>
           <SubTitle>Skills</SubTitle>
-          <TagsLayout>
-            {TagGenerator({ array: user.get("skills"), tagType: "skill" })}
-          </TagsLayout>
+          <TagsLayout>{generateSkills()}</TagsLayout>
         </div>
       </TagContainer>
     </BodyWrapper>

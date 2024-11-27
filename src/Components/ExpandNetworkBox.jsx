@@ -3,6 +3,7 @@ import HorizontalLine from "./HorizontalLine";
 import { useState, useEffect } from "react";
 import Parse from "parse";
 import Tag from "./Tag";
+import MiniProfile from "./MiniProfile";
 
 const ExpandNetworkBox = () => {
   const [field, setField] = useState(null);
@@ -10,6 +11,7 @@ const ExpandNetworkBox = () => {
   // user/setUser state needs to passed down from further up to avoid duplicate code. Is on our to-do list.
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [chosenUsers, setChosenUsers] = useState([""]);
 
   // Retrieve "USERS" database object from the logged in "_User" objectId.
   useEffect(() => {
@@ -46,6 +48,29 @@ const ExpandNetworkBox = () => {
     }
   }, [user]);
 
+  const generateProfile = () => {
+    // query USERS table based on {field}
+    // return random user based on matches. Check if already added to [chosenUsers]
+
+    // Generate unique profile - keep array of objectId's in useState?
+    // ensure profile is not current user
+
+    // const query = new Parse.Query("USERS");
+    // query.contains("fields", field);
+    // const result = await query.find();
+    // console.log(result);
+
+    // Current user being used below solely for testing purposes.
+    return (
+      <MiniProfile
+        first={user.get("firstName")}
+        last={user.get("lastName")}
+        fields={user.get("fields")}
+        picture={user.get("profileImage").url()}
+      />
+    );
+  };
+
   if (loading) return <p>Loading</p>;
 
   return (
@@ -54,13 +79,12 @@ const ExpandNetworkBox = () => {
         <Title>Expand your network</Title>
         <SubTextContainer>
           <p>Based on your field:</p>
-
           <Tag word={field} tagType={"field"} closable={false} />
         </SubTextContainer>
       </TextContainer>
 
       <ProfilesContainer>
-        <p>*Profile*</p>
+        {generateProfile()}
         <HorizontalLine width="100%" />
         <p>*Profile*</p>
         <HorizontalLine width="100%" />
