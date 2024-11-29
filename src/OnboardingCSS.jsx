@@ -10,7 +10,7 @@ export const Container = styled.div`
   padding: 76px 0 10px 0; // exclude navigation bar at top.
 `;
 export const Form = styled.form`
-  background-color: rgba(245, 245, 245, 1);
+  background-color: #ffffff;
   border-radius: 20px;
   padding: 45px;
   width: 550px;

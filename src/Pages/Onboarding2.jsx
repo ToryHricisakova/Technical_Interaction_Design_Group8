@@ -108,9 +108,8 @@ const Onboarding2 = ({ setIsLoggedIn }) => {
                 items={fields} //should be from the dynamically fetched data
                 placeholder="Search career fields here..."
                 tagType="field"
-                //onSelectionChange={(selected) => setSelectedFields(selected)}
+                maxNumber={3}
                 onSelectionChange={(updatedFields) => {
-                  // console.log("Updated Fields from TypeAhead:", updatedFields),
                   setSelectedFields(updatedFields);
                 }}
               />

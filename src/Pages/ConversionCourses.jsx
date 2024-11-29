@@ -25,8 +25,21 @@ import { fetchFields, fetchCountries } from "../DataforTypeAhead";
 const ConversionCourses = () => {
   const [fields, setFields] = useState([]);
   const [countries, setCountries] = useState([]);
+  const [selectedField, setSelectedField] = useState("");
+  const [selectCountry, setSelectedCountry] = useState("");
 
   useEffect(() => {
+    const loadDefaultCourses = async () => {
+      try {
+        const parseQuery = new Parse.Query("CONVERSION_PROGRAMMES");
+        parseQuery.ascending("cpId");
+        const courses = await parseQuery.find();
+        setQueryResults(courses);
+      } catch (error) {
+        console.error(`Error loading courses: ${error.message}`);
+      }
+    };
+
     const loadFieldsAndCountries = async () => {
       const fieldsData = await fetchFields();
       const countryData = await fetchCountries();
@@ -34,6 +47,7 @@ const ConversionCourses = () => {
       setCountries(countryData);
     };
 
+    loadDefaultCourses();
     loadFieldsAndCountries();
   }, []);
 
@@ -42,9 +56,13 @@ const ConversionCourses = () => {
   // so that it's easier to set up dynamic filtering (if the course name contains the field name, it is displayed)
   const [queryResults, setQueryResults] = useState();
   const doQueryByFieldID = async function () {
+    if (!selectedField) {
+      alert("Please select a field to search for courses.");
+      return;
+    }
     const parseQuery = new Parse.Query("CONVERSION_PROGRAMMES");
-    parseQuery.contains("field", "IT");
-
+    parseQuery.contains("field", selectedField);
+    // dynamically setting the field the databse is searched by
     try {
       let courses = await parseQuery.find();
       setQueryResults(courses);
@@ -68,19 +86,37 @@ const ConversionCourses = () => {
             items={fields}
             placeholder="Choose the field here..."
             tagType="field"
+            maxNumber={1}
+            onSelectionChange={(updatedField) => {
+              if (updatedField.length > 0) {
+                setSelectedField(updatedField[0]);
+              } else {
+                setSelectedField("");
+              }
+            }}
           />
         </FilterWrapper>
         <HorizontalLine width={150}></HorizontalLine>
         <FilterWrapper>
           <FilterName>Education Type</FilterName>
           <RadioButton>
-            <input className="radioButton" type="radio" />
+            <input
+              className="radioButton"
+              type="radio"
+              id="masters"
+              name="educationType"
+            />
             <CheckboxLabel className="checkboxLabel" htmlFor="masters">
               Masters
             </CheckboxLabel>
           </RadioButton>
           <RadioButton>
-            <input className="radioButton" type="radio" />
+            <input
+              className="radioButton"
+              type="radio"
+              id="apprenticeship"
+              name="educationType"
+            />
             <CheckboxLabel className="checkboxLabel" htmlFor="apprenticeship">
               Apprenticeship
             </CheckboxLabel>
@@ -93,6 +129,14 @@ const ConversionCourses = () => {
             items={countries}
             placeholder="Search countries here..."
             tagType="country"
+            maxNumber={1}
+            onSelectionChange={(updatedCountry) => {
+              if (updatedCountry.length > 0) {
+                setSelectedCountry(updatedCountry[0]);
+              } else {
+                setSelectedCountry("");
+              }
+            }}
           />
         </FilterWrapper>
         <HorizontalLine width={150}></HorizontalLine>
