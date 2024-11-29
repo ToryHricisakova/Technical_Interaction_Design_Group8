@@ -1,5 +1,4 @@
 import ConnectButton from "./ConnectButton";
-import Parse from "parse";
 import TagGenerator from "./TagGenerator";
 import styled from "styled-components";
 
@@ -8,7 +7,7 @@ const MiniProfile = (props) => {
   const lastName = props.last;
   const fields = props.fields;
   const picture = props.picture;
-  console.log("Props received in MiniProfile:", props);
+  //console.log("Props received in MiniProfile:", props);
 
   return (
     // profile picture, name, connect-button, fields
@@ -34,8 +33,8 @@ const MiniProfile = (props) => {
 export default MiniProfile;
 
 const ProfileWrapper = styled.div`
-  margin: 10px 0 10px 0;
-  width: fit-content;
+  margin: 10px 0 10px 10px;
+  width: 100%;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -81,6 +80,7 @@ const NameConnectContainer = styled.div`
 const FieldsContainer = styled.div`
   margin-top: 5px;
   display: flex;
-  align-items: left;
+  flex-direction: row;
+  flex-wrap: wrap;
   //border: yellow 2px solid;
 `;

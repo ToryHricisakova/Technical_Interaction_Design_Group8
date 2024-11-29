@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import HorizontalLine from "./HorizontalLine";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Parse from "parse";
 import Tag from "./Tag";
 import MiniProfile from "./MiniProfile";
@@ -11,7 +11,10 @@ const ExpandNetworkBox = () => {
   // user/setUser state needs to passed down from further up to avoid duplicate code. Is on our to-do list.
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [chosenUsers, setChosenUsers] = useState([""]);
+  const [chosenUsers, setChosenUsers] = useState([]);
+  const fieldSet = useRef(false);
+  const [profiles, setProfiles] = useState([]);
+  const chosenUsersRef = useRef(chosenUsers);
 
   // Retrieve "USERS" database object from the logged in "_User" objectId.
   useEffect(() => {
@@ -32,43 +35,116 @@ const ExpandNetworkBox = () => {
   }, []);
 
   useEffect(() => {
-    if (user && user.get("fields")) {
-      // ensure user has been fetched.
+    if (!fieldSet.current && user && user.get("fields")) {
+      fieldSet.current = true;
+      // ensure user has been fetched and field is only set once.
       try {
         const fields = user.get("fields");
 
         // Choose a random field-tag from the current user.
-        if (fields.length > 0) {
-          const num = Math.floor(Math.random() * fields.length);
-          setField(fields[num]);
-        }
+        const num = Math.floor(Math.random() * fields.length);
+        setField(fields[num]);
+        console.log("field to generate from set to " + fields[num]);
       } catch (error) {
-        console.log(error);
+        console.log("Error choosing field from user " + error);
       }
     }
   }, [user]);
 
-  const generateProfile = () => {
-    // query USERS table based on {field}
-    // return random user based on matches. Check if already added to [chosenUsers]
+  useEffect(() => {
+    if (field && user) {
+      chooseProfiles(3); // Generate 3 profiles
+    }
+  }, [field]);
 
-    // Generate unique profile - keep array of objectId's in useState?
-    // ensure profile is not current user
+  // const generateProfiles = () => {
+  // query USERS table based on {field}
+  // return random user based on matches. Check if already added to [chosenUsers]
 
-    // const query = new Parse.Query("USERS");
-    // query.contains("fields", field);
-    // const result = await query.find();
-    // console.log(result);
+  // Generate unique profile - keep array of objectId's in useState?
+  // ensure profile is not current user
 
-    // Current user being used below solely for testing purposes.
-    return (
-      <MiniProfile
-        first={user.get("firstName")}
-        last={user.get("lastName")}
-        fields={user.get("fields")}
-        picture={user.get("profileImage").url()}
-      />
+  // const query = new Parse.Query("USERS");
+  // query.contains("fields", field);
+  // const result = await query.find();
+  // console.log(result);
+  // return chooseProfile();
+  // Current user being used below solely for testing purposes.
+  // return (
+  //   <MiniProfile
+  //     first={user.get("firstName")}
+  //     last={user.get("lastName")}
+  //     fields={user.get("fields")}
+  //     picture={user.get("profileImage").url()}
+  //   />
+  // );
+  // };
+
+  // Ensure chosenUsers most recent state can be accessed.
+  useEffect(() => {
+    chosenUsersRef.current = chosenUsers;
+  }, [chosenUsers]);
+
+  const chooseProfiles = async (amount) => {
+    if (!user || !field) {
+      console.error(
+        "User or field is undefined. Cannot choose relevant profiles"
+      );
+      return;
+    }
+    console.log(
+      "generate profiles based on tags from user " + user.get("firstName")
     );
+
+    const generatedProfiles = [];
+    for (let i = 0; i < amount; i++) {
+      const profile = await generateProfile();
+      if (profile) generatedProfiles.push(profile); // add to already selected profiles
+    }
+    setProfiles(generatedProfiles);
+  };
+
+  const generateProfile = async () => {
+    try {
+      // Going through the fields in USERS
+      const query = new Parse.Query("USERS");
+      query.contains("fields", field);
+      query.notEqualTo("user", Parse.User.current()); // Excluding the current user
+      query.notContainedIn("objectId", chosenUsersRef.current); // avoiding duplicates
+
+      const results = await query.find();
+      if (results.length === 0) {
+        console.log("No matching users found.");
+        return null;
+      }
+
+      // Select a random user from the results
+      const randomIndex = Math.floor(Math.random() * results.length);
+      const selectedUser = results[randomIndex];
+
+      // Add the selected user's objectId to the state to avoid duplicates
+      setChosenUsers((prev) => [...prev, selectedUser.id]);
+      console.log(
+        "Chosen users: " +
+          chosenUsersRef.current +
+          " id added: " +
+          selectedUser.id
+      );
+      // Return the generated profile component for the selected user
+      return (
+        selectedUser && (
+          <MiniProfile
+            first={selectedUser.get("firstName")}
+            last={selectedUser.get("lastName")}
+            fields={selectedUser.get("fields")}
+            picture={selectedUser.get("profileImage").url()}
+          />
+        )
+      );
+    } catch (error) {
+      console.error("Error generating profile:", error);
+      return null;
+    }
   };
 
   if (loading) return <p>Loading</p>;
@@ -84,11 +160,11 @@ const ExpandNetworkBox = () => {
       </TextContainer>
 
       <ProfilesContainer>
-        {generateProfile()}
+        {profiles && profiles[0]}
         <HorizontalLine width="100%" />
-        <p>*Profile*</p>
+        {profiles && profiles[1]}
         <HorizontalLine width="100%" />
-        <p>*Profile*</p>
+        {profiles && profiles[2]}
       </ProfilesContainer>
     </Container>
   );
