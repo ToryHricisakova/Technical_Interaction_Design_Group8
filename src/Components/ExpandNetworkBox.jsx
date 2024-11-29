@@ -1,37 +1,14 @@
 import styled from "styled-components";
 import HorizontalLine from "./HorizontalLine";
 import { useState, useEffect } from "react";
-import Parse from "parse";
 import Tag from "./Tag";
+import useUserProfile from "../Hooks/useUserProfile.js";
 
 const ExpandNetworkBox = () => {
   const [field, setField] = useState(null);
-
-  // user/setUser state needs to passed down from further up to avoid duplicate code. Is on our to-do list.
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  // Retrieve "USERS" database object from the logged in "_User" objectId.
-  useEffect(() => {
-    const getCurrentUser = async () => {
-      try {
-        const currentUser = Parse.User.current(); // get _User objectId
-        const query = new Parse.Query("USERS");
-        query.equalTo("user", currentUser);
-        const userRecord = await query.first();
-        setUser(userRecord);
-      } catch (error) {
-        console.log("Error fetching user data: " + error.message);
-      } finally {
-        setLoading(false); // Allows page to be shown.
-      }
-    };
-    getCurrentUser();
-  }, []);
+  const [user, loading] = useUserProfile();
 
   useEffect(() => {
-    if (user && user.get("fields")) {
-      // ensure user has been fetched.
       try {
         const fields = user.get("fields");
 
@@ -43,7 +20,6 @@ const ExpandNetworkBox = () => {
       } catch (error) {
         console.log(error);
       }
-    }
   }, [user]);
 
   if (loading) return <p>Loading</p>;

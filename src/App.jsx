@@ -29,7 +29,7 @@ function App() {
 
   useEffect(() => {
     const currentUser = Parse.User.current();
-    setIsLoggedIn(!(currentUser === null)); // Set to `true` if user exists, otherwise `false`
+    setIsLoggedIn(!(currentUser === true)); // Set to `true` if user exists, otherwise `false`
   }, []);
 
   return (
