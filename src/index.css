@@ -1,24 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
-@import "bootstrap-icons/font/bootstrap-icons.css";
-
-#root {
-  margin: 0 auto;
-  text-align: center;
-}
-
-/* <uniquifier>: Use a unique and descriptive class name
-weight>: Use a value from 300 to 800 */
-
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  background: #d5dee4;
 
-  /*color-scheme: light dark;
+  color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
-  */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -26,14 +13,14 @@ weight>: Use a value from 300 to 800 */
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* a {
+a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
 }
 a:hover {
   color: #535bf2;
-} */
+}
 
 body {
   margin: 0;
@@ -43,22 +30,31 @@ body {
   min-height: 100vh;
 }
 
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
 button {
+  border-radius: 8px;
   border: 1px solid transparent;
-  font-size: 16px;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #8b8b8b;
+  background-color: #1a1a1a;
+  cursor: pointer;
   transition: border-color 0.25s;
-  /* cursor: pointer; */
-  border-radius: 8px;
+}
+button:hover {
+  border-color: #646cff;
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* @media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
@@ -69,4 +65,4 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-} */
+}
