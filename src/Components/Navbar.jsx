@@ -42,21 +42,38 @@ const Navbar = ({ setIsLoggedIn }) => {
             <Icon
               className="bi bi-mortarboard-fill"
               aria-label="ConversionCourses"
+              title="Conversion Courses"
             />
           </Link>
           <Link to="/people">
-            <Icon className="bi bi-people-fill" aria-label="Network" />
+            <Icon 
+              className="bi bi-people-fill" 
+              aria-label="Network" 
+              title="Network" />
           </Link>
           <Link to="/jobs">
-            <Icon className="bi bi-briefcase-fill" aria-label="Jobs" />
+            <Icon 
+              className="bi bi-briefcase-fill" 
+              aria-label="Jobs"
+              title="Jobs" />
           </Link>
           <Link to="/messages">
-            <Icon className="bi bi-chat-fill" aria-label="Messages" />
+            <Icon 
+              className="bi bi-chat-fill" 
+              aria-label="Messages"
+              title="Messages" />
           </Link>
-          <Icon className="bi bi-bell-fill" aria-label="Notifications" />
+            
+            <Icon 
+              className="bi bi-bell-fill" 
+              aria-label="Notifications"
+              title="Notifications" />
 
           <Link to="/profile">
-            <ProfileImage src="src/MediaFiles/Profile.png" alt="Profile" />
+            <ProfileImage 
+              src="src/MediaFiles/Profile.png" 
+              alt="Profile"
+              title="Profile" />
           </Link>
 
           <SearchBar type="text" placeholder="Start typing..." />
@@ -76,6 +93,9 @@ const Icon = styled.i`
   font-size: 24px;
   cursor: pointer;
   color: #34415d;
+  &:hover {
+    color: #e47347;
+  }
 `;
 
 const ProfileImage = styled.img`

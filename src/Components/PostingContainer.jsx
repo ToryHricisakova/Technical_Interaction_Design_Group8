@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const PostingContainer = () => {
+  const [text, setText] = useState("");
+  const [file, setFile] = useState(null);
+
+
   return (
     <><Header>
         <UserImage
