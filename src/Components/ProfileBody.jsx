@@ -1,31 +1,13 @@
 import styled from "styled-components";
 import Parse from "parse";
-import { useState, useEffect } from "react";
+import {  useEffect } from "react";
 import TagGenerator from "./TagGenerator";
 import HorizontalLine from "./HorizontalLine";
+import useUserProfile from "../hooks/useUserProfile.js";
 
 const ProfileBody = () => {
   // user/setUser state needs to passed down from further up to avoid duplicate code. Is on our to-do list.
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  // Retrieve "USERS" database object from the logged in "_User" objectId.
-  useEffect(() => {
-    const getCurrentUser = async () => {
-      try {
-        const currentUser = Parse.User.current(); // get _User objectId
-        const query = new Parse.Query("USERS");
-        query.equalTo("user", currentUser);
-        const userRecord = await query.first();
-        setUser(userRecord);
-      } catch (error) {
-        console.log("Error fetching user data: " + error.message);
-      } finally {
-        setLoading(false); // Allows page to be shown.
-      }
-    };
-    getCurrentUser();
-  }, []);
+  const [user, loading] = useUserProfile();
 
   if (loading) return <p>Loading</p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
 
