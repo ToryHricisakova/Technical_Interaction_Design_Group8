@@ -9,10 +9,10 @@ const PostingContainer = () => {
     setText(e.target.value);
   };
 
-  //const handleFileChange = (e) => {
-  //  const uploadedFile = e.target.files[0];
-  //  setFile(uploadedFile);
-  //};
+  const handleFileChange = (e) => {
+    const uploadedFile = e.target.files[0];
+    setFile(uploadedFile);
+  };
 
   const createPost = async () => {
     if (!text) {
@@ -30,7 +30,7 @@ const PostingContainer = () => {
 	Post.set('comments', 0);
 	
 	try {
-		await.Post.save();
+		Post.save();
 		alert('Success! Post created!');
 		readPosts();
 		return true;
