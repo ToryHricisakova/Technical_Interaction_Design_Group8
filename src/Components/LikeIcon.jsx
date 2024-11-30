@@ -1,23 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Parse from "parse";
 
-const LikeIcon = () => {
-    const [liked, setLiked] = useState(false);
-    const [likes, setLikes] = useState(0);
+const LikeIcon = ({ objectId, initialLikes }) => {
+  const [liked, setLiked] = useState(false);
+  const [likes, setLikes] = useState(initialLikes);
 
-    const handleLike = () => {
-        setLiked(!liked);
-        setLikes(liked ? likes - 1 : likes + 1);
-    };
+  const updateLikes = async (newLikesCount) => {
+    try {
+      // Fetch the post from the database
+      const Post = Parse.Object.extend("POSTS");
+      const query = new Parse.Query(Post);
+      const post = await query.get(objectId);
 
-    return (
-        <LikeContainer onClick={handleLike}>
-            <i className={`bi ${liked ? "bi bi-hand-thumbs-up-fill" : "bi bi-hand-thumbs-up"}`} />
-            <LikeCount>{likes}</LikeCount>
-        </LikeContainer>
-    );
+      // Update the likes count field
+      post.set("numberOfLikes", newLikesCount);
+
+      // Save the post object with the new number of likes
+      await post.save();
+      console.log("Post likes updated successfully");
+    } catch (error) {
+      console.error("Error updating likes:", error);
+    }
+  };
+
+  const handleLike = () => {
+    const newLikedState = !liked;
+    setLiked(newLikedState);
+    const newLikesCount = newLikedState ? likes + 1 : likes - 1;
+    setLikes(newLikesCount);
+
+    updateLikes(newLikesCount);
+  };
+
+  useEffect(() => {
+    // Optionally, fetch the current like state from the backend when the component mounts.
+    // Here you would fetch the current "liked" status of the user, if necessary.
+  }, []);
+
+  return (
+    <LikeContainer onClick={handleLike}>
+      <i
+        className={`bi ${
+          liked ? "bi bi-hand-thumbs-up-fill" : "bi bi-hand-thumbs-up"
+        }`}
+      />
+      <LikeCount>{likes}</LikeCount>
+    </LikeContainer>
+  );
 };
-
 
 const LikeContainer = styled.div`
   display: flex;
