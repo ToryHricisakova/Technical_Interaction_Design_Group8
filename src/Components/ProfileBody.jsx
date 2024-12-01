@@ -79,7 +79,7 @@ const BodyWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   position: relative;
-  border-radius: 40px;
+  border-radius: 20px;
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
   min-height: 350px;

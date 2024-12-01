@@ -130,7 +130,7 @@ const HeaderWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   position: relative;
-  border-radius: 40px;
+  border-radius: 20px;
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
   height: 350px;
@@ -143,7 +143,7 @@ const BannerWrapper = styled.div`
   justify-content: center;
   height: 50%;
   width: 100%;
-  border-radius: 40px 40px 0 0;
+  border-radius: 20px 20px 0 0;
   border: 1px solid #ccc;
 `;
 const Banner = styled.img`
@@ -152,7 +152,7 @@ const Banner = styled.img`
   justify-content: center;
   height: 100%;
   width: 100%;
-  border-radius: 40px 40px 0 0;
+  border-radius: 20px 20px 0 0;
   border: 1px solid #ccc;
   object-fit: cover;
 `;

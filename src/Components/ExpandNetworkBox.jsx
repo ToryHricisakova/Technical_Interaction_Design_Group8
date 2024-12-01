@@ -176,7 +176,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  border-radius: 40px;
+  border-radius: 20px;
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
   height: fit-content;
