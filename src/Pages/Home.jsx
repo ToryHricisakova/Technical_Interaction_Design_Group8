@@ -12,6 +12,7 @@ const Home = () => {
   const readPosts = async () => {
     const parseQuery = new Parse.Query("POSTS");
     parseQuery.include("postedBy");
+    parseQuery.descending("dateofPosting");
     
     try {
       const fetchedPosts = await parseQuery.find();
