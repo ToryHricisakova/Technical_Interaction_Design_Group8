@@ -2,26 +2,23 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Button from "./Button";
 import useUserProfile from "../Hooks/useUserProfile";
+import Parse from "parse";
 
 const PostingContainer = () => {
   const [user, loading] = useUserProfile();
   const [text, setText] = useState("");
   const [file, setFile] = useState(null);
 
+
   if (!loading && user) {
     console.log("Current User:", user);
   }
-
-  //const firstName = user.get("firstName");
-  //const lastName = user.get("lastName");
-  //const fields = user.get("fields");
-
-  //const postedBy = `${firstName} ${lastName}`;
 
   const profileImage =
     !loading && user && user.get("profileImage")
       ? user.get("profileImage").url()
       : "https://via.placeholder.com/40";
+
 
   const handleTextChange = (e) => {
     setText(e.target.value);
@@ -39,13 +36,13 @@ const PostingContainer = () => {
     }
 
   let Post = new Parse.Object('POSTS');
-	Post.set("postedBy", postedBy);
-	Post.set("tags", fields);
+	Post.set("postedBy", user);
 	Post.set('text', text);
 	Post.set('media', file);
 	Post.set('dateofPosting', new Date());
-	Post.set('likes', 0);
-	Post.set('comments', 0);
+	Post.set('numberOfLikes', 0);
+	Post.set('numberOfComments', 0);
+  //Post.set("comments", []);
 	
 	try {
 		Post.save();

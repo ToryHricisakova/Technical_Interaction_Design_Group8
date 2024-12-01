@@ -108,7 +108,7 @@ const ProfileImage = styled.img`
 const SearchBar = styled.input`
   padding: 10px 40px 10px 10px;
   border: 1px solid #34415d;
-  border-radius: 20px;
+  border-radius: 10px;
   outline: none;
   width: 200px;
   background-color: #f9f9f9;
