@@ -9,6 +9,7 @@ const Home = () => {
   const [POSTS, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
   const readPosts = async () => {
     const parseQuery = new Parse.Query("POSTS");
     parseQuery.include("postedBy");
