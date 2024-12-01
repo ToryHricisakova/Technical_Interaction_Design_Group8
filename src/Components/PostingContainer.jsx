@@ -7,7 +7,8 @@ import Parse from "parse";
 const PostingContainer = () => {
   const [user, loading] = useUserProfile();
   const [text, setText] = useState("");
-  const [file, setFile] = useState(null);
+  const [mediaFile, setMediaFile] = useState(null);
+  const [mediaPreview, setMediaPreview] = useState("");
 
 
   if (!loading && user) {
@@ -24,9 +25,12 @@ const PostingContainer = () => {
     setText(e.target.value);
   };
 
-  const handleFileChange = (e) => {
-    const uploadedFile = e.target.files[0];
-    setFile(uploadedFile);
+  const handleMediaUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setMediaFile(file);
+      setMediaPreview(URL.createObjectURL(file)); // Preview the file locally
+    }
   };
 
   const createPost = async () => {
@@ -35,10 +39,16 @@ const PostingContainer = () => {
       return;
     }
 
+
   let Post = new Parse.Object('POSTS');
+  if (mediaFile) {
+    const media = new Parse.File(mediaFile.name, mediaFile);
+    await media.save();
+    Post.set("media", media);
+    console.log("Media file uploaded successfully: " + media.url());
+  }
 	Post.set("postedBy", user);
 	Post.set('text', text);
-	Post.set('media', file);
 	Post.set('dateofPosting', new Date());
 	Post.set('numberOfLikes', 0);
 	Post.set('numberOfComments', 0);
@@ -68,12 +78,13 @@ const PostingContainer = () => {
       </Header>
       <Actions>
         <LeftActions>
+          {mediaPreview && <ImagePreview src={mediaPreview} alt="Preview" />}
           <UploadButton>
             <i className="bi bi-upload" />
             Upload Media Files
             <input
               type="file"
-              onChange={handleFileChange}
+              onChange={handleMediaUpload}
               style={{ display: "none" }}
             />
           </UploadButton>
