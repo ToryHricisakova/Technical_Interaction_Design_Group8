@@ -146,8 +146,8 @@ const Container = styled.div`
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
   height: fit-content;
-  min-width: 300px;
-  width: 300px;
+  min-width: 280px;
+  width: 280px;
   gap: 20px;
   padding: 30px;
 `;
