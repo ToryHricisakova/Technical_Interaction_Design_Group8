@@ -79,6 +79,7 @@ const ProfileHeader = () => {
 
   if (loading) return <p>Loading</p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
 
+
   return (
     <HeaderWrapper>
       <BannerWrapper>

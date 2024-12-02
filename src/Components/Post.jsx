@@ -1,21 +1,39 @@
 import React from "react";
 import styled from "styled-components";
 import LikeIcon from "./LikeIcon";
+import Tag from "../Components/Tag";
 
-const Post = ({ profileImage, name, profession, text }) => {
+const Post = ({ profileImage, name, text, fields, dateofPosting, numberOfLikes, objectId }) => {
+  const formattedDate = new Date(dateofPosting).toLocaleString();
+
   return (
     <PostContainer>
       <PostHeader>
         <ProfileImage src={profileImage} alt={`${name}'s profile`} />
         <UserInfo>
           <UserName>{name}</UserName>
-          <UserProfession>{profession}</UserProfession>
+          {/* Display tags under the name */}
+          {fields && fields.length > 0 && (
+            <TagsContainer>
+              {fields.map((field, index) => (
+                <Tag
+                  tagType="field"
+                  key={index}
+                  word={field}
+                  closable={false}
+                />
+              ))}
+            </TagsContainer>
+          )}
         </UserInfo>
       </PostHeader>
+
       <PostContent>{text}</PostContent>
-      <PostDate>Just now</PostDate>
+
+      <PostDate>{formattedDate}</PostDate>
+
       <PostActions>
-        <LikeIcon />
+        <LikeIcon objectId={objectId} initialLikes={numberOfLikes} />
         <ActionIcon className="bi bi-chat" />
         <ActionIcon className="bi bi-share" />
       </PostActions>
@@ -26,10 +44,10 @@ const Post = ({ profileImage, name, profession, text }) => {
 // Styled Components
 
 const PostContainer = styled.div`
-  max-width: 500px;  
+  max-width: 700px;  
   width: 100%;      
   padding: 32px 48px;
-  border-radius: 10px;
+  border-radius: 20px;
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
   display: flex;
@@ -37,6 +55,7 @@ const PostContainer = styled.div`
   align-items: left;
   justify-content: left;
   position: relative;
+  margin-bottom: 30px;
 `;
 
 const PostHeader = styled.div`
@@ -48,8 +67,8 @@ const PostHeader = styled.div`
 `;
 
 const ProfileImage = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   margin-right: 10px;
   align-items: flex-start;
@@ -69,11 +88,13 @@ const UserName = styled.span`
 
 `;
 
-const UserProfession = styled.span`
-  font-size: 14px;
-  color: #888;
-  margin-top: 4px;
-  justify-content: flex-start;
+const TagsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+
+  .fieldTag {
+    font-size: 10px;
+  }
 `;
 
 const PostDate = styled.span`
