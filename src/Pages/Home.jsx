@@ -29,6 +29,7 @@ const Home = () => {
           ? user.get("fields") 
           : [];
         const text = post.get("text");
+        const media = post.get("media");
         const dateofPosting = post.get("dateofPosting");
         const numberOfLikes = post.get("numberOfLikes");
         const profileImageUser = user
@@ -44,6 +45,7 @@ const Home = () => {
           fields: fields,
           dateofPosting: dateofPosting,
           numberOfLikes: numberOfLikes,
+          media: media,
         };
       });
 
@@ -79,6 +81,7 @@ const Home = () => {
                   profileImage={post.profileImage}
                   name={post.name}
                   text={post.text}
+                  media={post.media}
                   fields={post.fields}
                   dateofPosting={post.dateofPosting}
                   numberOfLikes={post.numberOfLikes}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import Button from "./Button";
 import useUserProfile from "../Hooks/useUserProfile";
@@ -9,6 +9,9 @@ const PostingContainer = () => {
   const [text, setText] = useState("");
   const [mediaFile, setMediaFile] = useState(null);
   const [mediaPreview, setMediaPreview] = useState("");
+
+  const fileInputRef = useRef(null);
+  //const mediaPreviewRef = useRef(null);
 
 
   if (!loading && user) {
@@ -25,11 +28,33 @@ const PostingContainer = () => {
     setText(e.target.value);
   };
 
-  const handleMediaUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setMediaFile(file);
-      setMediaPreview(URL.createObjectURL(file)); // Preview the file locally
+  useEffect(() => {
+    if (user && !loading) {
+      const existingMedia = user.get("media")?.url();
+      if (existingMedia) setMediaFile(existingMedia);
+    }
+  }, [user, loading]);
+
+  const handleFileInput = () => fileInputRef.current?.click();
+
+
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    try {
+      const media = new Parse.File(file.name, file);
+      await media.save();
+
+      if (user) {
+        user.set("media", media);
+        await user.save();
+      }
+
+      setMediaFile(media);
+      setMediaPreview(URL.createObjectURL(file));
+    } catch (error) {
+      console.error("Error uploading file:", error.message);
     }
   };
 
@@ -39,32 +64,29 @@ const PostingContainer = () => {
       return;
     }
 
+    let Post = new Parse.Object("POSTS");
+    try {
+      if (mediaFile) {
+        Post.set("media", mediaFile);
+      }
 
-  let Post = new Parse.Object('POSTS');
-  if (mediaFile) {
-    const media = new Parse.File(mediaFile.name, mediaFile);
-    await media.save();
-    Post.set("media", media);
-    console.log("Media file uploaded successfully: " + media.url());
-  }
-	Post.set("postedBy", user);
-	Post.set('text', text);
-	Post.set('dateofPosting', new Date());
-	Post.set('numberOfLikes', 0);
-	Post.set('numberOfComments', 0);
-  //Post.set("comments", []);
-	
-	try {
-		Post.save();
-		alert('Success! Post created!');
-		readPosts();
-		return true;
-	} catch (error) {
-		alert('Ups! ${error.message}');
-		return false;
-	};
-};
+      Post.set("text", text);
+      Post.set("postedBy", user);
+      Post.set("dateofPosting", new Date());
+      Post.set("numberOfLikes", 0);
+      Post.set("numberOfComments", 0);
 
+      await Post.save();
+      alert("Post created successfully!");
+
+      setText("");
+      setMediaFile(null);
+      setMediaPreview("");
+    } catch (error) {
+      alert(`Error creating post: ${error.message}`);
+    }
+  };
+  
 
   return (
     <>
@@ -77,23 +99,23 @@ const PostingContainer = () => {
         />
       </Header>
       <Actions>
-        <LeftActions>
-          {mediaPreview && <ImagePreview src={mediaPreview} alt="Preview" />}
-          <UploadButton>
+        <FileUploadWrapper>
+          {mediaPreview && <PreviewImage src={mediaPreview} alt="Preview" />}
+          <HiddenFileInput
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileUpload}
+          />
+          <UploadButton onClick={handleFileInput}>
             <i className="bi bi-upload" />
-            Upload Media Files
-            <input
-              type="file"
-              onChange={handleMediaUpload}
-              style={{ display: "none" }}
-            />
+            Upload Media
           </UploadButton>
-        </LeftActions>
-        <RightActions>
+        </FileUploadWrapper>
+        <ButtonContainer>
           <Button className="primary-button" type="button" onClick={createPost}>
             Create Post
           </Button>
-        </RightActions>
+        </ButtonContainer>
       </Actions>
     </>
   );
@@ -142,17 +164,21 @@ const Actions = styled.div`
   gap: 15px;
 `;
 
-const LeftActions = styled.div`
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  width: 50%;
+`;
+
+const FileUploadWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 300px
 `;
 
-const RightActions = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
+const HiddenFileInput = styled.input`
+  display: none;
 `;
 
 const UploadButton = styled.div`
@@ -172,6 +198,15 @@ const UploadButton = styled.div`
   &:hover {
     color: #e47347;
   }
+`;
+
+const PreviewImage = styled.img`
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 10px;
+  margin-left: 50px;
 `;
 
 export default PostingContainer;
