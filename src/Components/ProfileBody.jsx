@@ -59,12 +59,12 @@ const ProfileBody = () => {
         <HorizontalLine width="200px" />
         <div>
           <SubTitle>Fields</SubTitle>
-          <TagsLayout>{generateFields()}</TagsLayout>
+          <TagsLayout>{user && generateFields()}</TagsLayout>
         </div>
 
         <div>
           <SubTitle>Skills</SubTitle>
-          <TagsLayout>{generateSkills()}</TagsLayout>
+          <TagsLayout>{user && generateSkills()}</TagsLayout>
         </div>
       </TagContainer>
     </BodyWrapper>
