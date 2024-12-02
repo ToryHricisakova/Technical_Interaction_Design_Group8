@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SecondaryButton from "./SecondaryButton";
+import Button from "./Button";
 
 const ConnectButton = () => {
   const [buttonText, setButtonText] = useState("+ Connect");
@@ -9,9 +9,9 @@ const ConnectButton = () => {
   };
 
   return (
-    <SecondaryButton onClick={handleClick}>
+    <Button className="secondary-button" onClick={handleClick}>
       {buttonText}
-    </SecondaryButton>
+    </Button>
   );
 };
 

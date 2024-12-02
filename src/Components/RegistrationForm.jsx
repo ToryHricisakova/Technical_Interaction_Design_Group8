@@ -143,16 +143,8 @@ const RegistrationForm = () => {
 
   // useEffects added for troubleshooting.
   useEffect(() => {
-    console.log("password = ", password);
-  }, [password]);
-
-  useEffect(() => {
     console.log("password valid = ", validPassword);
   }, [validPassword]);
-
-  useEffect(() => {
-    console.log("confirmPassword = ", confirmPassword);
-  }, [confirmPassword]);
 
   useEffect(() => {
     console.log("passwordMatch = ", passwordMatch);
@@ -219,11 +211,6 @@ const RegistrationForm = () => {
           <InputContainer>
             <StyledLabel htmlFor="password">
               Password
-              {/* <FontAwesomeIcon
-                icon={faInfoCircle}
-                title="Password has to be between 8 and 24 characters and contain at least one lowercase letter, one uppercase letter, a number, and a special character"
-                style={{ color: "grey", marginLeft: "8px" }}
-              /> */}
               {validPassword ? (
                 <CheckmarkGreen icon={faCheck} />
               ) : (

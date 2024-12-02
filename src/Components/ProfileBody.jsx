@@ -7,6 +7,18 @@ import useUserProfile from "../Hooks/useUserProfile.js";
 const ProfileBody = () => {
   const [user, loading] = useUserProfile();
 
+  const generateFields = () => {
+    if (user.get("fields") !== undefined) {
+      return TagGenerator({ array: user.get("fields"), tagType: "field" });
+    }
+  };
+
+  const generateSkills = () => {
+    if (user.get("skills") !== undefined) {
+      return TagGenerator({ array: user.get("skills"), tagType: "skill" });
+    }
+  };
+
   if (loading) return <p>Loading</p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
 
   return (
@@ -27,16 +39,12 @@ const ProfileBody = () => {
         <HorizontalLine width="200px" />
         <div>
           <SubTitle>Fields</SubTitle>
-          <TagsLayout>
-            {TagGenerator({ array: user.get("fields"), tagType: "field" })}
-          </TagsLayout>
+          <TagsLayout>{user && generateFields()}</TagsLayout>
         </div>
 
         <div>
           <SubTitle>Skills</SubTitle>
-          <TagsLayout>
-            {TagGenerator({ array: user.get("skills"), tagType: "skill" })}
-          </TagsLayout>
+          <TagsLayout>{user && generateSkills()}</TagsLayout>
         </div>
       </TagContainer>
     </BodyWrapper>
@@ -51,7 +59,7 @@ const BodyWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   position: relative;
-  border-radius: 40px;
+  border-radius: 20px;
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
   min-height: 350px;
