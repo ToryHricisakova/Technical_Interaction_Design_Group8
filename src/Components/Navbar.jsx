@@ -18,10 +18,10 @@ const Navbar = ({ setIsLoggedIn }) => {
     try {
       await Parse.User.logOut();
       const currentUser = Parse.User.current();
-      if (currentUser === null) {
-        setIsLoggedIn(false);
+      if (!currentUser) {
+        setIsLoggedIn(false); // Update App's state
+        navigate("/"); // Redirect to the public Welcome page
       }
-      navigate("/");
     } catch (error) {
       console.log(error.message);
       return false;
