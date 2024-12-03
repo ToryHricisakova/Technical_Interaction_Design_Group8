@@ -2,9 +2,36 @@ import styled from "styled-components";
 import Parse from "parse";
 import TagGenerator from "./TagGenerator";
 import HorizontalLine from "./HorizontalLine";
+import { useState, useEffect } from "react";
+import PostGenerator from "./PostGenerator.jsx";
 
 const ProfileBody = ({ user, loading }) => {
-  const generatePosts = async () => {};
+  const [displayPosts, setDisplayPosts] = useState([]);
+  const [fetchedPosts, setFetchedPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const query = new Parse.Query("POSTS");
+      query.equalTo("postedBy", user);
+      query.descending("dateofPosting");
+
+      try {
+        const result = await query.find();
+        setFetchedPosts(result);
+      } catch (error) {
+        console.log("There was an error fetching the posts" + error.message);
+      }
+    };
+    fetchPosts();
+  }, []);
+
+  const createPosts = () => {
+    if (fetchedPosts.length !== 0) {
+      fetchedPosts && console.log("create post based on: " + fetchedPosts);
+
+      return <PostGenerator array={fetchedPosts} style="small" />;
+    }
+  };
 
   const generateFields = () => {
     if (user.get("fields") !== undefined) {
@@ -27,13 +54,7 @@ const ProfileBody = ({ user, loading }) => {
       <ActivityWrapper>
         <Title>Your Activity</Title>
         <HorizontalLine width="200px" />
-        <p>Coming soon...</p>
-        <p>
-          Current user:{" "}
-          {Parse.User.current()
-            ? Parse.User.current().get("username")
-            : "No user logged in"}
-        </p>
+        {createPosts()}
       </ActivityWrapper>
       <TagContainer>
         <Title>Your Tags</Title>
@@ -74,9 +95,8 @@ const TagContainer = styled.div`
   text-align: left;
   width: 40%;
   height: 100%;
-  padding: 30px 10px 10px 10px;
+  padding: 50px 10px 10px 10px;
   gap: 10px;
-  /* border: solid 2px purple; */
 `;
 const ActivityWrapper = styled.div`
   display: flex;
@@ -84,15 +104,13 @@ const ActivityWrapper = styled.div`
   text-align: left;
   width: 60%;
   height: 100%;
-  padding: 30px 10px 10px 30px;
+  padding: 50px 10px 10px 30px;
   gap: 10px;
-  /* border: solid 2px blue; */
 `;
 const TagsLayout = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /* border: 1px blue solid; */
 `;
 const Title = styled.h2`
   font-size: 20px;

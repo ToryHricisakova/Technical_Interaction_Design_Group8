@@ -4,9 +4,12 @@ import { useState, useEffect, useRef } from "react";
 import Parse from "parse";
 import Tag from "./Tag";
 import MiniProfile from "./MiniProfile";
+import useUserProfile from "../Hooks/useUserProfile";
+import "../Spinner.css";
 
-const ExpandNetworkBox = ({ user, loading }) => {
+const ExpandNetworkBox = () => {
   const [field, setField] = useState(null);
+  const [user, loading] = useUserProfile();
   const fieldSet = useRef(false);
   const [profiles, setProfiles] = useState([]);
 
@@ -91,7 +94,7 @@ const ExpandNetworkBox = ({ user, loading }) => {
     setProfiles(profiles);
   };
 
-  if (loading) return <p>Loading</p>;
+  if (loading) return <span className="loader"></span>;
 
   return (
     <Container>
@@ -107,7 +110,7 @@ const ExpandNetworkBox = ({ user, loading }) => {
         {profiles && profiles[0]}
         <HorizontalLine width="100%" />
         {profiles && profiles[1]}
-        {profiles[1] && <HorizontalLine width="100%" />}
+        {profiles[2] && <HorizontalLine width="100%" />}
         {profiles && profiles[2]}
       </ProfilesContainer>
     </Container>
@@ -142,6 +145,7 @@ const ProfilesContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  gap: 10px;
 `;
 const TextContainer = styled.div`
   display: flex;

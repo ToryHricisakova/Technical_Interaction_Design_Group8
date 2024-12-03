@@ -11,7 +11,7 @@ import "../Spinner.css";
 const Profile = () => {
   const [user, loading] = useUserProfile();
 
-  if (loading) return <span class="loader"></span>;
+  if (loading) return <span className="loader"></span>;
 
   return (
     <Page>
@@ -21,7 +21,7 @@ const Profile = () => {
           <ProfileBody user={user} loading={loading} />
         </ProfileContainer>
 
-        <ExpandNetworkBox user={user} loading={loading} />
+        <ExpandNetworkBox />
       </PageContentContainer>
     </Page>
   );
