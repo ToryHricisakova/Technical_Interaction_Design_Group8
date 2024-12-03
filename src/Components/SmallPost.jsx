@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import LikeIcon from "./LikeIcon";
 import Tag from "./Tag";
+import TagGenerator from "./TagGenerator";
 
 // Needs to refactor so that the post can easily be styled either as a default post or a small post.
 const SmallPost = ({
@@ -30,14 +31,7 @@ const SmallPost = ({
           {/* Display tags under the name */}
           {fields && fields.length > 0 && (
             <TagsContainer>
-              {fields.map((field, index) => (
-                <Tag
-                  tagType="field"
-                  key={index}
-                  word={field}
-                  closable={false}
-                />
-              ))}
+              {TagGenerator({ array: fields, tagType: "field" })}
             </TagsContainer>
           )}
         </UserInfo>

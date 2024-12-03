@@ -43,13 +43,18 @@ export const Page = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  position: relative;
-  padding: 76px 0 20px 0;
+  padding-top: 76px;
   min-height: 100vh;
 `;
 // Container for pages with the background image
-export const PageWithImage = styled(Page)`
+export const PageWithImage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  position: relative;
+  padding-top: 76px;
+  min-height: 100vh;
   background-image: url(${backgroundImage});
   background-size: cover;
   background-position: center;
@@ -106,7 +111,12 @@ export const StyledInput = styled.input`
   border-width: 1px;
   background-color: white;
 `;
-
+export const ErrorMessage = styled.p`
+  color: red;
+  font-weight: bold;
+  margin-bottom: 15px;
+  padding: 5px;
+`;
 export const ConnectButton = styled.button`
   background-color: white;
   color: rgba(228, 115, 71, 1);
