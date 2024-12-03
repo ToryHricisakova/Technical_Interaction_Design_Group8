@@ -3,8 +3,9 @@ import TagGenerator from "./TagGenerator";
 import styled from "styled-components";
 
 const MiniProfile = (props) => {
-  const firstName = props.first;
-  const lastName = props.last;
+  const objectId = props.objectId;
+  const firstName = props.firstName;
+  const lastName = props.lastName;
   const fields = props.fields;
   const picture = props.picture;
   //console.log("Props received in MiniProfile:", props);

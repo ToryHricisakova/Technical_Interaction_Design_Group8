@@ -5,28 +5,24 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import Button from "./Button";
 import Parse from "parse";
 import TagGenerator from "./TagGenerator";
-import useUserProfile from "../Hooks/useUserProfile.js";
 
-const ProfileHeader = () => {
-  // user/setUser state needs to passed down from further up to avoid duplicate code. Is on our to-do list.
-  const [user, loading] = useUserProfile();
+const ProfileHeader = ({ user, loading }) => {
   const [bannerImg, setBannerImg] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
-
   const bannerRef = useRef(null);
   const profileImgRef = useRef(null);
 
   console.log("rendering ProfileHeader component");
 
   useEffect(() => {
-    console.log("useEffect called for user having changed")
-      console.log(user);
-      console.dir(user);
-      if (user) {
-        setBannerImg(user.get("bannerImage").url());
-        setProfileImg(user.get("profileImage").url());
-      }
-    }, [user]);
+    console.log("useEffect called for user having changed");
+    console.log(user);
+    console.dir(user);
+    if (user) {
+      setBannerImg(user.get("bannerImage").url());
+      setProfileImg(user.get("profileImage").url());
+    }
+  }, [user]);
 
   const handleBannerEdit = (e) => {
     e.preventDefault();
@@ -78,7 +74,6 @@ const ProfileHeader = () => {
   };
 
   if (loading) return <p>Loading</p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
-
 
   return (
     <HeaderWrapper>

@@ -3,12 +3,10 @@ import HorizontalLine from "./HorizontalLine";
 import { useState, useEffect, useRef } from "react";
 import Parse from "parse";
 import Tag from "./Tag";
-import useUserProfile from "../Hooks/useUserProfile.js";
 import MiniProfile from "./MiniProfile";
 
-const ExpandNetworkBox = () => {
+const ExpandNetworkBox = ({ user, loading }) => {
   const [field, setField] = useState(null);
-  const [user, loading] = useUserProfile();
   const fieldSet = useRef(false);
   const [profiles, setProfiles] = useState([]);
 
@@ -81,8 +79,9 @@ const ExpandNetworkBox = () => {
     chosenUsers.forEach((user) => {
       profiles.push(
         <MiniProfile
-          first={user.get("firstName")}
-          last={user.get("lastName")}
+          objectId={user.id} // Ensure each profile has a unique key
+          firstName={user.get("firstName")}
+          lastName={user.get("lastName")}
           fields={user.get("fields")}
           picture={user.get("profileImage").url()}
         />

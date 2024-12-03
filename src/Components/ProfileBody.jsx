@@ -2,24 +2,25 @@ import styled from "styled-components";
 import Parse from "parse";
 import TagGenerator from "./TagGenerator";
 import HorizontalLine from "./HorizontalLine";
-import useUserProfile from "../Hooks/useUserProfile.js";
 
-const ProfileBody = () => {
-  const [user, loading] = useUserProfile();
+const ProfileBody = ({ user, loading }) => {
+  const generatePosts = async () => {};
 
   const generateFields = () => {
     if (user.get("fields") !== undefined) {
       return TagGenerator({ array: user.get("fields"), tagType: "field" });
     }
+    return null;
   };
 
   const generateSkills = () => {
     if (user.get("skills") !== undefined) {
       return TagGenerator({ array: user.get("skills"), tagType: "skill" });
     }
+    return null;
   };
 
-  if (loading) return <p>Loading</p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
+  if (loading) return <p></p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
 
   return (
     <BodyWrapper>

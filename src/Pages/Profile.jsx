@@ -5,17 +5,20 @@ import ExpandNetworkBox from "../Components/ExpandNetworkBox";
 import { Page } from "../SharedCSS";
 import styled from "styled-components";
 import ProfileBody from "../Components/ProfileBody";
+import useUserProfile from "../Hooks/useUserProfile";
 
 const Profile = () => {
+  const [user, loading] = useUserProfile();
+
   return (
     <Page>
       <PageContentContainer>
         <ProfileContainer>
-          <ProfileHeader />
-          <ProfileBody />
+          <ProfileHeader user={user} loading={loading} />
+          <ProfileBody user={user} loading={loading} />
         </ProfileContainer>
 
-        <ExpandNetworkBox />
+        <ExpandNetworkBox user={user} loading={loading} />
       </PageContentContainer>
     </Page>
   );
