@@ -69,38 +69,4 @@ if (!isLoggedIn) {
   );
 }
 
-
-
- {/* return (
-    <div>
-      <Router>
-        {isLoggedIn ? <Navbar setIsLoggedIn={setIsLoggedIn} /> : <Welcomebar />}
-
-        <Routes>
-          <Route path="/" element={<Welcome />} />
-          <Route
-            path="/login"
-            element={<Login setIsLoggedIn={setIsLoggedIn} />}
-          />
-          <Route
-            path="/register"
-            element={<Registration setIsLoggedIn={setIsLoggedIn} />}
-          />
-          <Route path="/home" element={<Home />} />
-          <Route path="/education" element={<ConversionCourses />} />
-          <Route path="/people" element={<People />} />
-          <Route path="/jobs" element={<Jobs />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/messages" element={<Messages />} />
-          <Route path="/onboarding1" element={<Onboarding1 />} />
-          <Route
-            path="/onboarding2"
-            element={<Onboarding2 setIsLoggedIn={setIsLoggedIn} />}
-          />
-        </Routes>
-      </Router>
-    </div>
-  );
-}*/}
-
 export default App;
