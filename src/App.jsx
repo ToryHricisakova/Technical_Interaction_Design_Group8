@@ -1,5 +1,5 @@
 import "./index.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Welcome from "./Pages/Welcome";
 import Home from "./Pages/Home.jsx";
 import Registration from "./Pages/Registration";
@@ -28,11 +28,50 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   useEffect(() => {
-    const currentUser = Parse.User.current();
-    setIsLoggedIn(!(currentUser === true)); // Set to `true` if user exists, otherwise `false`
+    const checkLoginStatus = () => {
+      const currentUser = Parse.User.current();
+      setIsLoggedIn(!!currentUser);
+    };
+    checkLoginStatus();
   }, []);
 
+if (!isLoggedIn) {
+    return (
+      <Router>
+        <Welcomebar />
+        <Routes>
+          <Route path="/" element={<Welcome />} />
+          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/register" element={<Registration setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/onboarding1" element={<Onboarding1 />} />
+          <Route path="/onboarding2" element={<Onboarding2 setIsLoggedIn={setIsLoggedIn} />} />
+          {/* Redirect any other path to the Welcome page */}
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </Router>
+    );
+  }
+
   return (
+    <Router>
+      <Navbar setIsLoggedIn={setIsLoggedIn} />
+      <Routes>
+        <Route path="/home" element={<Home />} />
+        <Route path="/education" element={<ConversionCourses />} />
+        <Route path="/people" element={<People />} />
+        <Route path="/jobs" element={<Jobs />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/messages" element={<Messages />} />
+        {/* Redirect any unauthorized route to the home page */}
+        <Route path="*" element={<Navigate to="/home" />} />
+      </Routes>
+    </Router>
+  );
+}
+
+
+
+ {/* return (
     <div>
       <Router>
         {isLoggedIn ? <Navbar setIsLoggedIn={setIsLoggedIn} /> : <Welcomebar />}
@@ -62,6 +101,6 @@ function App() {
       </Router>
     </div>
   );
-}
+}*/}
 
 export default App;

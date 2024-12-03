@@ -2,9 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import LikeIcon from "./LikeIcon";
 import Tag from "../Components/Tag";
+import Parse from "parse";
 
-const Post = ({ profileImage, name, text, fields, dateofPosting, numberOfLikes, objectId }) => {
+const Post = ({ profileImage, name, text, media, fields, dateofPosting, numberOfLikes, objectId }) => {
   const formattedDate = new Date(dateofPosting).toLocaleString();
+  const mediaUrl = media instanceof Parse.File ? media.url() : media;
 
   return (
     <PostContainer>
@@ -29,6 +31,8 @@ const Post = ({ profileImage, name, text, fields, dateofPosting, numberOfLikes, 
       </PostHeader>
 
       <PostContent>{text}</PostContent>
+
+      {mediaUrl && <Media src={mediaUrl} alt="Post Media" />}
 
       <PostDate>{formattedDate}</PostDate>
 
@@ -97,10 +101,18 @@ const TagsContainer = styled.div`
   }
 `;
 
+const Media = styled.img`
+  max-width: 100%;
+  height: auto;
+  margin-top: 15px;
+  border-radius: 8px;
+`;
+
 const PostDate = styled.span`
   font-size: 12px;
   color: #888;
   text-align: left;
+  margin-top: 15px;
 `;
 
 const PostContent = styled.div`
