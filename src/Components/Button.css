@@ -5,6 +5,8 @@
   border-color: rgba(228, 115, 71, 1);
   cursor: pointer;
   border-radius: 8px;
+  height: fit-content;
+  width: fit-content;
 }
 
 .primary-button:hover {
@@ -22,6 +24,8 @@
   cursor: pointer;
   border-radius: 8px;
   text-decoration: none;
+  height: fit-content;
+  width: fit-content;
 }
 
 .secondary-button:hover {

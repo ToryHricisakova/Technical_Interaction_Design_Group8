@@ -18,10 +18,10 @@ const Navbar = ({ setIsLoggedIn }) => {
     try {
       await Parse.User.logOut();
       const currentUser = Parse.User.current();
-      if (currentUser === null) {
-        setIsLoggedIn(false);
+      if (!currentUser) {
+        setIsLoggedIn(false); // Update App's state
+        navigate("/"); // Redirect to the public Welcome page
       }
-      navigate("/");
     } catch (error) {
       console.log(error.message);
       return false;
@@ -42,21 +42,38 @@ const Navbar = ({ setIsLoggedIn }) => {
             <Icon
               className="bi bi-mortarboard-fill"
               aria-label="ConversionCourses"
+              title="Conversion Courses"
             />
           </Link>
           <Link to="/people">
-            <Icon className="bi bi-people-fill" aria-label="Network" />
+            <Icon 
+              className="bi bi-people-fill" 
+              aria-label="Network" 
+              title="Network" />
           </Link>
           <Link to="/jobs">
-            <Icon className="bi bi-briefcase-fill" aria-label="Jobs" />
+            <Icon 
+              className="bi bi-briefcase-fill" 
+              aria-label="Jobs"
+              title="Jobs" />
           </Link>
           <Link to="/messages">
-            <Icon className="bi bi-chat-fill" aria-label="Messages" />
+            <Icon 
+              className="bi bi-chat-fill" 
+              aria-label="Messages"
+              title="Messages" />
           </Link>
-          <Icon className="bi bi-bell-fill" aria-label="Notifications" />
+            
+            <Icon 
+              className="bi bi-bell-fill" 
+              aria-label="Notifications"
+              title="Notifications" />
 
           <Link to="/profile">
-            <ProfileImage src="src/MediaFiles/Profile.png" alt="Profile" />
+            <ProfileImage 
+              src="src/MediaFiles/Profile.png" 
+              alt="Profile"
+              title="Profile" />
           </Link>
 
           <SearchBar type="text" placeholder="Start typing..." />
@@ -76,6 +93,9 @@ const Icon = styled.i`
   font-size: 24px;
   cursor: pointer;
   color: #34415d;
+  &:hover {
+    color: #e47347;
+  }
 `;
 
 const ProfileImage = styled.img`
@@ -88,7 +108,7 @@ const ProfileImage = styled.img`
 const SearchBar = styled.input`
   padding: 10px 40px 10px 10px;
   border: 1px solid #34415d;
-  border-radius: 20px;
+  border-radius: 10px;
   outline: none;
   width: 200px;
   background-color: #f9f9f9;

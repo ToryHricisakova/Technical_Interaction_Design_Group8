@@ -6,36 +6,23 @@ import Button from "./Button";
 import Parse from "parse";
 import TagGenerator from "./TagGenerator";
 
-const ProfileHeader = () => {
-  // user/setUser state needs to passed down from further up to avoid duplicate code. Is on our to-do list.
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
+const ProfileHeader = ({ user, loading }) => {
   const [bannerImg, setBannerImg] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
-
   const bannerRef = useRef(null);
   const profileImgRef = useRef(null);
 
-  // Retrieve "USERS" database object from the logged in "_User" objectId.
+  console.log("rendering ProfileHeader component");
+
   useEffect(() => {
-    const getCurrentUser = async () => {
-      try {
-        const currentUser = Parse.User.current(); // get _User objectId
-        const query = new Parse.Query("USERS");
-        query.equalTo("user", currentUser);
-        const userRecord = await query.first();
-        setUser(userRecord);
-        setBannerImg(userRecord.get("bannerImage").url());
-        setProfileImg(userRecord.get("profileImage").url());
-      } catch (error) {
-        console.log("Error fetching user data: " + error.message);
-      } finally {
-        setLoading(false); // Allows page to be shown.
-      }
-    };
-    getCurrentUser();
-  }, []);
+    console.log("useEffect called for user having changed");
+    console.log(user);
+    console.dir(user);
+    if (user) {
+      setBannerImg(user.get("bannerImage").url());
+      setProfileImg(user.get("profileImage").url());
+    }
+  }, [user]);
 
   const handleBannerEdit = (e) => {
     e.preventDefault();
@@ -79,6 +66,13 @@ const ProfileHeader = () => {
     }
   };
 
+  const generateTags = () => {
+    // console.log("generateTags running - " + user.get("fields"));
+    if (user.get("fields") !== undefined) {
+      return TagGenerator({ array: user.get("fields"), tagType: "field" });
+    }
+  };
+
   if (loading) return <p>Loading</p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
 
   return (
@@ -109,9 +103,7 @@ const ProfileHeader = () => {
           <Name>{user.get("firstName") + " " + user.get("lastName")}</Name>
           <Bio>{user.get("profileBio")}</Bio>
         </MiddleBlock>
-        <RightBlock>
-          {TagGenerator({ array: user.get("fields"), tagType: "field" })}
-        </RightBlock>
+        <RightBlock>{generateTags()}</RightBlock>
       </ProfileBottom>
     </HeaderWrapper>
   );
@@ -125,7 +117,7 @@ const HeaderWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   position: relative;
-  border-radius: 40px;
+  border-radius: 20px;
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
   height: 350px;
@@ -138,7 +130,7 @@ const BannerWrapper = styled.div`
   justify-content: center;
   height: 50%;
   width: 100%;
-  border-radius: 40px 40px 0 0;
+  border-radius: 20px 20px 0 0;
   border: 1px solid #ccc;
 `;
 const Banner = styled.img`
@@ -147,7 +139,7 @@ const Banner = styled.img`
   justify-content: center;
   height: 100%;
   width: 100%;
-  border-radius: 40px 40px 0 0;
+  border-radius: 20px 20px 0 0;
   border: 1px solid #ccc;
   object-fit: cover;
 `;

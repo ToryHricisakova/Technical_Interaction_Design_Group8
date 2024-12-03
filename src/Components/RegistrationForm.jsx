@@ -18,6 +18,7 @@ import {
   StyledInput,
   InputContainer,
   StyledLabel,
+  ErrorMessage,
 } from "../SharedCSS";
 import styled from "styled-components";
 import Parse from "parse";
@@ -78,7 +79,6 @@ const RegistrationForm = () => {
 
     user.set("firstName", firstName);
     user.set("lastName", lastName);
-    //user.set("userId", createdUser.id); // No need to return user!
     user.set("user", Parse.User.current()); // links the "_user" and "USERS" tables.
 
     // "save" creates the new object in the database.
@@ -102,7 +102,7 @@ const RegistrationForm = () => {
   const saveUser = async function () {
     const user = new Parse.User();
 
-    user.set("username", email);
+    user.set("username", email.toLowerCase());
     user.set("password", password);
     user.set("email", email);
 
@@ -122,7 +122,6 @@ const RegistrationForm = () => {
   };
 
   const handlePasswordChange = (e) => {
-    console.log("password change: " + e);
     setPassword(e.target.value);
     setValidPassword(PASSWORD_REGEX.test(e.target.value));
     setPasswordMatch(e.target.value === confirmPassword);
@@ -133,30 +132,9 @@ const RegistrationForm = () => {
     setPasswordMatch(e.target.value === password);
   };
 
-  const togglePasswordVisibility = (e) => {
-    setHidePassword(!hidePassword);
+  const togglePasswordVisibility = (setHidePassword, currentValue) => {
+    setHidePassword(!currentValue);
   };
-
-  const togglePasswordVisibility2 = (e) => {
-    setHidePassword2(!hidePassword2);
-  };
-
-  // useEffects added for troubleshooting.
-  useEffect(() => {
-    console.log("password = ", password);
-  }, [password]);
-
-  useEffect(() => {
-    console.log("password valid = ", validPassword);
-  }, [validPassword]);
-
-  useEffect(() => {
-    console.log("confirmPassword = ", confirmPassword);
-  }, [confirmPassword]);
-
-  useEffect(() => {
-    console.log("passwordMatch = ", passwordMatch);
-  }, [passwordMatch]);
 
   return (
     <BasicContainer>
@@ -219,11 +197,6 @@ const RegistrationForm = () => {
           <InputContainer>
             <StyledLabel htmlFor="password">
               Password
-              {/* <FontAwesomeIcon
-                icon={faInfoCircle}
-                title="Password has to be between 8 and 24 characters and contain at least one lowercase letter, one uppercase letter, a number, and a special character"
-                style={{ color: "grey", marginLeft: "8px" }}
-              /> */}
               {validPassword ? (
                 <CheckmarkGreen icon={faCheck} />
               ) : (
@@ -241,7 +214,9 @@ const RegistrationForm = () => {
               />
               <ToggleVisibilityEye
                 icon={hidePassword ? faEye : faEyeSlash} // Icon changes when clicked.
-                onClick={togglePasswordVisibility} // Clicking toggles visibility of password
+                onClick={() =>
+                  togglePasswordVisibility(setHidePassword, hidePassword)
+                } // Clicking toggles visibility of password
               />
             </PasswordWrapper>
             <Req>
@@ -270,7 +245,9 @@ const RegistrationForm = () => {
               />
               <ToggleVisibilityEye
                 icon={hidePassword2 ? faEye : faEyeSlash} // Icon changes when clicked.
-                onClick={togglePasswordVisibility2} // Clicking toggles visibility of password
+                onClick={() =>
+                  togglePasswordVisibility(setHidePassword2, hidePassword2)
+                } // Clicking toggles visibility of password
               />
             </PasswordWrapper>
           </InputContainer>
@@ -304,14 +281,8 @@ const TermsContainer = styled.div`
   gap: 10px;
   display: flex;
   align-items: center;
-  width: 100%; /* Match the form width */
+  width: 100%;
   margin: 12px 0 20px 0;
-`;
-const ErrorMessage = styled.p`
-  color: red;
-  font-weight: bold;
-  margin-bottom: 15px;
-  padding: 5px;
 `;
 const CheckBox = styled.input`
   width: 16px;
@@ -324,11 +295,11 @@ const CheckboxLabel = styled.label`
 `;
 const PasswordWrapper = styled.div`
   width: 100%;
-  position: relative; /* Positions the icon inside the input field instead of outside */
+  position: relative;
 `;
 const ToggleVisibilityEye = styled(FontAwesomeIcon)`
   position: absolute;
-  right: 0px; /* Positions the icon to the right inside the input field */
+  right: 0px;
   top: 50%;
   transform: translateY(
     -50%

@@ -1,13 +1,68 @@
-import React from "react";
+import { useState, useEffect, React } from "react";
 import styled from "styled-components";
 import Post from "../Components/Post";
 import PostingContainer from "../Components/PostingContainer";
-
-{/* The home page is static for now as we are trying to figure out how
-  to fetch post data from the backend.*/}
-
+import ExpandNetworkBox from "../Components/ExpandNetworkBox";
+import Parse from "parse";
 
 const Home = () => {
+  const [POSTS, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+
+  const readPosts = async () => {
+    const parseQuery = new Parse.Query("POSTS");
+    parseQuery.include("postedBy");
+    parseQuery.descending("dateofPosting");
+    
+    try {
+      const fetchedPosts = await parseQuery.find();
+      const postsData = fetchedPosts.map((post) => {
+        const user = post.get("postedBy");
+        const profileImage = user
+          ? user.get("profileImage")?.url()
+          : "https://via.placeholder.com/40";
+        const name = user
+          ? `${user.get("firstName")} ${user.get("lastName")}`
+          : "Anonymous";
+        const fields = user 
+          ? user.get("fields") 
+          : [];
+        const text = post.get("text");
+        const media = post.get("media");
+        const dateofPosting = post.get("dateofPosting");
+        const numberOfLikes = post.get("numberOfLikes");
+        const profileImageUser = user
+          ? user.get("profileImage")?.url()
+          : profileImage;
+
+
+        return {
+          objectId: post.id,
+          profileImage: profileImageUser,
+          name: name,
+          text: text,
+          fields: fields,
+          dateofPosting: dateofPosting,
+          numberOfLikes: numberOfLikes,
+          media: media,
+        };
+      });
+
+      setPosts(postsData);
+
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    readPosts();
+  }, []);
+
+
   return (
     <HomePage>
       <MainSection>
@@ -15,25 +70,31 @@ const Home = () => {
           <PostingContainer></PostingContainer>
         </Container>
         <Container>
-          <Post
-            profileImage="path_to_image.jpg"
-            name="Kate Hudson"
-            profession="Software Engineer"
-            text="I had my first job interview in IT today, and it was an eye-opening experience! Coming from a different background, I wasn’t sure how well my skills would translate, but I was pleasantly surprised. The interview focused on problem-solving, adaptability, and logical thinking—areas where my legal experience really helped me shine. There were definitely some technical questions that pushed me, but I’m excited about the challenge. It’s a big shift, but today’s interview made me feel like I’m heading in the right direction. Fingers crossed!" />
-          <Post
-            profileImage="path_to_image.jpg"
-            name="Kate Hudson"
-            profession="Software Engineer"
-            text="I had my first job interview in IT today, and it was an eye-opening experience! Coming from a different background, I wasn’t sure how well my skills would translate, but I was pleasantly surprised. The interview focused on problem-solving, adaptability, and logical thinking—areas where my legal experience really helped me shine. There were definitely some technical questions that pushed me, but I’m excited about the challenge. It’s a big shift, but today’s interview made me feel like I’m heading in the right direction. Fingers crossed!" />
+          {loading ? (
+            <p>Loading posts...</p>
+          ) : POSTS.length > 0 ? (
+            POSTS.map((post, index) => {
+              return (
+                <Post
+                  objectId={post.objectId}
+                  key={index}
+                  profileImage={post.profileImage}
+                  name={post.name}
+                  text={post.text}
+                  media={post.media}
+                  fields={post.fields}
+                  dateofPosting={post.dateofPosting}
+                  numberOfLikes={post.numberOfLikes}
+                />
+              );
+            })
+          ) : (
+            <p>No posts available</p>
+          )}
         </Container>
       </MainSection>
 
-      <SideContainer>
-       
-          <h3>Connect Container</h3>
-          <p>For future use</p>
-    
-      </SideContainer>
+      <ExpandNetworkBox />
     </HomePage>
   );
 };
@@ -42,50 +103,31 @@ const Home = () => {
 
 const HomePage = styled.div`
   display: flex;
+  justify-content: center;
   flex-direction: row;
-  align-items: flex-start;
-  width: 100%;
-  min-height: 100vh;
-  padding: 20px;
-  width: 100vw;
-  position: relative;
-  padding: 100px 0 20px 0;
-  min-height: 100vh;
-  overflow-x: hidden;
+  margin-top: 150px;
+  gap: 30px;
 `;
 
 const MainSection = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 200px;
-  gap: 15px;
-  width: 600px;
+  gap: 30px;
 `;
 
 const Container = styled.div`
-  width: 600px;
-  margin-bottom: 15px;
-  padding: 20px;
   display: flex;
   flex-direction: column;
+  align-items: left;
+  justify-content: flex-start;
+  position: relative;
+  width: 800px;
+  padding: 30px;
+  display: flex;
   background-color: #ffffff;
-  gap: 15px;
-  border-radius: 10px;
-  box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.2);
-`;
 
-const SideContainer = styled.div`
-  width: 300px;
-  margin-left: 75px;
-  margin-right: 200px;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 10px;
+  border-radius: 20px;
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  height: auto;
 `;
 
 export default Home;

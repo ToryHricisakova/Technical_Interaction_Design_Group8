@@ -1,12 +1,26 @@
 import React from "react";
 import styled from "styled-components";
 import LikeIcon from "./LikeIcon";
-import Tag from "../Components/Tag";
-import Parse from "parse";
+import Tag from "./Tag";
+import TagGenerator from "./TagGenerator";
 
-const Post = ({ profileImage, name, text, media, fields, dateofPosting, numberOfLikes, objectId }) => {
-  const formattedDate = new Date(dateofPosting).toLocaleString();
-  const mediaUrl = media instanceof Parse.File ? media.url() : media;
+// Needs to refactor so that the post can easily be styled either as a default post or a small post.
+const SmallPost = ({
+  profileImage,
+  name,
+  text,
+  fields,
+  dateofPosting,
+  numberOfLikes,
+  objectId,
+}) => {
+  const formattedDate = new Date(dateofPosting).toLocaleString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   return (
     <PostContainer>
@@ -17,22 +31,13 @@ const Post = ({ profileImage, name, text, media, fields, dateofPosting, numberOf
           {/* Display tags under the name */}
           {fields && fields.length > 0 && (
             <TagsContainer>
-              {fields.map((field, index) => (
-                <Tag
-                  tagType="field"
-                  key={index}
-                  word={field}
-                  closable={false}
-                />
-              ))}
+              {TagGenerator({ array: fields, tagType: "field" })}
             </TagsContainer>
           )}
         </UserInfo>
       </PostHeader>
 
       <PostContent>{text}</PostContent>
-
-      {mediaUrl && <Media src={mediaUrl} alt="Post Media" />}
 
       <PostDate>{formattedDate}</PostDate>
 
@@ -48,9 +53,9 @@ const Post = ({ profileImage, name, text, media, fields, dateofPosting, numberOf
 // Styled Components
 
 const PostContainer = styled.div`
-  max-width: 700px;  
-  width: 100%;      
-  padding: 32px 48px;
+  max-width: 700px;
+  width: 85%;
+  padding: 20px 25px;
   border-radius: 20px;
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
@@ -89,7 +94,6 @@ const UserName = styled.span`
   font-size: 16px;
   font-weight: bold;
   color: #34415d;
-
 `;
 
 const TagsContainer = styled.div`
@@ -101,18 +105,10 @@ const TagsContainer = styled.div`
   }
 `;
 
-const Media = styled.img`
-  max-width: 100%;
-  height: auto;
-  margin-top: 15px;
-  border-radius: 8px;
-`;
-
 const PostDate = styled.span`
   font-size: 12px;
   color: #888;
   text-align: left;
-  margin-top: 15px;
 `;
 
 const PostContent = styled.div`
@@ -124,10 +120,10 @@ const PostContent = styled.div`
 `;
 
 const PostActions = styled.div`
-  justify-content: flex-start;  
+  justify-content: flex-start;
   display: flex;
   gap: 20px;
-  margin-top: 10px; 
+  margin-top: 10px;
 `;
 
 const ActionIcon = styled.i`
@@ -140,4 +136,4 @@ const ActionIcon = styled.i`
   }
 `;
 
-export default Post;
+export default SmallPost;

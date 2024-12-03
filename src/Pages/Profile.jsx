@@ -5,14 +5,20 @@ import ExpandNetworkBox from "../Components/ExpandNetworkBox";
 import { Page } from "../SharedCSS";
 import styled from "styled-components";
 import ProfileBody from "../Components/ProfileBody";
+import useUserProfile from "../Hooks/useUserProfile";
+import "../Spinner.css";
 
 const Profile = () => {
+  const [user, loading] = useUserProfile();
+
+  if (loading) return <span className="loader"></span>;
+
   return (
     <Page>
       <PageContentContainer>
         <ProfileContainer>
-          <ProfileHeader />
-          <ProfileBody />
+          <ProfileHeader user={user} loading={loading} />
+          <ProfileBody user={user} loading={loading} />
         </ProfileContainer>
 
         <ExpandNetworkBox />
@@ -25,13 +31,12 @@ export default Profile;
 
 const PageContentContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: row;
-  position: absolute;
-  top: 150px;
+  margin-top: 74px; // 150-76
   gap: 30px;
-  width: 100vw; // To ensure page is horizontally scrollable (doesn't seem to make a difference at the moment).
 `;
+
 const ProfileContainer = styled.div`
   display: flex;
   flex-direction: column;
