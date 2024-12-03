@@ -58,6 +58,14 @@ const PostingContainer = () => {
     }
   };
 
+  const removePreview = () => {
+    setMediaFile(null);
+    setMediaPreview("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   const createPost = async () => {
     if (!text) {
       alert("Post text cannot be empty!");
@@ -100,7 +108,14 @@ const PostingContainer = () => {
       </Header>
       <Actions>
         <FileUploadWrapper>
-          {mediaPreview && <PreviewImage src={mediaPreview} alt="Preview" />}
+          {mediaPreview && (
+            <PreviewWrapper>
+              <PreviewImage src={mediaPreview} alt="Preview" />
+              <RemoveButton onClick={removePreview}>
+                <i className="bi bi-x-circle" />
+              </RemoveButton>
+            </PreviewWrapper>
+          )}
           <HiddenFileInput
             type="file"
             ref={fileInputRef}
@@ -124,6 +139,44 @@ const PostingContainer = () => {
 
 
 // Styled Components
+
+const PreviewWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  position: relative;
+  max-width: 100%;
+`;
+
+const PreviewImage = styled.img`
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 10px;
+  margin-left: 50px;
+`;
+
+const RemoveButton = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 20%;
+  padding: 5px;
+  cursor: pointer;
+  color: #e47347;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  i {
+    font-size: 16px;
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 1);
+  }
+`;
 
 const Header = styled.div`
   display: flex;
@@ -198,15 +251,6 @@ const UploadButton = styled.div`
   &:hover {
     color: #e47347;
   }
-`;
-
-const PreviewImage = styled.img`
-  max-width: 100%;
-  max-height: 200px;
-  border-radius: 8px;
-  object-fit: cover;
-  margin-bottom: 10px;
-  margin-left: 50px;
 `;
 
 export default PostingContainer;
