@@ -107,7 +107,7 @@ const ExpandNetworkBox = ({ user, loading }) => {
         {profiles && profiles[0]}
         <HorizontalLine width="100%" />
         {profiles && profiles[1]}
-        <HorizontalLine width="100%" />
+        {profiles[1] && <HorizontalLine width="100%" />}
         {profiles && profiles[2]}
       </ProfilesContainer>
     </Container>

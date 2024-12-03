@@ -6,9 +6,12 @@ import { Page } from "../SharedCSS";
 import styled from "styled-components";
 import ProfileBody from "../Components/ProfileBody";
 import useUserProfile from "../Hooks/useUserProfile";
+import "../Spinner.css";
 
 const Profile = () => {
   const [user, loading] = useUserProfile();
+
+  if (loading) return <span class="loader"></span>;
 
   return (
     <Page>
