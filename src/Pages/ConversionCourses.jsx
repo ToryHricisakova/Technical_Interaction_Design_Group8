@@ -79,7 +79,7 @@ const ConversionCourses = () => {
         <FilterWrapper>
           <MainTitle>Filter by:</MainTitle>
         </FilterWrapper>
-        <HorizontalLine width={150}></HorizontalLine>
+        <HorizontalLine width={200}></HorizontalLine>
         <FilterWrapper>
           <FilterName>Field</FilterName>
           <TypeAhead
@@ -96,7 +96,7 @@ const ConversionCourses = () => {
             }}
           />
         </FilterWrapper>
-        <HorizontalLine width={150}></HorizontalLine>
+        <HorizontalLine width={200}></HorizontalLine>
         <FilterWrapper>
           <FilterName>Education Type</FilterName>
           <RadioButton>
@@ -122,7 +122,7 @@ const ConversionCourses = () => {
             </CheckboxLabel>
           </RadioButton>
         </FilterWrapper>
-        <HorizontalLine width={150}></HorizontalLine>
+        <HorizontalLine width={200}></HorizontalLine>
         <FilterWrapper>
           <FilterName>Location</FilterName>
           <TypeAhead
@@ -139,7 +139,7 @@ const ConversionCourses = () => {
             }}
           />
         </FilterWrapper>
-        <HorizontalLine width={150}></HorizontalLine>
+        <HorizontalLine width={200}></HorizontalLine>
         <Button className="primary-button" onClick={() => doQueryByFieldID()}>
           Search courses
         </Button>

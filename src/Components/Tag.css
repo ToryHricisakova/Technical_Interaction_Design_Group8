@@ -8,17 +8,15 @@ so we would need to change all instances. */
   align-items: center;
   position: relative;
   max-width: 100%;
-  word-wrap: break-word;
-  word-break: break-word;
   background-color: #f19e7d;
   color: #000000;
   font-weight: bold;
-  padding: 2px 15px;
+  padding: 0px 15px;
   border-radius: 20px;
   font-size: 12px;
   margin: 5px;
-  line-height: 1.2;
-  margin-top: 5px;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .skillTag {
@@ -26,24 +24,19 @@ so we would need to change all instances. */
   align-items: center;
   max-width: 100%;
   position: relative;
-  word-wrap: break-word;
-  word-break: break-word;
   background-color: #d5dee4;
   color: #000000;
   font-weight: bold;
-  padding: 2px 15px;
+  padding: 0px 15px;
   border-radius: 20px;
   font-size: 12px;
   margin: 5px;
-  line-height: 1.2;
-  margin-top: 5px;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .closingTag {
-  position: absolute;
   top: 50%;
-  right: 10px;
-  transform: translateY(-45%);
   background-color: transparent;
   border-color: #ed7748;
   border-radius: 40px;
@@ -52,8 +45,5 @@ so we would need to change all instances. */
   font-size: 12px;
   padding: 1px 5px;
   cursor: pointer;
-}
-
-p {
-  margin-right: 20px;
+  margin-left: 5px;
 }

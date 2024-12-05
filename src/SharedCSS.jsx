@@ -42,7 +42,6 @@ export const Logo = styled.img`
 export const Page = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
   padding-top: 76px;
   min-height: 100vh;
 `;
