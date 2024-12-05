@@ -103,7 +103,7 @@ const ProfileHeader = ({ user, loading }) => {
           <Name>{user.get("firstName") + " " + user.get("lastName")}</Name>
           <Bio>{user.get("profileBio")}</Bio>
         </MiddleBlock>
-        <RightBlock>{generateTags()}</RightBlock>
+        <RightBlock>{user.get("fields") && generateTags()}</RightBlock>
       </ProfileBottom>
     </HeaderWrapper>
   );
