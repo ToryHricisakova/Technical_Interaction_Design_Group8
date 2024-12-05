@@ -21,6 +21,7 @@ import {
   CheckboxLabel,
 } from "../ConversionCoursesCSS";
 import { fetchFields, fetchCountries } from "../DataforTypeAhead";
+import { Page } from "../SharedCSS";
 
 const ConversionCourses = () => {
   const [fields, setFields] = useState([]);
@@ -74,6 +75,7 @@ const ConversionCourses = () => {
   };
 
   return (
+    <Page>
     <Container>
       <FilterContainer>
         <FilterWrapper>
@@ -179,6 +181,7 @@ const ConversionCourses = () => {
         )}
       </DisplayContainer>
     </Container>
+    </Page>
   );
 };
 
