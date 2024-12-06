@@ -100,7 +100,8 @@ const Onboarding2 = ({ setIsLoggedIn }) => {
           <Paragraph>
             Add the professional fields that you are working or studying in. The
             fields you add will help others to find you based on your
-            combination of areas of expertise.
+            combination of areas of expertise. You can add a maximum of three
+            fields.
           </Paragraph>
           <TypeAheadWrapper>
             {

@@ -113,8 +113,9 @@ export const StyledInput = styled.input`
 export const ErrorMessage = styled.p`
   color: red;
   font-weight: bold;
-  margin-bottom: 15px;
+  //margin-bottom: 15px;
   padding: 5px;
+  font-size: 14px;
 `;
 export const ConnectButton = styled.button`
   background-color: white;

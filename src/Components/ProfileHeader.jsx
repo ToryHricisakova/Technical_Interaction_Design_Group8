@@ -5,12 +5,25 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import Button from "./Button";
 import Parse from "parse";
 import TagGenerator from "./TagGenerator";
+import { ErrorMessage } from "../SharedCSS";
 
 const ProfileHeader = ({ user, loading }) => {
   const [bannerImg, setBannerImg] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
+  const [errorMsg, setErrorMsg] = useState("");
   const bannerRef = useRef(null);
   const profileImgRef = useRef(null);
+
+  // Remove error message after 2 seconds
+  useEffect(() => {
+    if (errorMsg) {
+      const timer = setTimeout(() => {
+        setErrorMsg("");
+      }, 2000);
+      // Cleanup function - runs before the component unmounts or before the effect is re-executed.
+      return () => clearTimeout(timer);
+    }
+  }, [errorMsg]);
 
   console.log("rendering ProfileHeader component");
 
@@ -37,11 +50,11 @@ const ProfileHeader = ({ user, loading }) => {
       console.log("bannerimg url: " + bannerImage.url());
       user.set("bannerImage", bannerImage);
       await user.save();
-
+      setErrorMsg("");
       setBannerImg(bannerImage.url());
       console.log("bannerImage uploaded succesfully");
     } catch (error) {
-      console.log(error.message);
+      setErrorMsg("There was an error saving your banner.");
     }
   };
 
@@ -78,11 +91,12 @@ const ProfileHeader = ({ user, loading }) => {
   return (
     <HeaderWrapper>
       <BannerWrapper>
-        <Banner src={bannerImg} />
+        <Banner src={bannerImg} alt="Profile banner image" />
         <HiddenInput type="file" onChange={saveBannerImg} ref={bannerRef} />
         <EditIconWrapper onClick={handleBannerEdit}>
           <EditIcon icon={faEdit} />
         </EditIconWrapper>
+        {errorMsg && <StyledErrorMessage>{errorMsg}</StyledErrorMessage>}
       </BannerWrapper>
       <ProfileImageWrapper>
         <ProfileImage src={profileImg} />
@@ -140,7 +154,7 @@ const Banner = styled.img`
   height: 100%;
   width: 100%;
   border-radius: 20px 20px 0 0;
-  border: 1px solid #ccc;
+  //border: 1px solid #ccc;
   object-fit: cover;
 `;
 const EditIconWrapper = styled.div`
@@ -233,4 +247,13 @@ const Bio = styled.p`
   color: #3a3a3a;
   font-family: Inter, sans-serif;
   line-height: 1.5;
+`;
+const StyledErrorMessage = styled(ErrorMessage)`
+  z-index: 2;
+  position: absolute;
+  background-color: white;
+  right: 55px;
+  top: 3px;
+  border-radius: 8px;
+  padding: 5px 10px;
 `;
