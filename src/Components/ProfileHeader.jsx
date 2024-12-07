@@ -7,25 +7,27 @@ import Parse from "parse";
 import TagGenerator from "./TagGenerator";
 import { ErrorMessage } from "../SharedCSS";
 
-const ProfileHeader = ({ user, loading }) => {
+const ProfileHeader = ({ user }) => {
   const [bannerImg, setBannerImg] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsgBanner, setErrorMsgBanner] = useState("");
+  const [errorMsgPhoto, setErrorMsgPhoto] = useState("");
   const bannerRef = useRef(null);
   const profileImgRef = useRef(null);
 
+  console.log("rendering ProfileHeader component");
+
   // Remove error message after 2 seconds
   useEffect(() => {
-    if (errorMsg) {
+    if (errorMsgBanner || errorMsgPhoto) {
       const timer = setTimeout(() => {
-        setErrorMsg("");
+        setErrorMsgBanner("");
+        setErrorMsgPhoto("");
       }, 2000);
       // Cleanup function - runs before the component unmounts or before the effect is re-executed.
       return () => clearTimeout(timer);
     }
-  }, [errorMsg]);
-
-  console.log("rendering ProfileHeader component");
+  }, [errorMsgBanner, errorMsgPhoto]);
 
   useEffect(() => {
     console.log("useEffect called for user having changed");
@@ -50,11 +52,11 @@ const ProfileHeader = ({ user, loading }) => {
       console.log("bannerimg url: " + bannerImage.url());
       user.set("bannerImage", bannerImage);
       await user.save();
-      setErrorMsg("");
+      setErrorMsgBanner("");
       setBannerImg(bannerImage.url());
       console.log("bannerImage uploaded succesfully");
     } catch (error) {
-      setErrorMsg("There was an error saving your banner.");
+      setErrorMsgBanner("There was an error saving your banner.");
     }
   };
 
@@ -71,10 +73,11 @@ const ProfileHeader = ({ user, loading }) => {
       console.log("profileImg url: " + profileImage.url());
       user.set("profileImage", profileImage);
       await user.save();
-
+      setErrorMsgPhoto("");
       setProfileImg(profileImage.url());
       console.log("profileImage uploaded succesfully");
     } catch (error) {
+      setErrorMsgPhoto("There was an error saving your profile photo.");
       console.log(error.message);
     }
   };
@@ -86,8 +89,6 @@ const ProfileHeader = ({ user, loading }) => {
     }
   };
 
-  if (loading) return <p>Loading</p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
-
   return (
     <HeaderWrapper>
       <BannerWrapper>
@@ -96,7 +97,12 @@ const ProfileHeader = ({ user, loading }) => {
         <EditIconWrapper onClick={handleBannerEdit}>
           <EditIcon icon={faEdit} />
         </EditIconWrapper>
-        {errorMsg && <StyledErrorMessage>{errorMsg}</StyledErrorMessage>}
+        {errorMsgBanner && (
+          <StyledErrorMessageBanner>{errorMsgBanner}</StyledErrorMessageBanner>
+        )}
+        {errorMsgPhoto && (
+          <StyledErrorMessagePhoto>{errorMsgPhoto}</StyledErrorMessagePhoto>
+        )}
       </BannerWrapper>
       <ProfileImageWrapper>
         <ProfileImage src={profileImg} />
@@ -248,12 +254,21 @@ const Bio = styled.p`
   font-family: Inter, sans-serif;
   line-height: 1.5;
 `;
-const StyledErrorMessage = styled(ErrorMessage)`
+const StyledErrorMessageBanner = styled(ErrorMessage)`
   z-index: 2;
   position: absolute;
   background-color: white;
   right: 55px;
   top: 3px;
+  border-radius: 8px;
+  padding: 5px 10px;
+`;
+const StyledErrorMessagePhoto = styled(ErrorMessage)`
+  z-index: 3;
+  position: absolute;
+  background-color: white;
+  left: 158px;
+  top: 103px;
   border-radius: 8px;
   padding: 5px 10px;
 `;

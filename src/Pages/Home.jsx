@@ -4,17 +4,17 @@ import Post from "../Components/Post";
 import PostingContainer from "../Components/PostingContainer";
 import ExpandNetworkBox from "../Components/ExpandNetworkBox";
 import Parse from "parse";
+import "../Spinner.css";
 
 const Home = () => {
   const [POSTS, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-
   const readPosts = async () => {
     const parseQuery = new Parse.Query("POSTS");
     parseQuery.include("postedBy");
     parseQuery.descending("dateofPosting");
-    
+
     try {
       const fetchedPosts = await parseQuery.find();
       const postsData = fetchedPosts.map((post) => {
@@ -25,9 +25,7 @@ const Home = () => {
         const name = user
           ? `${user.get("firstName")} ${user.get("lastName")}`
           : "Anonymous";
-        const fields = user 
-          ? user.get("fields") 
-          : [];
+        const fields = user ? user.get("fields") : [];
         const text = post.get("text");
         const media = post.get("media");
         const dateofPosting = post.get("dateofPosting");
@@ -35,7 +33,6 @@ const Home = () => {
         const profileImageUser = user
           ? user.get("profileImage")?.url()
           : profileImage;
-
 
         return {
           objectId: post.id,
@@ -50,7 +47,6 @@ const Home = () => {
       });
 
       setPosts(postsData);
-
     } catch (error) {
       console.error("Error fetching posts:", error);
     } finally {
@@ -62,6 +58,7 @@ const Home = () => {
     readPosts();
   }, []);
 
+  if (loading) return <span className="loader"></span>;
 
   return (
     <HomePage>
@@ -70,9 +67,7 @@ const Home = () => {
           <PostingContainer></PostingContainer>
         </Container>
         <Container>
-          {loading ? (
-            <p>Loading posts...</p>
-          ) : POSTS.length > 0 ? (
+          {POSTS.length > 0 ? (
             POSTS.map((post, index) => {
               return (
                 <Post

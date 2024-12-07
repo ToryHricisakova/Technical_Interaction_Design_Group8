@@ -1,5 +1,10 @@
 import "./index.css";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import Welcome from "./Pages/Welcome";
 import Home from "./Pages/Home.jsx";
 import Registration from "./Pages/Registration";
@@ -35,16 +40,25 @@ function App() {
     checkLoginStatus();
   }, []);
 
-if (!isLoggedIn) {
+  if (!isLoggedIn) {
     return (
       <Router>
         <Welcomebar />
         <Routes>
           <Route path="/" element={<Welcome />} />
-          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/register" element={<Registration setIsLoggedIn={setIsLoggedIn} />} />
+          <Route
+            path="/login"
+            element={<Login setIsLoggedIn={setIsLoggedIn} />}
+          />
+          <Route
+            path="/register"
+            element={<Registration setIsLoggedIn={setIsLoggedIn} />}
+          />
           <Route path="/onboarding1" element={<Onboarding1 />} />
-          <Route path="/onboarding2" element={<Onboarding2 setIsLoggedIn={setIsLoggedIn} />} />
+          <Route
+            path="/onboarding2"
+            element={<Onboarding2 setIsLoggedIn={setIsLoggedIn} />}
+          />
           {/* Redirect any other path to the Welcome page */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

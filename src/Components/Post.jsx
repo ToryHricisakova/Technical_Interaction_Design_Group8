@@ -4,7 +4,16 @@ import LikeIcon from "./LikeIcon";
 import Tag from "../Components/Tag";
 import Parse from "parse";
 
-const Post = ({ profileImage, name, text, media, fields, dateofPosting, numberOfLikes, objectId }) => {
+const Post = ({
+  profileImage,
+  name,
+  text,
+  media,
+  fields,
+  dateofPosting,
+  numberOfLikes,
+  objectId,
+}) => {
   const formattedDate = new Date(dateofPosting).toLocaleString();
   const mediaUrl = media instanceof Parse.File ? media.url() : media;
 
@@ -48,8 +57,8 @@ const Post = ({ profileImage, name, text, media, fields, dateofPosting, numberOf
 // Styled Components
 
 const PostContainer = styled.div`
-  max-width: 700px;  
-  width: 100%;      
+  max-width: 700px;
+  width: 100%;
   padding: 32px 48px;
   border-radius: 20px;
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.2);
@@ -76,6 +85,7 @@ const ProfileImage = styled.img`
   border-radius: 50%;
   margin-right: 10px;
   align-items: flex-start;
+  object-fit: cover;
 `;
 
 const UserInfo = styled.div`
@@ -89,7 +99,6 @@ const UserName = styled.span`
   font-size: 16px;
   font-weight: bold;
   color: #34415d;
-
 `;
 
 const TagsContainer = styled.div`
@@ -124,10 +133,10 @@ const PostContent = styled.div`
 `;
 
 const PostActions = styled.div`
-  justify-content: flex-start;  
+  justify-content: flex-start;
   display: flex;
   gap: 20px;
-  margin-top: 10px; 
+  margin-top: 10px;
 `;
 
 const ActionIcon = styled.i`

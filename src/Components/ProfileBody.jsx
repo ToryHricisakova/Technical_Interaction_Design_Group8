@@ -5,8 +5,7 @@ import HorizontalLine from "./HorizontalLine";
 import { useState, useEffect } from "react";
 import PostGenerator from "./PostGenerator.jsx";
 
-const ProfileBody = ({ user, loading }) => {
-  const [displayPosts, setDisplayPosts] = useState([]);
+const ProfileBody = ({ user }) => {
   const [fetchedPosts, setFetchedPosts] = useState([]);
 
   useEffect(() => {
@@ -46,8 +45,6 @@ const ProfileBody = ({ user, loading }) => {
     }
     return null;
   };
-
-  if (loading) return <p></p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
 
   return (
     <BodyWrapper>

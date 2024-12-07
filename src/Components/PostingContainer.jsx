@@ -13,7 +13,6 @@ const PostingContainer = () => {
   const fileInputRef = useRef(null);
   //const mediaPreviewRef = useRef(null);
 
-
   if (!loading && user) {
     console.log("Current User:", user);
   }
@@ -22,7 +21,6 @@ const PostingContainer = () => {
     !loading && user && user.get("profileImage")
       ? user.get("profileImage").url()
       : "https://via.placeholder.com/40";
-
 
   const handleTextChange = (e) => {
     setText(e.target.value);
@@ -36,7 +34,6 @@ const PostingContainer = () => {
   }, [user, loading]);
 
   const handleFileInput = () => fileInputRef.current?.click();
-
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
@@ -94,7 +91,6 @@ const PostingContainer = () => {
       alert(`Error creating post: ${error.message}`);
     }
   };
-  
 
   return (
     <>
@@ -135,8 +131,6 @@ const PostingContainer = () => {
     </>
   );
 };
-
-
 
 // Styled Components
 
@@ -204,6 +198,7 @@ const TextField = styled.textarea`
   min-height: 80px;
   max-height: 300px;
   overflow-y: auto;
+  font-family: Inter;
 
   &::placeholder {
     color: #aaa;

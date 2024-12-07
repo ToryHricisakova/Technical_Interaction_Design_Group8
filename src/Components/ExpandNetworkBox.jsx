@@ -94,8 +94,6 @@ const ExpandNetworkBox = () => {
     setProfiles(profiles);
   };
 
-  if (loading) return <p></p>;
-
   return (
     <Container>
       <TextContainer>
