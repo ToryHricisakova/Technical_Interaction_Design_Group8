@@ -35,36 +35,47 @@ function App() {
     checkLoginStatus();
   }, []);
 
-if (!isLoggedIn) {
-    return (
-      <Router>
-        <Welcomebar />
-        <Routes>
-          <Route path="/" element={<Welcome />} />
-          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/register" element={<Registration setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/onboarding1" element={<Onboarding1 />} />
-          <Route path="/onboarding2" element={<Onboarding2 setIsLoggedIn={setIsLoggedIn} />} />
-          {/* Redirect any other path to the Welcome page */}
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </Router>
-    );
-  }
+  console.log("Is Logged In:", isLoggedIn);
 
   return (
-    <Router>
-      <Navbar setIsLoggedIn={setIsLoggedIn} />
-      <Routes>
-        <Route path="/home" element={<Home />} />
-        <Route path="/education" element={<ConversionCourses />} />
-        <Route path="/people" element={<People />} />
-        <Route path="/jobs" element={<Jobs />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/messages" element={<Messages />} />
-        {/* Redirect any unauthorized route to the home page */}
-        <Route path="*" element={<Navigate to="/home" />} />
-      </Routes>
+    <Router future={{ v7_relativeSplatPath: true }}>
+      {isLoggedIn === null ? (
+        <h1>Loading...</h1>
+      ) : isLoggedIn ? (
+        <>
+          <Navbar setIsLoggedIn={setIsLoggedIn} />
+          <Routes>
+            <Route path="/home" element={<Home />} />
+            <Route path="/education" element={<ConversionCourses />} />
+            <Route path="/people" element={<People />} />
+            <Route path="/jobs" element={<Jobs />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/messages" element={<Messages />} />
+            <Route path="*" element={<h1>404 - Page Not Found</h1>} />
+          </Routes>
+        </>
+      ) : (
+        <>
+          <Welcomebar />
+          <Routes>
+            <Route path="/" element={<Welcome />} />
+            <Route
+              path="/login"
+              element={<Login setIsLoggedIn={setIsLoggedIn} />}
+            />
+            <Route
+              path="/register"
+              element={<Registration setIsLoggedIn={setIsLoggedIn} />}
+            />
+            <Route path="/onboarding1" element={<Onboarding1 />} />
+            <Route
+              path="/onboarding2"
+              element={<Onboarding2 setIsLoggedIn={setIsLoggedIn} />}
+            />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </>
+      )}
     </Router>
   );
 }
