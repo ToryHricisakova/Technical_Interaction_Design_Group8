@@ -4,7 +4,7 @@ import Button from "./Button";
 import useUserProfile from "../Hooks/useUserProfile";
 import Parse from "parse";
 
-const PostingContainer = () => {
+const PostingContainer = ({ refreshPosts }) => {
   const [user, loading] = useUserProfile();
   const [text, setText] = useState("");
   const [mediaFile, setMediaFile] = useState(null);
@@ -14,7 +14,6 @@ const PostingContainer = () => {
   const fileInputRef = useRef(null);
   //const mediaPreviewRef = useRef(null);
 
-
   if (!loading && user) {
     console.log("Current User:", user);
   }
@@ -23,7 +22,6 @@ const PostingContainer = () => {
     !loading && user && user.get("profileImage")
       ? user.get("profileImage").url()
       : "https://via.placeholder.com/40";
-
 
   const handleTextChange = (e) => {
     setText(e.target.value);
@@ -37,7 +35,6 @@ const PostingContainer = () => {
   }, [user, loading]);
 
   const handleFileInput = () => fileInputRef.current?.click();
-
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
@@ -55,7 +52,7 @@ const PostingContainer = () => {
       setMediaFile(media);
       setMediaPreview(URL.createObjectURL(file));
     } catch (error) {
-        setMessage(`Error uploading file: ${error.message}`);
+      setMessage(`Error uploading file: ${error.message}`);
     }
   };
 
@@ -88,6 +85,8 @@ const PostingContainer = () => {
       await Post.save();
       setMessage("Post created successfully!");
 
+      refreshPosts();
+
       setText("");
       setMediaFile(null);
       setMediaPreview("");
@@ -95,7 +94,6 @@ const PostingContainer = () => {
       setMessage(`Error creating post: ${error.message}`);
     }
   };
-  
 
   return (
     <>

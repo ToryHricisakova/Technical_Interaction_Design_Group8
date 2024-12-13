@@ -9,12 +9,11 @@ const Home = () => {
   const [POSTS, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-
   const readPosts = async () => {
     const parseQuery = new Parse.Query("POSTS");
     parseQuery.include("postedBy");
     parseQuery.descending("dateofPosting");
-    
+
     try {
       const fetchedPosts = await parseQuery.find();
       const postsData = fetchedPosts.map((post) => {
@@ -25,9 +24,7 @@ const Home = () => {
         const name = user
           ? `${user.get("firstName")} ${user.get("lastName")}`
           : "Anonymous";
-        const fields = user 
-          ? user.get("fields") 
-          : [];
+        const fields = user ? user.get("fields") : [];
         const text = post.get("text");
         const media = post.get("media");
         const dateofPosting = post.get("dateofPosting");
@@ -35,7 +32,6 @@ const Home = () => {
         const profileImageUser = user
           ? user.get("profileImage")?.url()
           : profileImage;
-
 
         return {
           objectId: post.id,
@@ -50,7 +46,6 @@ const Home = () => {
       });
 
       setPosts(postsData);
-
     } catch (error) {
       console.error("Error fetching posts:", error);
     } finally {
@@ -62,12 +57,16 @@ const Home = () => {
     readPosts();
   }, []);
 
+  const refreshPosts = () => {
+    setLoading(true);
+    readPosts();
+  };
 
   return (
     <HomePage>
       <MainSection>
         <Container>
-          <PostingContainer></PostingContainer>
+          <PostingContainer refreshPosts={refreshPosts}></PostingContainer>
         </Container>
         <Container>
           {loading ? (
