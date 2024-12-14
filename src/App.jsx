@@ -1,5 +1,10 @@
 import "./index.css";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import Welcome from "./Pages/Welcome";
 import Home from "./Pages/Home.jsx";
 import Registration from "./Pages/Registration";

@@ -10,9 +10,12 @@ import {
   Logo,
 } from "../SharedCSS";
 import Parse from "parse";
+import useUserProfile from "../Hooks/useUserProfile.js";
 
 const Navbar = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
+  const [user] = useUserProfile();
+  const profileImage = user && user.get("profileImage").url();
 
   const handleLogout = async function () {
     try {
@@ -46,34 +49,37 @@ const Navbar = ({ setIsLoggedIn }) => {
             />
           </Link>
           <Link to="/people">
-            <Icon 
-              className="bi bi-people-fill" 
-              aria-label="Network" 
-              title="Network" />
+            <Icon
+              className="bi bi-people-fill"
+              aria-label="Network"
+              title="Network"
+            />
           </Link>
           <Link to="/jobs">
-            <Icon 
-              className="bi bi-briefcase-fill" 
+            <Icon
+              className="bi bi-briefcase-fill"
               aria-label="Jobs"
-              title="Jobs" />
+              title="Jobs"
+            />
           </Link>
           <Link to="/messages">
-            <Icon 
-              className="bi bi-chat-fill" 
+            <Icon
+              className="bi bi-chat-fill"
               aria-label="Messages"
-              title="Messages" />
+              title="Messages"
+            />
           </Link>
-            
-            <Icon 
-              className="bi bi-bell-fill" 
-              aria-label="Notifications"
-              title="Notifications" />
+
+          <Icon
+            className="bi bi-bell-fill"
+            aria-label="Notifications"
+            title="Notifications"
+          />
 
           <Link to="/profile">
-            <ProfileImage 
-              src="src/MediaFiles/Profile.png" 
-              alt="Profile"
-              title="Profile" />
+            {user && (
+              <ProfileImage src={profileImage} alt="Profile" title="Profile" />
+            )}
           </Link>
 
           <SearchBar type="text" placeholder="Start typing..." />
@@ -99,10 +105,11 @@ const Icon = styled.i`
 `;
 
 const ProfileImage = styled.img`
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
   cursor: pointer;
+  object-fit: cover;
 `;
 
 const SearchBar = styled.input`

@@ -1,5 +1,7 @@
 # CrossConnect
 
+Run the app with: npm run dev
+
 Database Model for the App:
 <img width="1156" alt="CrossConnect Database Model" src="https://github.com/user-attachments/assets/bb3283ef-ecc5-42d6-b7e7-c613b64c70d8">
 

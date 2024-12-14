@@ -9,7 +9,7 @@ const ConnectButton = () => {
   };
 
   return (
-    <Button className="secondary-button" onClick={handleClick}>
+    <Button className="connect-button" onClick={handleClick}>
       {buttonText}
     </Button>
   );

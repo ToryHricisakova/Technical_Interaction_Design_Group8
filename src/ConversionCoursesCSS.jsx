@@ -18,7 +18,7 @@ export const FilterContainer = styled.div`
 `;
 
 export const DisplayContainer = styled.div`
-  width: 500px;
+  width: 510px;
   height: 550px;
   display: inline-block;
   overflow-y: auto;

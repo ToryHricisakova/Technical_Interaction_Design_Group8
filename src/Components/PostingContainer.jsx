@@ -136,8 +136,6 @@ const PostingContainer = ({ refreshPosts }) => {
   );
 };
 
-
-
 // Styled Components
 
 const MessageContainer = styled.div`
@@ -216,6 +214,7 @@ const TextField = styled.textarea`
   min-height: 80px;
   max-height: 300px;
   overflow-y: auto;
+  font-family: Inter;
 
   &::placeholder {
     color: #aaa;

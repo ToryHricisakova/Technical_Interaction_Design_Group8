@@ -4,6 +4,7 @@ import Post from "../Components/Post";
 import PostingContainer from "../Components/PostingContainer";
 import ExpandNetworkBox from "../Components/ExpandNetworkBox";
 import Parse from "parse";
+import "../Spinner.css";
 
 const Home = () => {
   const [POSTS, setPosts] = useState([]);
@@ -61,6 +62,9 @@ const Home = () => {
     setLoading(true);
     readPosts();
   };
+  
+  
+  if (loading) return <span className="loader"></span>;
 
   return (
     <HomePage>
@@ -69,9 +73,7 @@ const Home = () => {
           <PostingContainer refreshPosts={refreshPosts}></PostingContainer>
         </Container>
         <Container>
-          {loading ? (
-            <p>Loading posts...</p>
-          ) : POSTS.length > 0 ? (
+          {POSTS.length > 0 ? (
             POSTS.map((post, index) => {
               return (
                 <Post

@@ -22,6 +22,7 @@ import {
 } from "../ConversionCoursesCSS";
 import { fetchFields, fetchCountries } from "../DataforTypeAhead";
 import { Page } from "../SharedCSS";
+import ExpandNetworkBox from "../Components/ExpandNetworkBox";
 
 const ConversionCourses = () => {
   const [fields, setFields] = useState([]);
@@ -180,6 +181,7 @@ const ConversionCourses = () => {
           })
         )}
       </DisplayContainer>
+      <ExpandNetworkBox />
     </Container>
     </Page>
   );

@@ -5,19 +5,32 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import Button from "./Button";
 import Parse from "parse";
 import TagGenerator from "./TagGenerator";
+import { ErrorMessage } from "../SharedCSS";
 
-const ProfileHeader = ({ user, loading }) => {
+const ProfileHeader = ({ user }) => {
   const [bannerImg, setBannerImg] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
+  const [errorMsgBanner, setErrorMsgBanner] = useState("");
+  const [errorMsgPhoto, setErrorMsgPhoto] = useState("");
   const bannerRef = useRef(null);
   const profileImgRef = useRef(null);
 
   console.log("rendering ProfileHeader component");
 
+  // Remove error message after 2 second delay
   useEffect(() => {
-    console.log("useEffect called for user having changed");
-    console.log(user);
-    console.dir(user);
+    if (errorMsgBanner || errorMsgPhoto) {
+      const timer = setTimeout(() => {
+        setErrorMsgBanner("");
+        setErrorMsgPhoto("");
+      }, 2000);
+      // Cleanup function - runs before the component unmounts or before the effect is re-executed.
+      return () => clearTimeout(timer);
+    }
+  }, [errorMsgBanner, errorMsgPhoto]);
+
+  // Retrieve profileImage and bannerImage for display
+  useEffect(() => {
     if (user) {
       setBannerImg(user.get("bannerImage").url());
       setProfileImg(user.get("profileImage").url());
@@ -29,6 +42,7 @@ const ProfileHeader = ({ user, loading }) => {
     bannerRef.current.click();
   };
 
+  // Save bannerImage to database and display it on profile
   const saveBannerImg = async (event) => {
     const image = event.target.files[0];
     try {
@@ -37,11 +51,11 @@ const ProfileHeader = ({ user, loading }) => {
       console.log("bannerimg url: " + bannerImage.url());
       user.set("bannerImage", bannerImage);
       await user.save();
-
+      setErrorMsgBanner("");
       setBannerImg(bannerImage.url());
       console.log("bannerImage uploaded succesfully");
     } catch (error) {
-      console.log(error.message);
+      setErrorMsgBanner("There was an error saving your banner.");
     }
   };
 
@@ -50,6 +64,7 @@ const ProfileHeader = ({ user, loading }) => {
     profileImgRef.current.click();
   };
 
+  // Save profileImage to database and display it on profile
   const saveProfileImg = async (event) => {
     const image = event.target.files[0];
     try {
@@ -58,31 +73,35 @@ const ProfileHeader = ({ user, loading }) => {
       console.log("profileImg url: " + profileImage.url());
       user.set("profileImage", profileImage);
       await user.save();
-
+      setErrorMsgPhoto("");
       setProfileImg(profileImage.url());
       console.log("profileImage uploaded succesfully");
     } catch (error) {
-      console.log(error.message);
+      setErrorMsgPhoto("There was an error saving your profile photo.");
     }
   };
 
+  // Retrieve user's tag from database and generate tags for display.
   const generateTags = () => {
-    // console.log("generateTags running - " + user.get("fields"));
     if (user.get("fields") !== undefined) {
       return TagGenerator({ array: user.get("fields"), tagType: "field" });
     }
   };
 
-  if (loading) return <p>Loading</p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
-
   return (
     <HeaderWrapper>
       <BannerWrapper>
-        <Banner src={bannerImg} />
+        <Banner src={bannerImg} alt="Profile banner image" />
         <HiddenInput type="file" onChange={saveBannerImg} ref={bannerRef} />
         <EditIconWrapper onClick={handleBannerEdit}>
           <EditIcon icon={faEdit} />
         </EditIconWrapper>
+        {errorMsgBanner && (
+          <StyledErrorMessageBanner>{errorMsgBanner}</StyledErrorMessageBanner>
+        )}
+        {errorMsgPhoto && (
+          <StyledErrorMessagePhoto>{errorMsgPhoto}</StyledErrorMessagePhoto>
+        )}
       </BannerWrapper>
       <ProfileImageWrapper>
         <ProfileImage src={profileImg} />
@@ -121,7 +140,7 @@ const HeaderWrapper = styled.div`
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
   height: 350px;
-  width: 800px;
+  width: 860px;
   min-width: 400px;
 `;
 const BannerWrapper = styled.div`
@@ -140,7 +159,7 @@ const Banner = styled.img`
   height: 100%;
   width: 100%;
   border-radius: 20px 20px 0 0;
-  border: 1px solid #ccc;
+  //border: 1px solid #ccc;
   object-fit: cover;
 `;
 const EditIconWrapper = styled.div`
@@ -197,9 +216,10 @@ const LeftBlock = styled.div`
   align-items: end;
   justify-content: center;
   height: 100%;
-  width: 24%;
-  border-radius: 0 0 0px 40px;
-  margin-bottom: 80px;
+  width: 22%;
+  border-radius: 0 0 0px 20px;
+  box-sizing: border-box;
+  padding-bottom: 40px;
 `;
 const MiddleBlock = styled.div`
   display: flex;
@@ -208,8 +228,10 @@ const MiddleBlock = styled.div`
   align-items: left;
   text-align: left;
   height: 100%;
-  width: 51%;
+  width: 53%;
   overflow: hidden;
+  box-sizing: border-box;
+  padding: 5px 10px;
 `;
 const RightBlock = styled.div`
   display: flex;
@@ -218,7 +240,9 @@ const RightBlock = styled.div`
   align-items: center;
   height: 100%;
   width: 25%;
-  border-radius: 0 0 40px 0px;
+  border-radius: 0 0 20px 0px;
+  box-sizing: border-box;
+  padding-right: 10px;
 `;
 const Name = styled.h1`
   font-size: 24px;
@@ -233,4 +257,22 @@ const Bio = styled.p`
   color: #3a3a3a;
   font-family: Inter, sans-serif;
   line-height: 1.5;
+`;
+const StyledErrorMessageBanner = styled(ErrorMessage)`
+  z-index: 2;
+  position: absolute;
+  background-color: white;
+  right: 55px;
+  top: 3px;
+  border-radius: 8px;
+  padding: 5px 10px;
+`;
+const StyledErrorMessagePhoto = styled(ErrorMessage)`
+  z-index: 3;
+  position: absolute;
+  background-color: white;
+  left: 158px;
+  top: 103px;
+  border-radius: 8px;
+  padding: 5px 10px;
 `;

@@ -159,7 +159,9 @@ const RegistrationForm = () => {
               placeholder="Enter first name"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
+              autocomplete="off"
               required
+              maxLength={38}
             />
           </InputContainer>
           <InputContainer>
@@ -173,6 +175,8 @@ const RegistrationForm = () => {
               placeholder="Enter last name"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
+              autocomplete="off"
+              maxLength={38}
               required
             />
           </InputContainer>
@@ -191,6 +195,7 @@ const RegistrationForm = () => {
               placeholder="Enter e-mail address"
               value={email}
               onChange={handleEmailChange}
+              maxLength={38}
               required
             />
           </InputContainer>
@@ -210,6 +215,7 @@ const RegistrationForm = () => {
                 placeholder="Enter password"
                 value={password}
                 onChange={handlePasswordChange}
+                maxLength={38}
                 required
               />
               <ToggleVisibilityEye
@@ -241,6 +247,7 @@ const RegistrationForm = () => {
                 value={confirmPassword}
                 placeholder="Re-enter password"
                 onChange={handlePasswordConfirmation}
+                maxLength={38}
                 required
               />
               <ToggleVisibilityEye

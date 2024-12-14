@@ -242,6 +242,7 @@ const BioText = styled.textarea`
   color: black;
   margin-bottom: 15px;
   box-sizing: border-box; // Prevents box from expanding when extra padding is added.
+  font-family: Inter;
 `;
 const CalenderContainer = styled.div`
   display: flex;

@@ -51,7 +51,7 @@ const ExpandNetworkBox = () => {
     try {
       // Finding relevant profiles in our "USERS"-table to display based on the chosen field tag.
       const query = new Parse.Query("USERS");
-      query.contains("fields", field); // Contains to also get related fields. E.g. "administration" and "business administration".
+      query.contains("fields", field); // "contains" used to also get related fields. E.g. "administration" and "business administration".
       query.notEqualTo("user", Parse.User.current()); // Excluding the current user
 
       const results = await query.find();
@@ -94,14 +94,12 @@ const ExpandNetworkBox = () => {
     setProfiles(profiles);
   };
 
-  if (loading) return <span className="loader"></span>;
-
   return (
     <Container>
       <TextContainer>
         <Title>Expand your network</Title>
         <SubTextContainer>
-          <p>Based on your field:</p>
+          <Text>Based on your field:</Text>
           <Tag word={field} tagType={"field"} closable={false} />
         </SubTextContainer>
       </TextContainer>
@@ -154,6 +152,15 @@ const TextContainer = styled.div`
 const SubTextContainer = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  p {
+    padding: 0px;
+  }
+  margin: 15px 0 10px 0;
 `;
+const Text = styled.p`
+  margin: 0;
+
+`
