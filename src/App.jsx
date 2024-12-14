@@ -18,6 +18,7 @@ import Navbar from "./Components/Navbar";
 import Welcomebar from "./Components/Welcomebar";
 import Onboarding1 from "./Pages/Onboarding1";
 import Onboarding2 from "./Pages/Onboarding2";
+import ViewProfile from "./Pages/ViewProfile.jsx";
 import { useState, useEffect } from "react";
 import Parse from "parse";
 //import Parse from "parse/dist/parse.min.js";
@@ -56,6 +57,7 @@ function App() {
             <Route path="/jobs" element={<Jobs />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/messages" element={<Messages />} />
+            <Route path="/:userObjectId" element={<ViewProfile />} />
             <Route path="*" element={<h1>404 - Page Not Found</h1>} />
           </Routes>
         </>
