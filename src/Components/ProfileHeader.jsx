@@ -17,7 +17,7 @@ const ProfileHeader = ({ user }) => {
 
   console.log("rendering ProfileHeader component");
 
-  // Remove error message after 2 seconds
+  // Remove error message after 2 second delay
   useEffect(() => {
     if (errorMsgBanner || errorMsgPhoto) {
       const timer = setTimeout(() => {
@@ -29,10 +29,8 @@ const ProfileHeader = ({ user }) => {
     }
   }, [errorMsgBanner, errorMsgPhoto]);
 
+  // Retrieve profileImage and bannerImage for display
   useEffect(() => {
-    console.log("useEffect called for user having changed");
-    console.log(user);
-    console.dir(user);
     if (user) {
       setBannerImg(user.get("bannerImage").url());
       setProfileImg(user.get("profileImage").url());
@@ -44,6 +42,7 @@ const ProfileHeader = ({ user }) => {
     bannerRef.current.click();
   };
 
+  // Save bannerImage to database and display it on profile
   const saveBannerImg = async (event) => {
     const image = event.target.files[0];
     try {
@@ -65,6 +64,7 @@ const ProfileHeader = ({ user }) => {
     profileImgRef.current.click();
   };
 
+  // Save profileImage to database and display it on profile
   const saveProfileImg = async (event) => {
     const image = event.target.files[0];
     try {
@@ -78,12 +78,11 @@ const ProfileHeader = ({ user }) => {
       console.log("profileImage uploaded succesfully");
     } catch (error) {
       setErrorMsgPhoto("There was an error saving your profile photo.");
-      console.log(error.message);
     }
   };
 
+  // Retrieve user's tag from database and generate tags for display.
   const generateTags = () => {
-    // console.log("generateTags running - " + user.get("fields"));
     if (user.get("fields") !== undefined) {
       return TagGenerator({ array: user.get("fields"), tagType: "field" });
     }
@@ -141,7 +140,7 @@ const HeaderWrapper = styled.div`
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
   height: 350px;
-  width: 800px;
+  width: 860px;
   min-width: 400px;
 `;
 const BannerWrapper = styled.div`
@@ -217,9 +216,10 @@ const LeftBlock = styled.div`
   align-items: end;
   justify-content: center;
   height: 100%;
-  width: 24%;
-  border-radius: 0 0 0px 40px;
-  margin-bottom: 80px;
+  width: 22%;
+  border-radius: 0 0 0px 20px;
+  box-sizing: border-box;
+  padding-bottom: 40px;
 `;
 const MiddleBlock = styled.div`
   display: flex;
@@ -228,8 +228,10 @@ const MiddleBlock = styled.div`
   align-items: left;
   text-align: left;
   height: 100%;
-  width: 51%;
+  width: 53%;
   overflow: hidden;
+  box-sizing: border-box;
+  padding: 5px 10px;
 `;
 const RightBlock = styled.div`
   display: flex;
@@ -238,7 +240,9 @@ const RightBlock = styled.div`
   align-items: center;
   height: 100%;
   width: 25%;
-  border-radius: 0 0 40px 0px;
+  border-radius: 0 0 20px 0px;
+  box-sizing: border-box;
+  padding-right: 10px;
 `;
 const Name = styled.h1`
   font-size: 24px;

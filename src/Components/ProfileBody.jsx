@@ -57,13 +57,18 @@ const ProfileBody = ({ user }) => {
         <Title>Your Tags</Title>
         <HorizontalLine width="200px" />
         <div>
+          <SubTitle>Skills</SubTitle>
+          <TagsLayout>{user && generateSkills()}</TagsLayout>
+        </div>
+        <div>
           <SubTitle>Fields</SubTitle>
           <TagsLayout>{user && generateFields()}</TagsLayout>
         </div>
-
         <div>
-          <SubTitle>Skills</SubTitle>
-          <TagsLayout>{user && generateSkills()}</TagsLayout>
+          <SubTitle>Education</SubTitle>
+        </div>
+        <div>
+          <SubTitle>Work experience</SubTitle>
         </div>
       </TagContainer>
     </BodyWrapper>
@@ -83,7 +88,7 @@ const BodyWrapper = styled.div`
   background-color: #ffffff;
   min-height: 350px;
   height: fit-content;
-  width: 800px;
+  width: 860px;
   min-width: 400px;
 `;
 const TagContainer = styled.div`

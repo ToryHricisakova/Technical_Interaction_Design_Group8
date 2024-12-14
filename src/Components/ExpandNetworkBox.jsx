@@ -99,7 +99,7 @@ const ExpandNetworkBox = () => {
       <TextContainer>
         <Title>Expand your network</Title>
         <SubTextContainer>
-          <p>Based on your field:</p>
+          <Text>Based on your field:</Text>
           <Tag word={field} tagType={"field"} closable={false} />
         </SubTextContainer>
       </TextContainer>
@@ -152,6 +152,15 @@ const TextContainer = styled.div`
 const SubTextContainer = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  p {
+    padding: 0px;
+  }
+  margin: 15px 0 10px 0;
 `;
+const Text = styled.p`
+  margin: 0;
+
+`
