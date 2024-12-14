@@ -58,13 +58,19 @@ const Home = () => {
     readPosts();
   }, []);
 
+  const refreshPosts = () => {
+    setLoading(true);
+    readPosts();
+  };
+  
+  
   if (loading) return <span className="loader"></span>;
 
   return (
     <HomePage>
       <MainSection>
         <Container>
-          <PostingContainer></PostingContainer>
+          <PostingContainer refreshPosts={refreshPosts}></PostingContainer>
         </Container>
         <Container>
           {POSTS.length > 0 ? (

@@ -4,11 +4,12 @@ import Button from "./Button";
 import useUserProfile from "../Hooks/useUserProfile";
 import Parse from "parse";
 
-const PostingContainer = () => {
+const PostingContainer = ({ refreshPosts }) => {
   const [user, loading] = useUserProfile();
   const [text, setText] = useState("");
   const [mediaFile, setMediaFile] = useState(null);
   const [mediaPreview, setMediaPreview] = useState("");
+  const [message, setMessage] = useState("");
 
   const fileInputRef = useRef(null);
   //const mediaPreviewRef = useRef(null);
@@ -51,7 +52,7 @@ const PostingContainer = () => {
       setMediaFile(media);
       setMediaPreview(URL.createObjectURL(file));
     } catch (error) {
-      console.error("Error uploading file:", error.message);
+      setMessage(`Error uploading file: ${error.message}`);
     }
   };
 
@@ -65,13 +66,13 @@ const PostingContainer = () => {
 
   const createPost = async () => {
     if (!text) {
-      alert("Post text cannot be empty!");
+      setMessage("Post text cannot be empty!");
       return;
     }
 
     let Post = new Parse.Object("POSTS");
     try {
-      if (mediaFile) {
+      if (mediaFile instanceof Parse.File) {
         Post.set("media", mediaFile);
       }
 
@@ -82,13 +83,15 @@ const PostingContainer = () => {
       Post.set("numberOfComments", 0);
 
       await Post.save();
-      alert("Post created successfully!");
+      setMessage("Post created successfully!");
+
+      refreshPosts();
 
       setText("");
       setMediaFile(null);
       setMediaPreview("");
     } catch (error) {
-      alert(`Error creating post: ${error.message}`);
+      setMessage(`Error creating post: ${error.message}`);
     }
   };
 
@@ -128,11 +131,24 @@ const PostingContainer = () => {
           </Button>
         </ButtonContainer>
       </Actions>
+      {message && <MessageContainer>{message}</MessageContainer>}
     </>
   );
 };
 
 // Styled Components
+
+const MessageContainer = styled.div`
+  margin-top: 20px;
+  color: #e47347;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+
+  &.error {
+    color: #e47347;
+  }
+`;
 
 const PreviewWrapper = styled.div`
   display: flex;
