@@ -5,7 +5,7 @@ import HorizontalLine from "./HorizontalLine";
 import { useState, useEffect } from "react";
 import PostGenerator from "./PostGenerator.jsx";
 
-const ProfileBody = ({ user, loading }) => {
+const ProfileBody = ({ user }) => {
   const [displayPosts, setDisplayPosts] = useState([]);
   const [fetchedPosts, setFetchedPosts] = useState([]);
 
@@ -47,17 +47,15 @@ const ProfileBody = ({ user, loading }) => {
     return null;
   };
 
-  if (loading) return <p></p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
-
   return (
     <BodyWrapper>
       <ActivityWrapper>
-        <Title>Your Activity</Title>
+        <Title>Activity</Title>
         <HorizontalLine width="200px" />
         {createPosts()}
       </ActivityWrapper>
       <TagContainer>
-        <Title>Your Tags</Title>
+        <Title>Tags</Title>
         <HorizontalLine width="200px" />
         <div>
           <SubTitle>Fields</SubTitle>

@@ -5,8 +5,9 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import Button from "./Button";
 import Parse from "parse";
 import TagGenerator from "./TagGenerator";
+import ConnectButton from "./ConnectButton";
 
-const ProfileHeader = ({ user, loading }) => {
+const ProfileHeader = ({ user, viewMode }) => {
   const [bannerImg, setBannerImg] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
   const bannerRef = useRef(null);
@@ -73,31 +74,45 @@ const ProfileHeader = ({ user, loading }) => {
     }
   };
 
-  if (loading) return <p>Loading</p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
-
   return (
     <HeaderWrapper>
       <BannerWrapper>
         <Banner src={bannerImg} />
-        <HiddenInput type="file" onChange={saveBannerImg} ref={bannerRef} />
-        <EditIconWrapper onClick={handleBannerEdit}>
-          <EditIcon icon={faEdit} />
-        </EditIconWrapper>
+        {!viewMode ? (
+          <>
+            <HiddenInput type="file" onChange={saveBannerImg} ref={bannerRef} />
+            <EditIconWrapper onClick={handleBannerEdit}>
+              <EditIcon icon={faEdit} />
+            </EditIconWrapper>
+          </>
+        ) : null}
       </BannerWrapper>
       <ProfileImageWrapper>
         <ProfileImage src={profileImg} />
-        <HiddenInput
-          type="file"
-          onChange={saveProfileImg}
-          ref={profileImgRef}
-        />
-        <EditIconWrapper onClick={handleProfileImageEdit}>
-          <EditIcon icon={faEdit} />
-        </EditIconWrapper>
+        {!viewMode ? (
+          <>
+            <HiddenInput
+              type="file"
+              onChange={saveProfileImg}
+              ref={profileImgRef}
+            />
+            <EditIconWrapper onClick={handleProfileImageEdit}>
+              <EditIcon icon={faEdit} />
+            </EditIconWrapper>
+          </>
+        ) : null}
       </ProfileImageWrapper>
       <ProfileBottom>
         <LeftBlock>
-          <Button className="secondary-button">Edit Profile</Button>
+          {!viewMode ? (
+            <>
+              <Button className="secondary-button">Edit Profile</Button>
+            </>
+          ) : (
+            <>
+              <ConnectButton />
+            </>
+          )}
         </LeftBlock>
         <MiddleBlock>
           <Name>{user.get("firstName") + " " + user.get("lastName")}</Name>
