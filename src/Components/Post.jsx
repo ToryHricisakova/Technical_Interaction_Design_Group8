@@ -136,6 +136,8 @@ const PostContent = styled.div`
   margin-bottom: 12px;
   line-height: 1.5;
   text-align: left;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 `;
 
 const PostActions = styled.div`
