@@ -14,7 +14,13 @@ const Post = ({
   numberOfLikes,
   objectId,
 }) => {
-  const formattedDate = new Date(dateofPosting).toLocaleString();
+  const formattedDate = new Date(dateofPosting).toLocaleString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
   const mediaUrl = media instanceof Parse.File ? media.url() : media;
 
   return (
