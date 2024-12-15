@@ -1,7 +1,7 @@
 import React from "react";
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 import LikeIcon from "./LikeIcon";
-import Tag from "../Components/Tag";
+import TagGenerator from "../Components/TagGenerator";
 import Parse from "parse";
 
 const Post = ({
@@ -13,6 +13,7 @@ const Post = ({
   dateofPosting,
   numberOfLikes,
   objectId,
+  variant = "default", // "default" or "small"
 }) => {
   const formattedDate = new Date(dateofPosting).toLocaleString(undefined, {
     year: "numeric",
@@ -24,7 +25,7 @@ const Post = ({
   const mediaUrl = media instanceof Parse.File ? media.url() : media;
 
   return (
-    <PostContainer>
+    <PostContainer variant={variant}>
       <PostHeader>
         <ProfileImage src={profileImage} alt={`${name}'s profile`} />
         <UserInfo>
@@ -32,22 +33,15 @@ const Post = ({
           {/* Tags under the name */}
           {fields && fields.length > 0 && (
             <TagsContainer>
-              {fields.map((field, index) => (
-                <Tag
-                  tagType="field"
-                  key={index}
-                  word={field}
-                  closable={false}
-                />
-              ))}
+              {TagGenerator({ array: fields, tagType: "field" })}
             </TagsContainer>
           )}
         </UserInfo>
       </PostHeader>
 
-      <PostContent>{text}</PostContent>
+      <PostContent variant={variant}>{text}</PostContent>
 
-      {mediaUrl && <Media src={mediaUrl} alt="Post Media" />}
+      {mediaUrl && <Media variant={variant} src={mediaUrl} alt="Post Media" />}
 
       <PostDate>{formattedDate}</PostDate>
 
@@ -65,7 +59,8 @@ const Post = ({
 const PostContainer = styled.div`
   max-width: 700px;
   width: 100%;
-  padding: 32px 48px;
+  padding: ${(props) =>
+    props.variant === "small" ? "20px 25px" : "30px 45px"};
   border-radius: 20px;
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
@@ -75,6 +70,13 @@ const PostContainer = styled.div`
   justify-content: left;
   position: relative;
   margin-bottom: 30px;
+
+  ${(props) =>
+    props.variant === "small" &&
+    css`
+      max-width: 500px;
+      width: 85%;
+    `}
 `;
 
 const PostHeader = styled.div`
