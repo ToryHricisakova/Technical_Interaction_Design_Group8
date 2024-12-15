@@ -29,7 +29,7 @@ const Post = ({
         <ProfileImage src={profileImage} alt={`${name}'s profile`} />
         <UserInfo>
           <UserName>{name}</UserName>
-          {/* Display tags under the name */}
+          {/* Tags under the name */}
           {fields && fields.length > 0 && (
             <TagsContainer>
               {fields.map((field, index) => (

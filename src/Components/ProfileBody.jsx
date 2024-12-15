@@ -13,7 +13,6 @@ const ProfileBody = ({ user }) => {
       const query = new Parse.Query("POSTS");
       query.equalTo("postedBy", user);
       query.descending("dateofPosting");
-      query.include("media");
 
       try {
         const result = await query.find();

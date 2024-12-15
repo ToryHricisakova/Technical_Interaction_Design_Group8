@@ -56,7 +56,7 @@ function App() {
             <Route path="/jobs" element={<Jobs />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/messages" element={<Messages />} />
-            <Route path="*" element={<h1>404 - Page Not Found</h1>} />
+            <Route path="*" element={<Home />} />
           </Routes>
         </>
       ) : (
