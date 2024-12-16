@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from "react";
-import HorizontalLine from "../Components/HorizontalLine";
+import HorizontalLine from "./HorizontalLine.jsx";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Button from "../Components/Button";
+import Button from "./Button.jsx";
+import TypeAhead from "../Components/TypeAhead";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
@@ -14,14 +15,21 @@ import {
   Section,
 } from "../OnboardingCSS.jsx";
 import Parse from "parse";
+import { fetchFields, fetchSkills } from "../DataforTypeAhead";
 import { useNavigate } from "react-router-dom";
 
-const EditProfile1 = () => {
+const EditProfile = () => {
   const navigate = useNavigate();
 
   const [dateOfBirth, setDateOfBirth] = useState(null);
   const [pronouns, setPronouns] = useState("");
   const [profileBio, setProfileBio] = useState("");
+
+  const [fields, setFields] = useState([]); //setting the fields array
+  const [skills, setSkills] = useState([]); //setting the skills array
+  const [selectedFields, setSelectedFields] = useState([]); //array that will store the selected fields by the user
+  const [selectedSkills, setSelectedSkills] = useState([]); //array that will store the selected skills by the user
+
 
   useEffect(() => {
     const loadUserInfo = async () => {
@@ -43,6 +51,13 @@ const EditProfile1 = () => {
           setDateOfBirth(dob ? new Date(dob) : null);
           setPronouns(userRow.get("gender") || "");
           setProfileBio(userRow.get("profileBio") || "");
+
+          const selectedFields = userRow.get("fields") || [];
+          const selectedSkills = userRow.get("skills") || [];
+
+          setFields(selectedFields || []);
+          setSkills(selectedSkills || []);
+          
         } else {
           console.warn("No USERS entry found for the current user.");
         }
@@ -54,7 +69,32 @@ const EditProfile1 = () => {
     loadUserInfo();
   }, []);
 
-  const handleSavingAdditionalInfo = async () => {
+  useEffect(() => {
+    console.log("Fields from fetch:", fields);
+    console.log("Skills from fetch:", skills);
+  }, [fields, skills]);
+
+  useEffect(() => {
+    const loadFieldsAndSkills = async () => {
+      //asynchronously fetches data for fields and skills from fetchFields() and fetchSkills()
+      const fieldsData = await fetchFields();
+      const skillsData = await fetchSkills();
+      setFields(fieldsData); //once data is fetched, fields array is updated with selected values
+      setSkills(skillsData);
+      console.log("Skills Data:", skillsData);
+    };
+    loadFieldsAndSkills();
+  }, []);
+
+  useEffect(() => {
+    console.log("Updated selected fields:", selectedFields); // Debugging
+  }, [selectedFields]); // This will run whenever selectedFields changes
+
+  useEffect(() => {
+    console.log("Updated selected skills:", selectedSkills); // Debugging
+  }, [selectedSkills]);
+
+  const handleSavingProfileInfo = async () => {
     const currentUser = Parse.User.current();
 
     if (!currentUser) {
@@ -76,6 +116,8 @@ const EditProfile1 = () => {
       userRow.set("dateOfBirth", dateOfBirth);
       userRow.set("gender", pronouns);
       userRow.set("profileBio", profileBio);
+      userRow.set("fields", fields);
+      userRow.set("skills", skills);
       await userRow.save();
 
       console.log("USERS entry updated successfully!");
@@ -87,6 +129,7 @@ const EditProfile1 = () => {
 
   const tempDate = new Date();
   const startDate = tempDate.setFullYear(tempDate.getFullYear() - 18);
+
 
   return (
     <>
@@ -143,25 +186,83 @@ const EditProfile1 = () => {
             onChange={(e) => setProfileBio(e.target.value)}
           />
         </InfoBlock>
-
-        <NextButton>
-          <Button
-            className="primary-button"
-            type="button"
-            onClick={handleSavingAdditionalInfo}
-          >
-            Save
-          </Button>
-        </NextButton>
       </Section>
+
+      <MainTitle>Edit Profile - Career Fields</MainTitle>
       <HorizontalLine />
+      <Section>
+        <Boldparagraph>Field of work/study</Boldparagraph>
+        <Paragraph>
+          Add the professional fields that you are working or studying in. The
+          fields you add will help others to find you based on your combination
+          of areas of expertise. You can add a maximum of three fields.
+        </Paragraph>
+        {fields && fields.length > 0 && (
+          <TypeAheadWrapper>
+            <TypeAhead
+              items={fields}
+              placeholder="Search career fields here..."
+              tagType="field"
+              maxNumber={3}
+              value={fields}
+              onSelectionChange={(updatedFields) => {
+                setSelectedFields(updatedFields);
+              }}
+            />
+          </TypeAheadWrapper>
+        )}
+      </Section>
+
+      <DividerLine />
+
+      <Section>
+        <Boldparagraph>Skills</Boldparagraph>
+        <Paragraph>
+          Add tags to your profile to showcase your skills in different areas.
+          The more detailed you are, the more likely you are to find relevant
+          connections and posts on the site.
+        </Paragraph>
+        {skills && skills.length > 0 && (
+        <TypeAheadWrapper>
+          {
+            <TypeAhead
+              items={skills} //should be from dynamically fetched data
+              placeholder="Search skills here..."
+              tagType="skill"
+              value={skills}
+              onSelectionChange={(updatedSkills) =>
+                setSelectedSkills(updatedSkills)
+              }
+            />
+          }
+        </TypeAheadWrapper>
+      )}
+      </Section>
+
+      <NextButton>
+        <Button
+          className="primary-button"
+          type="button"
+          onClick={handleSavingProfileInfo}
+        >
+          Save
+        </Button>
+      </NextButton>
     </>
   );
 };
 
-export default EditProfile1;
+export default EditProfile;
 
 // Styling
+
+const TypeAheadWrapper = styled.div`
+  padding: 0 0 30px 0;
+`;
+const DividerLine = styled.hr`
+  border: 1px solid #dbdbdb;
+  margin-bottom: 30px;
+`;
 const InfoBlock = styled.div`
   padding-bottom: 15px;
   border-radius: 20px;

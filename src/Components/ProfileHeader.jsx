@@ -6,7 +6,7 @@ import Button from "./Button";
 import Parse from "parse";
 import TagGenerator from "./TagGenerator";
 import { ErrorMessage } from "../SharedCSS";
-import EditProfile1 from "../Components/EditProfile1";
+import EditProfile from "../Components/EditProfile";
 import Modal from "react-modal";
 
 const ProfileHeader = ({ user }) => {
@@ -143,22 +143,27 @@ const ProfileHeader = ({ user }) => {
         contentLabel="Edit Profile Modal"
         style={{
           content: {
-            top: "55%",
+            top: "60%",
             left: "50%",
             right: "auto",
             bottom: "auto",
             transform: "translate(-50%, -50%)",
             width: "600px",
             borderRadius: "20px",
-            padding: "30px",
+            maxHeight: "80vh",
+            overflowY: "auto",
+            paddingTop: "50px",
+            paddingLeft: "25px",
+            paddingRight: "25px",
+            paddingBottom: "50px",
             zIndex: 10,
           },
           overlay: {
-            zIndex: 8, 
+            zIndex: 8,
           },
         }}
       >
-        <EditProfile1 onClose={handleCloseModal} />
+        <EditProfile onClose={handleCloseModal} />
       </Modal>
     </HeaderWrapper>
   );
