@@ -6,6 +6,8 @@ import Button from "./Button";
 import Parse from "parse";
 import TagGenerator from "./TagGenerator";
 import { ErrorMessage } from "../SharedCSS";
+import EditProfile1 from "../Components/EditProfile1";
+import Modal from "react-modal";
 
 const ProfileHeader = ({ user }) => {
   const [bannerImg, setBannerImg] = useState(null);
@@ -14,6 +16,7 @@ const ProfileHeader = ({ user }) => {
   const [errorMsgPhoto, setErrorMsgPhoto] = useState("");
   const bannerRef = useRef(null);
   const profileImgRef = useRef(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   console.log("rendering ProfileHeader component");
 
@@ -88,6 +91,13 @@ const ProfileHeader = ({ user }) => {
     }
   };
 
+  useEffect(() => {
+    console.log("Profile Bio:", user?.get("profileBio"));
+  }, [user]);
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+
   return (
     <HeaderWrapper>
       <BannerWrapper>
@@ -116,7 +126,9 @@ const ProfileHeader = ({ user }) => {
       </ProfileImageWrapper>
       <ProfileBottom>
         <LeftBlock>
-          <Button className="secondary-button">Edit Profile</Button>
+          <Button className="secondary-button" onClick={handleOpenModal}>
+            Edit Profile
+          </Button>
         </LeftBlock>
         <MiddleBlock>
           <Name>{user.get("firstName") + " " + user.get("lastName")}</Name>
@@ -124,11 +136,37 @@ const ProfileHeader = ({ user }) => {
         </MiddleBlock>
         <RightBlock>{user.get("fields") && generateTags()}</RightBlock>
       </ProfileBottom>
+      {/* Modal for Onboarding Component */}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={handleCloseModal}
+        contentLabel="Edit Profile Modal"
+        style={{
+          content: {
+            top: "55%",
+            left: "50%",
+            right: "auto",
+            bottom: "auto",
+            transform: "translate(-50%, -50%)",
+            width: "600px",
+            borderRadius: "20px",
+            padding: "30px",
+            zIndex: 10,
+          },
+          overlay: {
+            zIndex: 8, 
+          },
+        }}
+      >
+        <EditProfile1 onClose={handleCloseModal} />
+      </Modal>
     </HeaderWrapper>
   );
 };
 
 export default ProfileHeader;
+
+
 
 const HeaderWrapper = styled.div`
   display: flex;
