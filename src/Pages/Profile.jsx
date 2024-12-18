@@ -17,8 +17,8 @@ const Profile = () => {
     <Page>
       <PageContentContainer>
         <ProfileContainer>
-          <ProfileHeader user={user} loading={loading} />
-          <ProfileBody user={user} loading={loading} />
+          <ProfileHeader user={user} />
+          <ProfileBody user={user} />
         </ProfileContainer>
 
         <ExpandNetworkBox />

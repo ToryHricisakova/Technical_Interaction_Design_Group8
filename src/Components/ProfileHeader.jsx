@@ -5,11 +5,12 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import Button from "./Button";
 import Parse from "parse";
 import TagGenerator from "./TagGenerator";
+import ConnectButton from "./ConnectButton";
 import { ErrorMessage } from "../SharedCSS";
 import EditProfile from "../Components/EditProfile";
 import Modal from "react-modal";
 
-const ProfileHeader = ({ user }) => {
+const ProfileHeader = ({ user, viewMode }) => {
   const [bannerImg, setBannerImg] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
   const [errorMsgBanner, setErrorMsgBanner] = useState("");
@@ -102,10 +103,14 @@ const ProfileHeader = ({ user }) => {
     <HeaderWrapper>
       <BannerWrapper>
         <Banner src={bannerImg} alt="Profile banner image" />
-        <HiddenInput type="file" onChange={saveBannerImg} ref={bannerRef} />
-        <EditIconWrapper onClick={handleBannerEdit}>
-          <EditIcon icon={faEdit} />
-        </EditIconWrapper>
+        {!viewMode ? (
+          <>
+            <HiddenInput type="file" onChange={saveBannerImg} ref={bannerRef} />
+            <EditIconWrapper onClick={handleBannerEdit}>
+              <EditIcon icon={faEdit} />
+            </EditIconWrapper>
+          </>
+        ) : null}
         {errorMsgBanner && (
           <StyledErrorMessageBanner>{errorMsgBanner}</StyledErrorMessageBanner>
         )}
@@ -115,20 +120,25 @@ const ProfileHeader = ({ user }) => {
       </BannerWrapper>
       <ProfileImageWrapper>
         <ProfileImage src={profileImg} />
-        <HiddenInput
-          type="file"
-          onChange={saveProfileImg}
-          ref={profileImgRef}
-        />
-        <EditIconWrapper onClick={handleProfileImageEdit}>
-          <EditIcon icon={faEdit} />
-        </EditIconWrapper>
+        {!viewMode ? (
+          <>
+            <HiddenInput
+              type="file"
+              onChange={saveProfileImg}
+              ref={profileImgRef}
+            />
+            <EditIconWrapper onClick={handleProfileImageEdit}>
+              <EditIcon icon={faEdit} />
+            </EditIconWrapper>
+          </>
+        ) : null}
       </ProfileImageWrapper>
       <ProfileBottom>
         <LeftBlock>
           <Button className="secondary-button" onClick={handleOpenModal}>
             Edit Profile
           </Button>
+
         </LeftBlock>
         <MiddleBlock>
           <Name>{user.get("firstName") + " " + user.get("lastName")}</Name>
