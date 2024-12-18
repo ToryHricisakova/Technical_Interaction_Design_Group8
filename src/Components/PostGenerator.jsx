@@ -1,7 +1,6 @@
 import Post from "./Post";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import SmallPost from "./smallPost";
 
 // Generates post-objects based on an array of posts database objects.
 const PostGenerator = ({ array, style }) => {
@@ -55,23 +54,7 @@ const PostGenerator = ({ array, style }) => {
     <>
       {posts?.length > 0 ? (
         posts.map((post, index) => {
-          if (style === "small") {
             console.log("Creating small posts");
-            return (
-              <SmallPost
-                objectId={post.objectId}
-                key={index}
-                profileImage={post.profileImage}
-                name={post.name}
-                text={post.text}
-                media={post.media}
-                fields={post.fields}
-                dateofPosting={post.dateofPosting}
-                numberOfLikes={post.numberOfLikes}
-              />
-            );
-          } else {
-            console.log("Creating regular posts");
             return (
               <Post
                 objectId={post.objectId}
@@ -83,10 +66,11 @@ const PostGenerator = ({ array, style }) => {
                 fields={post.fields}
                 dateofPosting={post.dateofPosting}
                 numberOfLikes={post.numberOfLikes}
+                variant="small"
               />
             );
           }
-        })
+        )
       ) : (
         <p>No posts available</p>
       )}

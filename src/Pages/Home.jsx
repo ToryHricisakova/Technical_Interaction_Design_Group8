@@ -86,6 +86,7 @@ const Home = () => {
                   fields={post.fields}
                   dateofPosting={post.dateofPosting}
                   numberOfLikes={post.numberOfLikes}
+                  variant="default"
                 />
               );
             })
