@@ -43,7 +43,7 @@ const Onboarding1 = () => {
       userRow.set("dateOfBirth", dateOfBirth);
       userRow.set("gender", pronouns);
       userRow.set("profileBio", profileBio);
-      userRow.set("profilePhoto", profilePhoto);
+      userRow.set("profileImage", profileImage);
       await userRow.save();
       console.log("USERS entry updated successfully!");
 
@@ -54,7 +54,7 @@ const Onboarding1 = () => {
   }
 
   const [dateOfBirth, setDateOfBirth] = useState(null);
-  const [profilePhoto, setProfilePhoto] = useState(
+  const [profileImage, setProfileImage] = useState(
     "src/MediaFiles/DefaultProfile.svg"
   );
 
@@ -66,9 +66,20 @@ const Onboarding1 = () => {
   const tempDate = new Date();
   const startDate = tempDate.setFullYear(tempDate.getFullYear() - 18); // Open calendar at 18 years ago.
 
-  function getProfilePhoto(event) {
-    setProfilePhoto(URL.createObjectURL(event.target.files[0]));
-  }
+  // function getProfilePhoto(event) {
+  //   setProfilePhoto(URL.createObjectURL(event.target.files[0]));
+  // }
+
+  const getProfilePhoto = async (event) => {
+    const image = event.target.files[0];
+    try {
+      const profilePhoto = new Parse.File(image.name, image);
+      await profilePhoto.save();
+      setProfileImage(profilePhoto);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   function handleClick(e) {
     e.preventDefault();
@@ -90,8 +101,8 @@ const Onboarding1 = () => {
   }, [pronouns]);
 
   useEffect(() => {
-    console.log("Profile picture URL is " + profilePhoto);
-  }, [profilePhoto]);
+    console.log("Profile picture URL is " + profileImage);
+  }, [profileImage]);
 
   useEffect(() => {
     console.log("Bio is set to " + profileBio);
@@ -183,7 +194,7 @@ const Onboarding1 = () => {
           <InfoBlock className="ProfilePicture">
             <Boldparagraph>Profile Picture:</Boldparagraph>
             <UploadWrapper>
-              <ProfileImage src={profilePhoto} alt="Profile Picture" />
+              <ProfileImage src={profileImage.url()} alt="Profile Picture" />
               <HiddenInput
                 type="file"
                 onChange={getProfilePhoto}

@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import PostGenerator from "./PostGenerator.jsx";
 
 const ProfileBody = ({ user }) => {
+  const [displayPosts, setDisplayPosts] = useState([]);
   const [fetchedPosts, setFetchedPosts] = useState([]);
 
   useEffect(() => {
@@ -21,14 +22,22 @@ const ProfileBody = ({ user }) => {
         console.log("There was an error fetching the posts" + error.message);
       }
     };
-    fetchPosts();
-  }, []);
+    if (user) {
+      fetchPosts();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    createPosts();
+  }, [fetchedPosts]);
 
   const createPosts = () => {
     if (fetchedPosts.length !== 0) {
       fetchedPosts && console.log("create post based on: " + fetchedPosts);
 
-      return <PostGenerator array={fetchedPosts} style="small" />;
+      setDisplayPosts(<PostGenerator array={fetchedPosts} style="small" />);
+    } else {
+      setDisplayPosts([]);
     }
   };
 
@@ -49,12 +58,12 @@ const ProfileBody = ({ user }) => {
   return (
     <BodyWrapper>
       <ActivityWrapper>
-        <Title>Your Activity</Title>
+        <Title>Activity</Title>
         <HorizontalLine width="200px" />
-        {createPosts()}
+        {displayPosts}
       </ActivityWrapper>
       <TagContainer>
-        <Title>Your Tags</Title>
+        <Title>Tags</Title>
         <HorizontalLine width="200px" />
         <div>
           <SubTitle>Skills</SubTitle>
