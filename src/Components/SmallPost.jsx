@@ -3,12 +3,14 @@ import styled from "styled-components";
 import LikeIcon from "./LikeIcon";
 import Tag from "./Tag";
 import TagGenerator from "./TagGenerator";
+import Parse from "parse";
 
 // Needs to refactor so that the post can easily be styled either as a default post or a small post.
 const SmallPost = ({
   profileImage,
   name,
   text,
+  media,
   fields,
   dateofPosting,
   numberOfLikes,
@@ -21,6 +23,8 @@ const SmallPost = ({
     hour: "2-digit",
     minute: "2-digit",
   });
+
+  const mediaUrl = media instanceof Parse.File ? media.url() : media;
 
   return (
     <PostContainer>
@@ -38,6 +42,8 @@ const SmallPost = ({
       </PostHeader>
 
       <PostContent>{text}</PostContent>
+
+      {mediaUrl && <Media src={mediaUrl} alt="Post Media" />}
 
       <PostDate>{formattedDate}</PostDate>
 
@@ -117,6 +123,14 @@ const PostContent = styled.div`
   margin-bottom: 12px;
   line-height: 1.5;
   text-align: left;
+`;
+
+const Media = styled.img`
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
 `;
 
 const PostActions = styled.div`

@@ -23,6 +23,7 @@ const PostGenerator = ({ array, style }) => {
           const name = `${user.get("firstName")} ${user.get("lastName")}`;
           const fields = user ? user.get("fields") : [];
           const text = post.get("text");
+          const media = post.get("media");
           const dateofPosting = post.get("dateofPosting");
           const numberOfLikes = post.get("numberOfLikes");
           const profileImageUser = user
@@ -34,6 +35,7 @@ const PostGenerator = ({ array, style }) => {
             profileImage: profileImageUser,
             name: name,
             text: text,
+            media: media,
             fields: fields,
             dateofPosting: dateofPosting,
             numberOfLikes: numberOfLikes,
@@ -62,6 +64,7 @@ const PostGenerator = ({ array, style }) => {
                 profileImage={post.profileImage}
                 name={post.name}
                 text={post.text}
+                media={post.media}
                 fields={post.fields}
                 dateofPosting={post.dateofPosting}
                 numberOfLikes={post.numberOfLikes}
@@ -76,6 +79,7 @@ const PostGenerator = ({ array, style }) => {
                 profileImage={post.profileImage}
                 name={post.name}
                 text={post.text}
+                media={post.media}
                 fields={post.fields}
                 dateofPosting={post.dateofPosting}
                 numberOfLikes={post.numberOfLikes}

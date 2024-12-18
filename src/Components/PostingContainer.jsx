@@ -12,7 +12,6 @@ const PostingContainer = ({ refreshPosts }) => {
   const [message, setMessage] = useState("");
 
   const fileInputRef = useRef(null);
-  //const mediaPreviewRef = useRef(null);
 
   if (!loading && user) {
     console.log("Current User:", user);

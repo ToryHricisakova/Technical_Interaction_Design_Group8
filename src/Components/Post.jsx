@@ -14,7 +14,13 @@ const Post = ({
   numberOfLikes,
   objectId,
 }) => {
-  const formattedDate = new Date(dateofPosting).toLocaleString();
+  const formattedDate = new Date(dateofPosting).toLocaleString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
   const mediaUrl = media instanceof Parse.File ? media.url() : media;
 
   return (
@@ -23,7 +29,7 @@ const Post = ({
         <ProfileImage src={profileImage} alt={`${name}'s profile`} />
         <UserInfo>
           <UserName>{name}</UserName>
-          {/* Display tags under the name */}
+          {/* Tags under the name */}
           {fields && fields.length > 0 && (
             <TagsContainer>
               {fields.map((field, index) => (
@@ -130,6 +136,8 @@ const PostContent = styled.div`
   margin-bottom: 12px;
   line-height: 1.5;
   text-align: left;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 `;
 
 const PostActions = styled.div`
