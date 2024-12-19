@@ -1,10 +1,9 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import HorizontalLine from "./HorizontalLine.jsx";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "./Button.jsx";
 import TypeAhead from "../Components/TypeAhead";
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
@@ -16,20 +15,16 @@ import {
 } from "../OnboardingCSS.jsx";
 import Parse from "parse";
 import { fetchFields, fetchSkills } from "../DataforTypeAhead";
-import { useNavigate } from "react-router-dom";
 
-const EditProfile = () => {
-  const navigate = useNavigate();
-
+const EditProfile = ({ onClose }) => {
+  
   const [dateOfBirth, setDateOfBirth] = useState(null);
   const [pronouns, setPronouns] = useState("");
   const [profileBio, setProfileBio] = useState("");
-
   const [fields, setFields] = useState([]); //setting the fields array
   const [skills, setSkills] = useState([]); //setting the skills array
   const [selectedFields, setSelectedFields] = useState([]); //array that will store the selected fields by the user
   const [selectedSkills, setSelectedSkills] = useState([]); //array that will store the selected skills by the user
-
 
   useEffect(() => {
     const loadUserInfo = async () => {
@@ -57,7 +52,6 @@ const EditProfile = () => {
 
           setSelectedFields(selectedFields || []);
           setSelectedSkills(selectedSkills || []);
-          
         } else {
           console.warn("No USERS entry found for the current user.");
         }
@@ -121,7 +115,7 @@ const EditProfile = () => {
       await userRow.save();
 
       console.log("USERS entry updated successfully!");
-      navigate("/profile");
+      onClose(); // Closing the modal after saving
     } catch (error) {
       console.error("Error updating USERS entry:", error.message);
     }
@@ -129,7 +123,6 @@ const EditProfile = () => {
 
   const tempDate = new Date();
   const startDate = tempDate.setFullYear(tempDate.getFullYear() - 18);
-
 
   return (
     <>
@@ -239,15 +232,13 @@ const EditProfile = () => {
         )}
       </Section>
 
-      <NextButton>
-        <Button
-          className="primary-button"
-          type="button"
-          onClick={handleSavingProfileInfo}
-        >
-          Save
-        </Button>
-      </NextButton>
+      <Button
+        className="primary-button"
+        type="button"
+        onClick={handleSavingProfileInfo}
+      >
+        Save
+      </Button>
     </>
   );
 };
@@ -299,12 +290,6 @@ const CheckboxLabel = styled.label`
   margin: 10px 0;
   line-height: 1.5;
   color: #333;
-`;
-const NextButton = styled(Link)`
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 15px;
-  text-decoration: none;
 `;
 const CalendarIcon = styled(FontAwesomeIcon)`
   margin-left: 5px;
