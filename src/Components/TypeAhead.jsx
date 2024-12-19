@@ -9,10 +9,11 @@ const TypeAhead = ({
   tagType,
   onSelectionChange,
   maxNumber,
+  value,
 }) => {
   const [suggestions, setSuggestions] = useState([]);
   const [text, setText] = useState("");
-  const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState(value || []);
   const [errorMsg, setErrorMsg] = useState("");
 
   const onTextChange = (e) => {
