@@ -138,7 +138,6 @@ const ProfileHeader = ({ user, viewMode }) => {
           <Button className="secondary-button" onClick={handleOpenModal}>
             Edit Profile
           </Button>
-
         </LeftBlock>
         <MiddleBlock>
           <Name>{user.get("firstName") + " " + user.get("lastName")}</Name>
@@ -153,23 +152,21 @@ const ProfileHeader = ({ user, viewMode }) => {
         contentLabel="Edit Profile Modal"
         style={{
           content: {
-            top: "60%",
+            top: "55%",
             left: "50%",
             right: "auto",
             bottom: "auto",
             transform: "translate(-50%, -50%)",
             width: "600px",
             borderRadius: "20px",
-            maxHeight: "80vh",
+            maxHeight: "70vh",
             overflowY: "auto",
-            paddingTop: "50px",
-            paddingLeft: "25px",
-            paddingRight: "25px",
-            paddingBottom: "50px",
+            padding: "50px 25px 50px 25px",
             zIndex: 10,
           },
           overlay: {
             zIndex: 8,
+            paddingBottom: "50px",
           },
         }}
       >
