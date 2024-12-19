@@ -55,8 +55,8 @@ const EditProfile = () => {
           const selectedFields = userRow.get("fields") || [];
           const selectedSkills = userRow.get("skills") || [];
 
-          setFields(selectedFields || []);
-          setSkills(selectedSkills || []);
+          setSelectedFields(selectedFields || []);
+          setSelectedSkills(selectedSkills || []);
           
         } else {
           console.warn("No USERS entry found for the current user.");
@@ -116,12 +116,12 @@ const EditProfile = () => {
       userRow.set("dateOfBirth", dateOfBirth);
       userRow.set("gender", pronouns);
       userRow.set("profileBio", profileBio);
-      userRow.set("fields", fields);
-      userRow.set("skills", skills);
+      userRow.set("fields", selectedFields);
+      userRow.set("skills", selectedSkills);
       await userRow.save();
 
       console.log("USERS entry updated successfully!");
-      navigate("/home");
+      navigate("/profile");
     } catch (error) {
       console.error("Error updating USERS entry:", error.message);
     }
@@ -204,7 +204,7 @@ const EditProfile = () => {
               placeholder="Search career fields here..."
               tagType="field"
               maxNumber={3}
-              value={fields}
+              value={selectedFields}
               onSelectionChange={(updatedFields) => {
                 setSelectedFields(updatedFields);
               }}
@@ -223,20 +223,20 @@ const EditProfile = () => {
           connections and posts on the site.
         </Paragraph>
         {skills && skills.length > 0 && (
-        <TypeAheadWrapper>
-          {
-            <TypeAhead
-              items={skills} //should be from dynamically fetched data
-              placeholder="Search skills here..."
-              tagType="skill"
-              value={skills}
-              onSelectionChange={(updatedSkills) =>
-                setSelectedSkills(updatedSkills)
-              }
-            />
-          }
-        </TypeAheadWrapper>
-      )}
+          <TypeAheadWrapper>
+            {
+              <TypeAhead
+                items={skills} //should be from dynamically fetched data
+                placeholder="Search skills here..."
+                tagType="skill"
+                value={selectedSkills}
+                onSelectionChange={(updatedSkills) =>
+                  setSelectedSkills(updatedSkills)
+                }
+              />
+            }
+          </TypeAheadWrapper>
+        )}
       </Section>
 
       <NextButton>
