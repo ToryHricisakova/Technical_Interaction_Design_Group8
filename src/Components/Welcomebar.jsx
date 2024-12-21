@@ -21,12 +21,10 @@ const Welcomebar = () => {
       <BarRight>
         <ElementContainer>
           <Link to="/login">
-            {" "}
-            <Button className="primary-button">Login</Button>{" "}
+            <Button className="primary-button">Login</Button>
           </Link>
           <Link to="/register">
-            {" "}
-            <Button className="secondary-button">Register</Button>{" "}
+            <Button className="secondary-button">Register</Button>
           </Link>
         </ElementContainer>
       </BarRight>
