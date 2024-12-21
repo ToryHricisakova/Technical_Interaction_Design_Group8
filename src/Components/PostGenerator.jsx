@@ -1,9 +1,8 @@
 import Post from "./Post";
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 
 // Generates post-objects based on an array of posts database objects.
-const PostGenerator = ({ array, style }) => {
+const PostGenerator = ({ array, variant }) => {
   const [posts, setPosts] = useState([]);
   const fetchedPosts = array;
 
@@ -66,7 +65,7 @@ const PostGenerator = ({ array, style }) => {
                 fields={post.fields}
                 dateofPosting={post.dateofPosting}
                 numberOfLikes={post.numberOfLikes}
-                variant="small"
+                variant={variant}
               />
             );
           }

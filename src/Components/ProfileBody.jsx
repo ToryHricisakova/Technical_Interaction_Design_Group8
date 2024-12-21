@@ -35,7 +35,7 @@ const ProfileBody = ({ user }) => {
     if (fetchedPosts.length !== 0) {
       fetchedPosts && console.log("create post based on: " + fetchedPosts);
 
-      setDisplayPosts(<PostGenerator array={fetchedPosts} style="small" />);
+      setDisplayPosts(<PostGenerator array={fetchedPosts} variant="small" />);
     } else {
       setDisplayPosts([]);
     }
