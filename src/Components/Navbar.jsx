@@ -8,7 +8,7 @@ import {
   BarRight,
   ElementContainer,
   Logo,
-} from "../SharedCSS";
+} from "./NavigationBars.jsx";
 import Parse from "parse";
 import useUserProfile from "../Hooks/useUserProfile.js";
 
@@ -93,6 +93,7 @@ const Navbar = ({ setIsLoggedIn }) => {
     </BarBackground>
   );
 };
+
 
 // Styled Components for Navbar
 
