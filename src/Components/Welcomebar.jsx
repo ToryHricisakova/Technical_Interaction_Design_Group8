@@ -7,7 +7,7 @@ import {
   BarRight,
   ElementContainer,
   Logo,
-} from "./NavigationBars.jsx";
+} from "../Components/NavigationBars";
 
 const Welcomebar = () => {
   return (

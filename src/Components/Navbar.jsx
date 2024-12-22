@@ -8,7 +8,7 @@ import {
   BarRight,
   ElementContainer,
   Logo,
-} from "./NavigationBars.jsx";
+} from "../Components/NavigationBars";
 import Parse from "parse";
 import useUserProfile from "../Hooks/useUserProfile.js";
 
