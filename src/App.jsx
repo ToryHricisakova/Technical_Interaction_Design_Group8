@@ -21,12 +21,13 @@ import Onboarding2 from "./Pages/Onboarding2";
 import ViewProfile from "./Pages/ViewProfile.jsx";
 import { useState, useEffect } from "react";
 import Parse from "parse";
-//import Parse from "parse/dist/parse.min.js";
+
 
 // Parse setup
-const PARSE_APPLICATION_ID = "ZsZHSwKRAw2ROTRjAeClzoVKIhwDYmBhEGUcjwHH";
 const PARSE_HOST_URL = "https://parseapi.back4app.com/";
-const PARSE_JAVASCRIPT_KEY = "uQVGHspYWtfsxUVGSTDj1U0eiDSKZLFngeCaL6uP";
+const PARSE_APPLICATION_ID = import.meta.env.VITE_PARSE_APPLICATION_ID;
+const PARSE_JAVASCRIPT_KEY = import.meta.env.VITE_PARSE_JAVASCRIPT_KEY;
+
 Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
 Parse.serverURL = PARSE_HOST_URL;
 
@@ -44,7 +45,7 @@ function App() {
   console.log("Is Logged In:", isLoggedIn);
 
   return (
-    <Router future={{ v7_relativeSplatPath: true }}>
+    <Router>
       {isLoggedIn === null ? (
         <h1>Loading...</h1>
       ) : isLoggedIn ? (
