@@ -4,7 +4,7 @@ import Post from "../Components/Post";
 import PostingContainer from "../Components/PostingContainer";
 import ExpandNetworkBox from "../Components/ExpandNetworkBox";
 import Parse from "parse";
-import "../Spinner.css";
+import "../Components/Spinner.css";
 
 const Home = () => {
   const [POSTS, setPosts] = useState([]);

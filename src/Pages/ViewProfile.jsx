@@ -6,7 +6,7 @@ import ExpandNetworkBox from "../Components/ExpandNetworkBox";
 import { Page } from "../SharedCSS";
 import ProfileHeader from "../Components/ProfileHeader";
 import ProfileBody from "../Components/ProfileBody";
-import "../Spinner.css";
+import "../Components/Spinner.css";
 
 // Page for viewing the profiles of other people.
 const ViewProfile = () => {
