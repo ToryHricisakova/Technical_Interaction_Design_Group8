@@ -5,7 +5,7 @@ import Parse from "parse";
 import Tag from "./Tag";
 import MiniProfile from "./MiniProfile";
 import useUserProfile from "../Hooks/useUserProfile";
-import "../Spinner.css";
+import "../Components/Spinner.css";
 
 const ExpandNetworkBox = () => {
   const [field, setField] = useState(null);
