@@ -15,114 +15,69 @@ import {
 } from "../OnboardingCSS.jsx";
 import Parse from "parse";
 import { fetchFields, fetchSkills } from "../DataforTypeAhead";
+import useUserProfile from "../Hooks/useUserProfile";
 
 const EditProfile = ({ onClose }) => {
-  
+
+  const [user, loading] = useUserProfile();
   const [dateOfBirth, setDateOfBirth] = useState(null);
   const [pronouns, setPronouns] = useState("");
   const [profileBio, setProfileBio] = useState("");
-  const [fields, setFields] = useState([]); //setting the fields array
-  const [skills, setSkills] = useState([]); //setting the skills array
+  const [fields, setFields] = useState([]); //setting the total fields array
+  const [skills, setSkills] = useState([]); //setting the total skills array
   const [selectedFields, setSelectedFields] = useState([]); //array that will store the selected fields by the user
   const [selectedSkills, setSelectedSkills] = useState([]); //array that will store the selected skills by the user
 
+  // Uses a custom hook to get the current user data
   useEffect(() => {
-    const loadUserInfo = async () => {
-      const currentUser = Parse.User.current();
-      if (!currentUser) {
-        console.error("No user is logged in.");
-        return;
-      }
+    if (user) {
+      const dob = user.get("dateOfBirth");
+      setDateOfBirth(dob ? new Date(dob) : null);
+      setPronouns(user.get("gender") || "");
+      setProfileBio(user.get("profileBio") || "");
+      setSelectedFields(user.get("fields") || []);
+      setSelectedSkills(user.get("skills") || []);
+    }
+  }, [user, loading]);
 
-      try {
-        const USERS = Parse.Object.extend("USERS");
-        const query = new Parse.Query(USERS);
-        query.equalTo("user", currentUser);
-
-        const userRow = await query.first();
-        if (userRow) {
-          // Safely parse data
-          const dob = userRow.get("dateOfBirth");
-          setDateOfBirth(dob ? new Date(dob) : null);
-          setPronouns(userRow.get("gender") || "");
-          setProfileBio(userRow.get("profileBio") || "");
-
-          const selectedFields = userRow.get("fields") || [];
-          const selectedSkills = userRow.get("skills") || [];
-
-          setSelectedFields(selectedFields || []);
-          setSelectedSkills(selectedSkills || []);
-        } else {
-          console.warn("No USERS entry found for the current user.");
-        }
-      } catch (error) {
-        console.error("Error fetching user info:", error.message);
-      }
-    };
-
-    loadUserInfo();
-  }, []);
-
-  useEffect(() => {
-    console.log("Fields from fetch:", fields);
-    console.log("Skills from fetch:", skills);
-  }, [fields, skills]);
-
+  // Fetches total fields and skills data for selection 
   useEffect(() => {
     const loadFieldsAndSkills = async () => {
       //asynchronously fetches data for fields and skills from fetchFields() and fetchSkills()
       const fieldsData = await fetchFields();
       const skillsData = await fetchSkills();
-      setFields(fieldsData); //once data is fetched, fields array is updated with selected values
+      setFields(fieldsData); //once data is fetched, fields and skills array is updated with selected values
       setSkills(skillsData);
-      console.log("Skills Data:", skillsData);
     };
     loadFieldsAndSkills();
   }, []);
 
-  useEffect(() => {
-    console.log("Updated selected fields:", selectedFields); // Debugging
-  }, [selectedFields]); // This will run whenever selectedFields changes
-
-  useEffect(() => {
-    console.log("Updated selected skills:", selectedSkills); // Debugging
-  }, [selectedSkills]);
-
+  // Query that updates the new user infromation
   const handleSavingProfileInfo = async () => {
-    const currentUser = Parse.User.current();
-
-    if (!currentUser) {
-      console.error("No user is logged in.");
+    if (!user) {
+      console.error("No user profile to update.");
       return;
     }
 
     try {
       const USERS = Parse.Object.extend("USERS");
       const query = new Parse.Query(USERS);
-      query.equalTo("user", currentUser);
+      query.equalTo("user", user);
 
-      const userRow = await query.first();
-      if (!userRow) {
-        console.error("No USERS entry found for the current user.");
-        return;
-      }
+      user.set("dateOfBirth", dateOfBirth);
+      user.set("gender", pronouns);
+      user.set("profileBio", profileBio);
+      user.set("fields", selectedFields);
+      user.set("skills", selectedSkills);
+      await user.save();
 
-      userRow.set("dateOfBirth", dateOfBirth);
-      userRow.set("gender", pronouns);
-      userRow.set("profileBio", profileBio);
-      userRow.set("fields", selectedFields);
-      userRow.set("skills", selectedSkills);
-      await userRow.save();
-
-      console.log("USERS entry updated successfully!");
-      onClose(); // Closing the modal after saving
+      console.log("USER infromation updated successfully!");
+      onClose(); // Closing the modal pop-up after saving
+      location.reload();
     } catch (error) {
-      console.error("Error updating USERS entry:", error.message);
+      console.error("Error updating USER information:", error.message);
     }
   };
-
-  const tempDate = new Date();
-  const startDate = tempDate.setFullYear(tempDate.getFullYear() - 18);
 
   return (
     <>
@@ -139,7 +94,7 @@ const EditProfile = ({ onClose }) => {
             <DatePicker
               showYearDropdown
               selected={dateOfBirth}
-              openToDate={startDate}
+              openToDate={dateOfBirth}
               onChange={(date) => setDateOfBirth(date)}
               placeholderText="Click to select a date"
             />
