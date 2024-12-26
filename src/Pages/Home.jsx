@@ -62,8 +62,7 @@ const Home = () => {
     setLoading(true);
     readPosts();
   };
-  
-  
+
   if (loading) return <span className="loader"></span>;
 
   return (

@@ -8,7 +8,10 @@ import TagGenerator from "./TagGenerator";
 import { ErrorMessage } from "../SharedCSS";
 import EditProfile from "../Components/EditProfile";
 import Modal from "react-modal";
+import ConnectButton from "./ConnectButton";
 
+// Generates the profile header for the user passed as a prop ("USERS" object).
+// The component is modified depending on the "viewMode" boolean (own profile vs. looking at the profiles of other).
 const ProfileHeader = ({ user, viewMode }) => {
   const [bannerImg, setBannerImg] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
@@ -17,10 +20,9 @@ const ProfileHeader = ({ user, viewMode }) => {
   const bannerRef = useRef(null);
   const profileImgRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [fields, setFields] = useState([]);
 
-  console.log("rendering ProfileHeader component");
-
-  // Remove error message after 2 second delay
+  // Removes error message after 2 second delay.
   useEffect(() => {
     if (errorMsgBanner || errorMsgPhoto) {
       const timer = setTimeout(() => {
@@ -32,7 +34,7 @@ const ProfileHeader = ({ user, viewMode }) => {
     }
   }, [errorMsgBanner, errorMsgPhoto]);
 
-  // Retrieve profileImage and bannerImage for display
+  // Retrieves profileImage and bannerImage from database (from the user passed as a prop to the component), and saves it in the state.
   useEffect(() => {
     if (user) {
       setBannerImg(user.get("bannerImage").url());
@@ -40,12 +42,18 @@ const ProfileHeader = ({ user, viewMode }) => {
     }
   }, [user]);
 
+  // Retrieves the fields for the user, generates styled tags from them, and saves the tags in the state as an array.
+  useEffect(() => {
+    setFields(user.get("fields") && generateTags());
+  }, [user]);
+
+  // Enables the usage of the icon for uploading pictures.
   const handleBannerEdit = (e) => {
     e.preventDefault();
     bannerRef.current.click();
   };
 
-  // Save bannerImage to database and display it on profile
+  // Saves bannerImage to database and stores the url for it in the state.
   const saveBannerImg = async (event) => {
     const image = event.target.files[0];
     try {
@@ -62,12 +70,13 @@ const ProfileHeader = ({ user, viewMode }) => {
     }
   };
 
+  // Enables the usage of the icon for uploading pictures.
   const handleProfileImageEdit = (e) => {
     e.preventDefault();
     profileImgRef.current.click();
   };
 
-  // Save profileImage to database and display it on profile
+  // Save profileImage to database and stores the url for it in the state.
   const saveProfileImg = async (event) => {
     const image = event.target.files[0];
     try {
@@ -84,20 +93,18 @@ const ProfileHeader = ({ user, viewMode }) => {
     }
   };
 
-  // Retrieve user's tag from database and generate tags for display.
+  // Retrieve user's tags from database and generate styled tags for display on profile.
   const generateTags = () => {
     if (user.get("fields") !== undefined) {
       return TagGenerator({ array: user.get("fields"), tagType: "field" });
     }
   };
 
-  useEffect(() => {
-    console.log("Profile Bio:", user?.get("profileBio"));
-  }, [user]);
-
+  // For Edit Profile pop-up functionality.
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
+  // Renders a component for either a personal profile that can be edited or a profile as it is viewed by others.
   return (
     <HeaderWrapper>
       <BannerWrapper>
@@ -117,6 +124,7 @@ const ProfileHeader = ({ user, viewMode }) => {
           <StyledErrorMessagePhoto>{errorMsgPhoto}</StyledErrorMessagePhoto>
         )}
       </BannerWrapper>
+
       <ProfileImageWrapper>
         <ProfileImage src={profileImg} />
         {!viewMode ? (
@@ -132,18 +140,26 @@ const ProfileHeader = ({ user, viewMode }) => {
           </>
         ) : null}
       </ProfileImageWrapper>
+
       <ProfileBottom>
         <LeftBlock>
-          <Button className="secondary-button" onClick={handleOpenModal}>
-            Edit Profile
-          </Button>
+          {!viewMode ? (
+            <Button className="secondary-button" onClick={handleOpenModal}>
+              Edit Profile
+            </Button>
+          ) : (
+            <ConnectButton />
+          )}
         </LeftBlock>
+
         <MiddleBlock>
           <Name>{user.get("firstName") + " " + user.get("lastName")}</Name>
           <Bio>{user.get("profileBio")}</Bio>
         </MiddleBlock>
-        <RightBlock>{user.get("fields") && generateTags()}</RightBlock>
+
+        <RightBlock>{fields}</RightBlock>
       </ProfileBottom>
+
       {/* Modal for Onboarding Component */}
       <Modal
         isOpen={isModalOpen}
@@ -177,8 +193,6 @@ const ProfileHeader = ({ user, viewMode }) => {
 
 export default ProfileHeader;
 
-
-
 const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -199,7 +213,6 @@ const BannerWrapper = styled.div`
   height: 50%;
   width: 100%;
   border-radius: 20px 20px 0 0;
-  border: 1px solid #ccc;
 `;
 const Banner = styled.img`
   display: flex;
@@ -208,7 +221,6 @@ const Banner = styled.img`
   height: 100%;
   width: 100%;
   border-radius: 20px 20px 0 0;
-  //border: 1px solid #ccc;
   object-fit: cover;
 `;
 const EditIconWrapper = styled.div`
@@ -240,7 +252,7 @@ const ProfileImageWrapper = styled.div`
   height: 150px;
   position: absolute;
   left: 20px;
-  top: 100px; // (350px-150px/2)
+  top: 100px; // (350px-150px/2) finding center by subtracting height of image from height of HeaderWrapper and dividing by 2.
 `;
 const ProfileImage = styled.img`
   display: flex;

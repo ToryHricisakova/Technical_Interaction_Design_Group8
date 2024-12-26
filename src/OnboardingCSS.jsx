@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+// Below CSS used for both Onboarding1 and Onboarding2 components.
 export const Container = styled.div`
   display: flex;
   align-items: center;

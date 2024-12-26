@@ -30,10 +30,7 @@ const RegistrationForm = () => {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%?&_.,:;"'~=+-/|\\{}()^\[\]><]).{8,24}$/;
   // Password requirements:
   // between 8-24 characters and includes:
-  // a lowercase letter
-  // an uppercase letter
-  // a number
-  // a special character.
+  // a lowercase letter, an uppercase letter, a number, a special character.
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -73,12 +70,18 @@ const RegistrationForm = () => {
       return;
     }
 
-    // Saving additional information to the "Users" table.
+    // Saving additional information to the "USERS" table.
     const USERS = Parse.Object.extend("USERS");
     const user = new USERS();
 
-    user.set("firstName", firstName);
-    user.set("lastName", lastName);
+    // Ensuring name is saved to database with capitalized starting letters.
+    const capFirstName =
+      firstName.charAt(0).toUpperCase() + firstName.substring(1);
+    const capLastName =
+      lastName.charAt(0).toUpperCase() + lastName.substring(1);
+
+    user.set("firstName", capFirstName);
+    user.set("lastName", capLastName);
     user.set("user", Parse.User.current()); // links the "_user" and "USERS" tables.
 
     // "save" creates the new object in the database.
@@ -90,6 +93,7 @@ const RegistrationForm = () => {
             " and _User id: " +
             createdUser.id
         );
+        // If user is succesfully saved, navigate to the onboarding page.
         navigate("/onboarding1");
       },
       (error) => {
@@ -98,7 +102,7 @@ const RegistrationForm = () => {
     );
   };
 
-  // Registrering user in "_User" table.
+  // Registrering user in the "_User" table.
   const saveUser = async function () {
     const user = new Parse.User();
 
@@ -116,22 +120,26 @@ const RegistrationForm = () => {
     }
   };
 
+  // Save e-mail and check if valid.
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
     setValidEmail(EMAIL_REGEX.test(e.target.value));
   };
 
+  // Save password and check if valid.
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
     setValidPassword(PASSWORD_REGEX.test(e.target.value));
     setPasswordMatch(e.target.value === confirmPassword);
   };
 
+  // Check if both passwords are identical.
   const handlePasswordConfirmation = (e) => {
     setConfirmPassword(e.target.value);
     setPasswordMatch(e.target.value === password);
   };
 
+  // Toggles visibility of passwords based on boolean value.
   const togglePasswordVisibility = (setHidePassword, currentValue) => {
     setHidePassword(!currentValue);
   };
@@ -147,7 +155,6 @@ const RegistrationForm = () => {
       <FormContent>
         <form onSubmit={handleRegistration} style={{ width: "100%" }}>
           {errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}
-          {/*We need to turn off autocomplete in all fields*/}
           <InputContainer>
             <StyledLabel htmlFor="firstName">
               First name
@@ -159,7 +166,7 @@ const RegistrationForm = () => {
               placeholder="Enter first name"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              autocomplete="off"
+              autoComplete="off"
               required
               maxLength={38}
             />
@@ -175,7 +182,7 @@ const RegistrationForm = () => {
               placeholder="Enter last name"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              autocomplete="off"
+              autoComplete="off"
               maxLength={38}
               required
             />
@@ -210,7 +217,7 @@ const RegistrationForm = () => {
             </StyledLabel>
             <PasswordWrapper>
               <StyledInput
-                type={hidePassword ? "password" : "text"}
+                type={hidePassword ? "password" : "text"} // text display changes when eye-icon is clicked.
                 id="password"
                 placeholder="Enter password"
                 value={password}
@@ -222,7 +229,7 @@ const RegistrationForm = () => {
                 icon={hidePassword ? faEye : faEyeSlash} // Icon changes when clicked.
                 onClick={() =>
                   togglePasswordVisibility(setHidePassword, hidePassword)
-                } // Clicking toggles visibility of password
+                }
               />
             </PasswordWrapper>
             <Req>
@@ -251,10 +258,10 @@ const RegistrationForm = () => {
                 required
               />
               <ToggleVisibilityEye
-                icon={hidePassword2 ? faEye : faEyeSlash} // Icon changes when clicked.
+                icon={hidePassword2 ? faEye : faEyeSlash}
                 onClick={() =>
                   togglePasswordVisibility(setHidePassword2, hidePassword2)
-                } // Clicking toggles visibility of password
+                }
               />
             </PasswordWrapper>
           </InputContainer>
@@ -269,9 +276,10 @@ const RegistrationForm = () => {
             />
             <CheckboxLabel htmlFor="terms">
               I agree to the terms and conditions as set out by the user
-              agreement. {/*Should link to the user agreement.*/}
+              agreement.
             </CheckboxLabel>
           </TermsContainer>
+
           <Button className="primary-button" type="submit">
             Register
           </Button>
@@ -310,7 +318,7 @@ const ToggleVisibilityEye = styled(FontAwesomeIcon)`
   top: 50%;
   transform: translateY(
     -50%
-  ); /* Position the eye icon vertically in the middle of the input field */
+  ); /* Positions the eye icon vertically in the middle of the input field */
   cursor: pointer;
   color: #888;
 `;

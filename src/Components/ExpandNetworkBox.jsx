@@ -9,21 +9,22 @@ import "../Spinner.css";
 
 const ExpandNetworkBox = () => {
   const [field, setField] = useState(null);
-  const [user, loading] = useUserProfile();
+  const [user] = useUserProfile();
   const fieldSet = useRef(false);
   const [profiles, setProfiles] = useState([]);
 
+  // A random field is chosen from the fields that the logged-in user possesses.
   useEffect(() => {
     if (!fieldSet.current && user && user.get("fields")) {
+      // "fieldSet" boolean is used to ensure the field is only selected once for the component.
       fieldSet.current = true;
 
       try {
         const fields = user.get("fields");
         const num = Math.floor(Math.random() * fields.length);
         setField(fields[num]);
-        console.log("field to generate from set to " + fields[num]);
       } catch (error) {
-        console.log("Error choosing field from user " + error);
+        console.log("Error choosing field from user: " + error);
       }
     }
   }, [user]);
@@ -32,14 +33,10 @@ const ExpandNetworkBox = () => {
   useEffect(() => {
     if (field && user) {
       chooseProfiles();
-      console.log(
-        "generating miniProfiles based on tags from user " +
-          user.get("firstName") +
-          user.get("lastName")
-      );
     }
   }, [field]);
 
+  // Profiles are chosen based on the chosen field-tag and styled profile components are created.
   const chooseProfiles = async () => {
     if (!user || !field) {
       console.error(
@@ -49,27 +46,33 @@ const ExpandNetworkBox = () => {
     }
 
     try {
-      // Finding relevant profiles in our "USERS"-table to display based on the chosen field tag.
+      // Finds relevant profiles in our "USERS"-table to display based on the chosen field tag.
       const query = new Parse.Query("USERS");
-      query.contains("fields", field); // "contains" used to also get related fields. E.g. "administration" and "business administration".
-      query.notEqualTo("user", Parse.User.current()); // Excluding the current user
+      query.contains("fields", field);
+      query.notEqualTo("user", Parse.User.current()); // Excludes the current user.
 
       const results = await query.find();
+
+      // If no results found, return early.
       if (results.length === 0) {
         console.log("No matching users found.");
         return null;
       }
 
-      const chosenUsers = new Set(); // Using set to avoid duplicates.
-      // Ensuring we choose 3 unique relevant profiles:
+      // 3 users are chosen and stored in a set in order to avoid duplicates.
+      const chosenUsers = new Set();
+      // If exactly 3 users are found, these 3 are added to the set.
       if (results.length <= 3) {
         results.forEach((profile) => chosenUsers.add(profile));
       } else {
+        // If more than 3 users are found, we add random users until we have 3 in the set (while-loop since duplicates might occur).
         while (chosenUsers.size < 3) {
           const randomIndex = Math.floor(Math.random() * results.length);
           chosenUsers.add(results[randomIndex]);
         }
       }
+
+      // MiniProfiles are created for the chosen users
       createProfiles(chosenUsers);
     } catch (error) {
       console.error("Error choosing users:", error);
@@ -77,6 +80,7 @@ const ExpandNetworkBox = () => {
     }
   };
 
+  // Creates styled MiniProfiles based on the array of Parse user objects passed to it.
   const createProfiles = (chosenUsers) => {
     const profiles = [];
     chosenUsers.forEach((user) => {
@@ -90,7 +94,7 @@ const ExpandNetworkBox = () => {
         />
       );
     });
-
+    // useState for profiles is updated to enable displayal
     setProfiles(profiles);
   };
 
@@ -100,7 +104,11 @@ const ExpandNetworkBox = () => {
         <Title>Expand your network</Title>
         <SubTextContainer>
           <Text>Based on your field:</Text>
-          <Tag word={field} tagType={"field"} closable={false} />
+          {field === null || field === undefined ? (
+            <p>No available fields to choose from</p>
+          ) : (
+            <Tag word={field} tagType={"field"} closable={false} />
+          )}
         </SubTextContainer>
       </TextContainer>
 
@@ -162,5 +170,4 @@ const SubTextContainer = styled.div`
 `;
 const Text = styled.p`
   margin: 0;
-
-`
+`;

@@ -15,7 +15,6 @@ const PostGenerator = ({ array, style }) => {
 
     const createPosts = async () => {
       try {
-        console.log("PostGenerator received array containing: " + fetchedPosts);
         const postsData = fetchedPosts.map((post) => {
           const user = post.get("postedBy");
           const profileImage = user.get("profileImage")?.url();
@@ -54,23 +53,22 @@ const PostGenerator = ({ array, style }) => {
     <>
       {posts?.length > 0 ? (
         posts.map((post, index) => {
-            console.log("Creating small posts");
-            return (
-              <Post
-                objectId={post.objectId}
-                key={index}
-                profileImage={post.profileImage}
-                name={post.name}
-                text={post.text}
-                media={post.media}
-                fields={post.fields}
-                dateofPosting={post.dateofPosting}
-                numberOfLikes={post.numberOfLikes}
-                variant="small"
-              />
-            );
-          }
-        )
+          console.log("Creating small posts");
+          return (
+            <Post
+              objectId={post.objectId}
+              key={index}
+              profileImage={post.profileImage}
+              name={post.name}
+              text={post.text}
+              media={post.media}
+              fields={post.fields}
+              dateofPosting={post.dateofPosting}
+              numberOfLikes={post.numberOfLikes}
+              variant="small"
+            />
+          );
+        })
       ) : (
         <p>No posts available</p>
       )}

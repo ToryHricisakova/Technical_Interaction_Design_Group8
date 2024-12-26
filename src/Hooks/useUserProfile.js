@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Parse from "parse";
 
+// Fetches the "USERS" object based on the "_User" objectId of the currently logged in user.
 export default function useUserProfile() {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
@@ -28,7 +29,7 @@ export default function useUserProfile() {
       } catch (error) {
         console.log("Error fetching user data: " + error.message);
       } finally {
-        setLoading(false); // Allows page to be shown.
+        setLoading(false); // For allowing pages to be shown once loading is done.
       }
     };
     getCurrentUser();

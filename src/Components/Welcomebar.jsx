@@ -9,6 +9,7 @@ import {
   Logo,
 } from "../SharedCSS";
 
+// Welcomebar to be displayed at the top of the page when no user is logged in.
 const Welcomebar = () => {
   return (
     <BarBackground>
@@ -21,12 +22,10 @@ const Welcomebar = () => {
       <BarRight>
         <ElementContainer>
           <Link to="/login">
-            {" "}
-            <Button className="primary-button">Login</Button>{" "}
+            <Button className="primary-button">Login</Button>
           </Link>
           <Link to="/register">
-            {" "}
-            <Button className="secondary-button">Register</Button>{" "}
+            <Button className="secondary-button">Register</Button>
           </Link>
         </ElementContainer>
       </BarRight>
