@@ -46,9 +46,21 @@ const Home = () => {
       }
     };
 
-  const refreshPosts = () => {
-    setLoading(true);
-    readPosts();
+  const refreshPosts = async () => {
+    try {
+      setLoading(true);
+      const query = new Parse.Query("POSTS");
+      query.descending("dateofPosting");
+      query.include("postedBy");
+
+      const result = await query.find();
+      setFetchedPosts(result);
+      setDisplayPosts(<PostGenerator array={result} variant="default" />); // Direct update
+      setLoading(false);
+    } catch (error) {
+      console.error("Error refreshing posts:", error.message);
+      setLoading(false);
+    }
   };
 
   if (loading) return <span className="loader"></span>;
@@ -60,7 +72,7 @@ const Home = () => {
           <PostingContainer refreshPosts={refreshPosts}></PostingContainer>
         </Container>
         <Container>
-          {displayPosts} {/* : <p> No posts available...</p> */}
+          {displayPosts}
         </Container>
       </MainSection>
 
