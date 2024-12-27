@@ -3,6 +3,30 @@ import "../Components/TypeAhead.css";
 import Tag from "./Tag";
 import { ErrorMessage } from "../SharedCSS";
 
+/**
+ * Reusable component that allows the user to select an item from a set of options. 
+ * The user starts typing a wanted phrase and the options that match appear in a drop down.
+ * 
+ * There are several parameters that make the component more customisable. 
+ * 
+ * items --> based on the option chosen, the corresponding class from the database is accessed. 
+ * The current options are fields, skills, countries. 
+ * 
+ * placeholder --> appears inside the search field
+ * 
+ * tagType --> the tags are styled differently depending on what items they are displaying
+ * 
+ * onSelectionChange --> a callback function triggered when the selected tags are updated
+ * 
+ * maxNumber --> the maximum number of items that can be chosen
+ * 
+ * States:
+ * suggestions --> stores the list of suggestions that match the current input text
+ * 
+ * text --> Stores the current input text value
+ * 
+ * selectedTags --> Stores the array of tags (items) selected by the user
+ */
 const TypeAhead = ({
   items,
   placeholder,
@@ -16,6 +40,12 @@ const TypeAhead = ({
   const [selectedTags, setSelectedTags] = useState(value || []);
   const [errorMsg, setErrorMsg] = useState("");
 
+  /**
+   * The function is triggered when the user starts typing in the input field.
+   * It updates the text state and filters the items array to find the suggestions
+   * that match the input text using a case-insensitive regex (^${value}).
+   * It sets the filtered results in the suggestions state. 
+   */
   const onTextChange = (e) => {
     const value = e.target.value;
     console.log("Input value:", value); // Debugging
@@ -31,6 +61,15 @@ const TypeAhead = ({
     setText(value);
   };
 
+  /**
+   * The function is called when a suggestion is clicked. 
+   * 
+   * It adds the selected suggestion to selectedTags (if it is not alread there and it 
+   * doesn't exceed the maxNumber limit).
+   * 
+   * It calls the onSelectionChange prop with the updated list of selected tags, and then clears
+   * the input field and suggestions. 
+   */
   const suggestionSelected = (value) => {
     setSelectedTags((prevTags) => {
       if (!prevTags.includes(value)) {
@@ -49,10 +88,12 @@ const TypeAhead = ({
     });
     setText("");
     setSuggestions([]);
-    //console.log("selectedTags: ", selectedTags);
   };
 
-  // Method to remove a tag
+  /**
+   * The function removes a selected tag when the user clicks the close button in 
+   * a Tag component. It updates the selectedTags state and calls onSelectionChange. 
+   */
   const removeTag = (tag) => {
     setSelectedTags((prevTags) => {
       const updatedTags = prevTags.filter((t) => t !== tag);
@@ -64,6 +105,12 @@ const TypeAhead = ({
     });
   };
 
+  /**
+   * The function generates Tag components for each selected tag. 
+   * The last line passes the removeTag function to allow tag removal.
+   * (passing the removeTag function as a prop - giving the createTags access to it
+   * so that createTags can interact with the parent's (the component's) state)
+   */
   const createTags = () => {
     return selectedTags.map((tag, index) => (
       <Tag
@@ -71,11 +118,15 @@ const TypeAhead = ({
         word={tag}
         tagType={tagType}
         closable={true}
-        removeTag={() => removeTag(tag)} // Pass removeTag function
+        removeTag={() => removeTag(tag)}
       />
     ));
   };
 
+  /**
+   * The function dynamically renders the filtered suggestions in a <ul> element. 
+   * It calls suggestionSelected when a suggestion is clicked. 
+   */
   const renderSuggestions = () => {
     if (suggestions.length === 0) {
       return null;

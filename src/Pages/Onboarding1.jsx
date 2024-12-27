@@ -21,6 +21,12 @@ import { useNavigate } from "react-router-dom";
 const Onboarding1 = () => {
   const navigate = useNavigate();
 
+  /**
+   * Saves user information to the USERS table, using Parse queries to fetch and
+   * update the current user's record.
+   *
+   * After saving the data, it navigates to onboarding2.
+   */
   async function handleSavingAdditionalInfo() {
     const currentUser = Parse.User.current();
 
@@ -40,6 +46,9 @@ const Onboarding1 = () => {
         return;
       }
 
+      /**
+       * These states store the personal information chosen by the user.
+       */
       userRow.set("dateOfBirth", dateOfBirth);
       userRow.set("gender", pronouns);
       userRow.set("profileBio", profileBio);
@@ -59,11 +68,22 @@ const Onboarding1 = () => {
   const [pronouns, setPronouns] = useState("");
   const [profileBio, setProfileBio] = useState("");
 
+  /**
+   * fileRef is a reference to the hidden input (HiddenInput), which is 
+   * an element that allows the user to upload a file but is styled to be invisible.
+   */
   const fileRef = useRef(null);
 
+  /**
+   * startDate sets a minimum age requirement to 18 years.
+   */
   const tempDate = new Date();
   const startDate = tempDate.setFullYear(tempDate.getFullYear() - 18); // Open calendar at 18 years ago.
 
+  /**
+   * Handles profile picture uploads by reading the selected file and
+   * updating the profilePhoto state with the file's URL.
+   */
   const getProfilePhoto = async (event) => {
     const image = event.target.files[0];
     try {
@@ -75,28 +95,16 @@ const Onboarding1 = () => {
     }
   };
 
+  /**
+   * When the user clicks the upload picture button, handleClick is triggered.
+   *
+   * fileRef.current.click() simulates a click on the hidden file input, which opens the picker dialog for 
+   * the user to choose an image. 
+   */
   function handleClick(e) {
     e.preventDefault();
     fileRef.current.click();
   }
-
-  // useEffects for debugging:
-
-  useEffect(() => {
-    console.log("Date of birth set to " + dateOfBirth);
-  }, [dateOfBirth]);
-
-  useEffect(() => {
-    console.log("Pronouns set to " + pronouns);
-  }, [pronouns]);
-
-  useEffect(() => {
-    console.log("Profile picture URL is " + profileImage);
-  }, [profileImage]);
-
-  useEffect(() => {
-    console.log("Bio is set to " + profileBio);
-  }, [profileBio]);
 
   return (
     <Container>
