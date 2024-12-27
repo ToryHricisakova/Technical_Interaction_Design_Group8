@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import Parse from "parse";
 
+// Returns a component that is a miniature profile representation. Used for the ExpandNetworkBox.
 const MiniProfile = (props) => {
   const objectId = props.objectId;
   const firstName = props.firstName;
@@ -13,9 +14,8 @@ const MiniProfile = (props) => {
   const picture = props.picture;
 
   const [profileURL, setProfileURL] = useState("");
-  //console.log("Props received in MiniProfile:", props);
 
-  // Retrieve "_User" objectId & set profileURL.
+  // Retrieves the "_User" objectId & sets profileURL to enable linking to it.
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -23,7 +23,6 @@ const MiniProfile = (props) => {
         query.equalTo("objectId", objectId);
         const userRecord = await query.first();
         const userValue = userRecord.get("user");
-        console.log("value = " + userValue.id);
         setProfileURL("/" + userValue.id);
       } catch (error) {
         console.log("Error fetching user data: " + error.message);
@@ -32,8 +31,8 @@ const MiniProfile = (props) => {
     getUser();
   }, [objectId]);
 
+  // Returns styled profile-component containing profile picture, name, fields and a connect-button.
   return (
-    // profile picture, name, connect-button, fields
     <ProfileWrapper>
       <PictureNameConnectWrapper>
         <Link to={profileURL}>
@@ -47,7 +46,7 @@ const MiniProfile = (props) => {
               {firstName} {lastName}
             </Name>
           </StyledLink>
-          <ConnectButton />
+          <ConnectButton className="connect-button-small" />
         </NameConnectContainer>
       </PictureNameConnectWrapper>
       <FieldsContainer>
@@ -65,14 +64,12 @@ const ProfileWrapper = styled.div`
   height: fit-content;
   display: flex;
   flex-direction: column;
-  //border: solid 2px black;
 `;
 const PictureNameConnectWrapper = styled.div`
   width: 100%;
   height: fit-content;
   display: flex;
   flex-direction: row;
-  //border: solid 2px black;
 `;
 const ProfileImage = styled.img`
   width: 80px;

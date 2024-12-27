@@ -6,8 +6,9 @@ import ExpandNetworkBox from "../Components/ExpandNetworkBox";
 import { Page } from "../SharedCSS";
 import ProfileHeader from "../Components/ProfileHeader";
 import ProfileBody from "../Components/ProfileBody";
-import "../Spinner.css";
+import "../Components/Spinner.css";
 
+// Page for viewing the profiles of other people.
 const ViewProfile = () => {
   const { userObjectId } = useParams();
   const [userId, setUserId] = useState(null);
@@ -44,6 +45,7 @@ const ViewProfile = () => {
 
   if (loading) return <span className="loader"></span>;
 
+  // viewMode boolean is passed to remove
   return (
     <Page>
       <PageContentContainer>
@@ -51,7 +53,6 @@ const ViewProfile = () => {
           <ProfileHeader user={userId} viewMode={true} />
           <ProfileBody user={userId} />
         </ProfileContainer>
-
         <ExpandNetworkBox />
       </PageContentContainer>
     </Page>

@@ -5,7 +5,7 @@ import PostingContainer from "../Components/PostingContainer";
 import ExpandNetworkBox from "../Components/ExpandNetworkBox";
 import useUserProfile from "../Hooks/useUserProfile.js";
 import Parse from "parse";
-import "../Spinner.css";
+import "../Components/Spinner.css";
 
 const Home = () => {
   const [user] = useUserProfile();
@@ -49,7 +49,7 @@ const Home = () => {
     setLoading(true);
     readPosts();
   };
-  
+
   if (loading) return <span className="loader"></span>;
 
   return (

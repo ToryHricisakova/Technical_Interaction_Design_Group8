@@ -17,7 +17,9 @@ export const PageWithImage = styled.div`
   width: 100vw;
   position: relative;
   padding-top: 76px;
-  min-height: 100vh;
+  min-height: calc(
+    100vh - 76px
+  ); // Subtracts the padding-top from the min-height to avoid vertical scrolling.
   background-image: url(${backgroundImage});
   background-size: cover;
   background-position: center;
@@ -42,6 +44,7 @@ export const Title = styled.h1`
   font-family: Inter, sans-serif;
   line-height: 1.1;
 `;
+// Used for LogInForm and RegistrationForm
 export const FormContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -49,6 +52,7 @@ export const FormContent = styled.div`
   width: 350px;
   gap: 15px;
 `;
+// Used for LogInForm and RegistrationForm
 export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -56,6 +60,7 @@ export const InputContainer = styled.div`
   width: 95%;
   margin: 15px 0;
 `;
+// Used for LogInForm and RegistrationForm
 export const StyledLabel = styled.label`
   display: flex;
   justify-content: space-between;
@@ -63,6 +68,7 @@ export const StyledLabel = styled.label`
   text-align: left;
   color: #3a3a3a;
 `;
+// Used for LogInForm and RegistrationForm
 export const StyledInput = styled.input`
   width: 100%;
   padding: 8px;
@@ -74,25 +80,10 @@ export const StyledInput = styled.input`
   border-width: 1px;
   background-color: white;
 `;
+// Used for LogInForm, RegistrationForm, ProfileHeader, TypeAhead,
 export const ErrorMessage = styled.p`
   color: red;
   font-weight: bold;
-  //margin-bottom: 15px;
   padding: 5px;
   font-size: 14px;
-`;
-export const ConnectButton = styled.button`
-  background-color: white;
-  color: rgba(228, 115, 71, 1);
-  padding: 10px 20px;
-  border: 1px solid rgba(228, 115, 71, 1);
-  cursor: pointer;
-  border-radius: 8px;
-  font-size: 16px;
-  transition: background-color 0.3s, color 0.3s;
-
-  &:hover {
-    background-color: rgba(228, 115, 71, 1);
-    color: white;
-  }
 `;

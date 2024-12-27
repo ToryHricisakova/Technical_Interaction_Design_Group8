@@ -6,9 +6,10 @@ import { useState, useEffect } from "react";
 import PostGenerator from "./PostGenerator.jsx";
 
 const ProfileBody = ({ user }) => {
-  const [displayPosts, setDisplayPosts] = useState([]);
+  const [styledPosts, setStyledPosts] = useState([]);
   const [fetchedPosts, setFetchedPosts] = useState([]);
 
+  // Fetch all posts that have been created by the "user" passed to the component as a prop.
   useEffect(() => {
     const fetchPosts = async () => {
       const query = new Parse.Query("POSTS");
@@ -27,20 +28,22 @@ const ProfileBody = ({ user }) => {
     }
   }, [user]);
 
+  // Empties the styledPosts array when the user is changed (in order to ensure an updated profile).
   useEffect(() => {
-    createPosts();
-  }, [fetchedPosts]);
+    setStyledPosts([]);
+  }, [user]);
 
-  const createPosts = () => {
+  // Create styled posts-components (small version) to be displayed on the profile.
+  // Update posts whenever new posts are fetched (happens when a new user is passed as a prop).
+  useEffect(() => {
     if (fetchedPosts.length !== 0) {
-      fetchedPosts && console.log("create post based on: " + fetchedPosts);
-
       setDisplayPosts(<PostGenerator array={fetchedPosts} variant="small" />);
     } else {
-      setDisplayPosts([]);
+      setStyledPosts([]);
     }
-  };
+  }, [fetchedPosts]);
 
+  // Generate fields for the profile based on the user passed as a prop.
   const generateFields = () => {
     if (user.get("fields") !== undefined) {
       return TagGenerator({ array: user.get("fields"), tagType: "field" });
@@ -48,6 +51,7 @@ const ProfileBody = ({ user }) => {
     return null;
   };
 
+  // Generate tags for the profile based on the user passed as a prop.
   const generateSkills = () => {
     if (user.get("skills") !== undefined) {
       return TagGenerator({ array: user.get("skills"), tagType: "skill" });
@@ -60,25 +64,21 @@ const ProfileBody = ({ user }) => {
       <ActivityWrapper>
         <Title>Activity</Title>
         <HorizontalLine width="200px" />
-        {displayPosts}
+        {styledPosts}
       </ActivityWrapper>
+
       <TagContainer>
         <Title>Tags</Title>
         <HorizontalLine width="200px" />
-        <div>
-          <SubTitle>Skills</SubTitle>
-          <TagsLayout>{user && generateSkills()}</TagsLayout>
-        </div>
-        <div>
-          <SubTitle>Fields</SubTitle>
-          <TagsLayout>{user && generateFields()}</TagsLayout>
-        </div>
-        <div>
-          <SubTitle>Education</SubTitle>
-        </div>
-        <div>
-          <SubTitle>Work experience</SubTitle>
-        </div>
+
+        <SubTitle>Skills</SubTitle>
+        <TagsLayout>{user && generateSkills()}</TagsLayout>
+
+        <SubTitle>Fields</SubTitle>
+        <TagsLayout>{user && generateFields()}</TagsLayout>
+
+        <SubTitle>Education</SubTitle>
+        <SubTitle>Work experience</SubTitle>
       </TagContainer>
     </BodyWrapper>
   );

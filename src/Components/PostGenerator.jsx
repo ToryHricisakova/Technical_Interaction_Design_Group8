@@ -8,13 +8,11 @@ const PostGenerator = ({ array, variant }) => {
 
   useEffect(() => {
     if (!fetchedPosts || fetchedPosts.length === 0) {
-      console.log("No data available for fetchedPosts yet.");
       return;
     }
 
     const createPosts = async () => {
       try {
-        console.log("PostGenerator received array containing: " + fetchedPosts);
         const postsData = fetchedPosts.map((post) => {
           const user = post.get("postedBy");
           const profileImage = user.get("profileImage")?.url();
@@ -41,7 +39,6 @@ const PostGenerator = ({ array, variant }) => {
         });
 
         setPosts(postsData);
-        console.log("post data: " + postsData);
       } catch (error) {
         console.error("Error fetching posts:", error);
       }
@@ -53,7 +50,6 @@ const PostGenerator = ({ array, variant }) => {
     <>
       {posts?.length > 0 ? (
         posts.map((post, index) => {
-            console.log("Creating small posts");
             return (
               <Post
                 objectId={post.objectId}
