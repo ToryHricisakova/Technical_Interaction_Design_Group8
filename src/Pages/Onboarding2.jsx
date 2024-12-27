@@ -17,31 +17,50 @@ import { fetchFields, fetchSkills } from "../DataforTypeAhead";
 import { useNavigate } from "react-router-dom";
 import Parse from "parse";
 
-// Mark the user as logged in (this has to be reflected in App.jsx!)
+/**
+ *
+ * fields and skils: arrays to store dynamically fetched career fields and skills data
+ *
+ * selectedFields and selectedSkills: arrays to store user-selected fields and skills
+ *
+ */
 const Onboarding2 = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
-  // adding functionality for back4app
 
   const [fields, setFields] = useState([]); //setting the fields array
   const [skills, setSkills] = useState([]); //setting the skills array
   const [selectedFields, setSelectedFields] = useState([]); //array that will store the selected fields by the user
   const [selectedSkills, setSelectedSkills] = useState([]); //array that will store the selected skills by the user
 
+  /**
+   * The useEffect hook runs the loadFieldsAndSkills function once the component mounts.
+   * fetchFields and fetchSkills are called to retrieve data from Back4App.
+   * setFields and setSkills update the respective arrays
+   */
   useEffect(() => {
     const loadFieldsAndSkills = async () => {
-      //asynchronously fetches data for fields and skills from fetchFields() and fetchSkills()
+      /**
+       * Asynchronously fetches data for fields and skills from fetchFields() and fetchSkills()
+       * Once data is fetched, fields array is updated with selected values (through setFields(fieldsData), same for skills)
+       */
       const fieldsData = await fetchFields();
       const skillsData = await fetchSkills();
-      setFields(fieldsData); //once data is fetched, fields array is updated with selected values
+      setFields(fieldsData);
       setSkills(skillsData);
     };
 
     loadFieldsAndSkills();
   }, []);
 
+  /**
+   *
+   * Retrieves the current user from Parse. Checks if the user is logged in and fetches
+   * their database entry from USERS if they are.
+   *
+   * Saves the selected fields and skills into USERS
+   */
   async function handleSavingAdditionalInfo() {
-    //saves the selected fields and skills into USERS
-    const currentUser = Parse.User.current(); //fetches current user
+    const currentUser = Parse.User.current();
 
     if (!currentUser) {
       console.error("No user is logged in.");
@@ -54,30 +73,37 @@ const Onboarding2 = ({ setIsLoggedIn }) => {
 
     try {
       const userRow = await query.first();
-      // console.log("Queried user row:", userRow);
 
+      /**
+       * If the row exists, it is populated with the selected field(s) and skill(s)
+       */
       if (!userRow) {
-        //if the row exists, it is populated with the selected field(s) and skill(s)
         console.error("No USERS entry found for the current user.");
         return;
       }
 
+      /**
+       * The user's fields and skils columns are updated with the selected values here.
+       */
       userRow.set("fields", selectedFields);
       userRow.set("skills", selectedSkills);
 
-      // console.log("Selected Fields:", selectedFields);
-      // console.log("Selected Skills:", selectedSkills);
-
-      await userRow.save(); //saving the updated skills and fields and navigates to the profile
-      // console.log("USERS entry updated successfully!");
+      /**
+       * Saving the updated skills and fields and navigating to the profile
+       */
+      await userRow.save();
       navigate("/profile");
     } catch (error) {
       console.error("Error updating USERS entry:", error.message);
     }
   }
 
+  /**
+   * Marks the user as logged in, saves the selected fields and skills to
+   * USERS (upon clicking Finish, by calling the handleSavingAdditionalInfo() function.)
+   *
+   */
   const handleFinish = () => {
-    //marks the user as logged in, saves the selected fields and skills to USERS (upon clicking Finish)
     setIsLoggedIn(true);
     handleSavingAdditionalInfo();
   };
@@ -105,7 +131,7 @@ const Onboarding2 = ({ setIsLoggedIn }) => {
           <TypeAheadWrapper>
             {
               <TypeAhead
-                items={fields} //should be from the dynamically fetched data
+                items={fields}
                 placeholder="Search career fields here..."
                 tagType="field"
                 maxNumber={3}
@@ -129,10 +155,9 @@ const Onboarding2 = ({ setIsLoggedIn }) => {
           <TypeAheadWrapper>
             {
               <TypeAhead
-                items={skills} //should be from dynamically fetched data
+                items={skills}
                 placeholder="Search skills here..."
                 tagType="skill"
-                //onSelectionChange={(selected) => setSelectedSkills(selected)}
                 onSelectionChange={(updatedSkills) =>
                   setSelectedSkills(updatedSkills)
                 }

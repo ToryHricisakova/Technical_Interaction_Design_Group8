@@ -21,6 +21,12 @@ import { useNavigate } from "react-router-dom";
 const Onboarding1 = () => {
   const navigate = useNavigate();
 
+  /**
+   * Saves user information to the USERS table, using Parse queries to fetch and
+   * update the current user's record.
+   *
+   * After saving the data, it navigates to onboarding2.
+   */
   async function handleSavingAdditionalInfo() {
     const currentUser = Parse.User.current();
 
@@ -40,6 +46,9 @@ const Onboarding1 = () => {
         return;
       }
 
+      /**
+       * These states store the personal information chosen by the user.
+       */
       userRow.set("dateOfBirth", dateOfBirth);
       userRow.set("gender", pronouns);
       userRow.set("profileBio", profileBio);
@@ -61,26 +70,40 @@ const Onboarding1 = () => {
   const [pronouns, setPronouns] = useState("");
   const [profileBio, setProfileBio] = useState("");
 
+  /**
+   * fileRef is a reference to the hidden input (HiddenInput), which is 
+   * an element that allows the user to upload a file but is styled to be invisible.
+   */
   const fileRef = useRef(null);
 
+  /**
+   * startDate sets a minimum age requirement to 18 years.
+   */
   const tempDate = new Date();
   const startDate = tempDate.setFullYear(tempDate.getFullYear() - 18); // Open calendar at 18 years ago.
 
+  /**
+   * Handles profile picture uploads by reading the selected file and
+   * updating the profilePhoto state with the file's URL.
+   */
   function getProfilePhoto(event) {
     setProfilePhoto(URL.createObjectURL(event.target.files[0]));
   }
 
+  /**
+   * When the user clicks the upload picture button, handleClick is triggered.
+   *
+   * fileRef.current.click() simulates a click on the hidden file input, which opens the picker dialog for 
+   * the user to choose an image. 
+   */
   function handleClick(e) {
     e.preventDefault();
     fileRef.current.click();
   }
 
-  // function handleSubmit() {
-  //   return; // needs to be implemented with backend.
-  // }
-
-  // useEffects for debugging:
-
+  /**
+   * Logging changes to specific state variables.
+   */
   useEffect(() => {
     console.log("Date of birth set to " + dateOfBirth);
   }, [dateOfBirth]);
@@ -99,7 +122,6 @@ const Onboarding1 = () => {
 
   return (
     <Container>
-      {/* <Form onSubmit={handleSubmit}> */}
       <Form>
         <MainTitle>Customize Profile - Basic Info</MainTitle>
         <HorizontalLine />
