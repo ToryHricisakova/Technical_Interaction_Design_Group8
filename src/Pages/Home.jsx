@@ -18,6 +18,7 @@ const Home = () => {
       const fetchPosts = async () => {
         const query = new Parse.Query("POSTS");
         query.descending("dateofPosting");
+        query.include("postedBy");
   
         try {
           const result = await query.find();
