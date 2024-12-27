@@ -55,7 +55,7 @@ const Home = () => {
 
       const result = await query.find();
       setFetchedPosts(result);
-      setDisplayPosts(<PostGenerator array={result} variant="default" />); // Direct update
+      setDisplayPosts(<PostGenerator array={result} variant="default" />);
       setLoading(false);
     } catch (error) {
       console.error("Error refreshing posts:", error.message);
