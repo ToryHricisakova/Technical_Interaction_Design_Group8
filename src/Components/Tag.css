@@ -1,0 +1,49 @@
+/* We could only have one class like tagBase, where both tags would be styled
+and then have seperate classes for the styling of the colors. 
+But then we would have to have both classNames included each times 
+so we would need to change all instances. */
+
+.fieldTag {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  max-width: 100%;
+  background-color: #f19e7d;
+  color: #000000;
+  font-weight: bold;
+  padding: 0px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin: 5px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.skillTag {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  position: relative;
+  background-color: #d5dee4;
+  color: #000000;
+  font-weight: bold;
+  padding: 0px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin: 5px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.closingTag {
+  top: 50%;
+  background-color: transparent;
+  border-color: #ed7748;
+  border-radius: 40px;
+  color: #ed7748;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 1px 5px;
+  cursor: pointer;
+  margin-left: 5px;
+}
