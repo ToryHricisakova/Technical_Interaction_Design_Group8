@@ -1,18 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import Button from "./Button";
 import useUserProfile from "../Hooks/useUserProfile";
 import Parse from "parse";
 
-const PostingContainer = () => {
+const PostingContainer = ({ refreshPosts }) => {
   const [user, loading] = useUserProfile();
   const [text, setText] = useState("");
   const [mediaFile, setMediaFile] = useState(null);
   const [mediaPreview, setMediaPreview] = useState("");
+  const [message, setMessage] = useState("");
 
   const fileInputRef = useRef(null);
-  //const mediaPreviewRef = useRef(null);
-
 
   if (!loading && user) {
     console.log("Current User:", user);
@@ -23,21 +22,13 @@ const PostingContainer = () => {
       ? user.get("profileImage").url()
       : "https://via.placeholder.com/40";
 
-
   const handleTextChange = (e) => {
     setText(e.target.value);
   };
 
-  useEffect(() => {
-    if (user && !loading) {
-      const existingMedia = user.get("media")?.url();
-      if (existingMedia) setMediaFile(existingMedia);
-    }
-  }, [user, loading]);
-
   const handleFileInput = () => fileInputRef.current?.click();
 
-
+  // Function that uploads a file to the post and sets a preview for it in the UI.
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -46,18 +37,14 @@ const PostingContainer = () => {
       const media = new Parse.File(file.name, file);
       await media.save();
 
-      if (user) {
-        user.set("media", media);
-        await user.save();
-      }
-
       setMediaFile(media);
       setMediaPreview(URL.createObjectURL(file));
     } catch (error) {
-      console.error("Error uploading file:", error.message);
+      setMessage(`Error uploading file: ${error.message}`);
     }
   };
 
+  // Removes the attached image before posting.
   const removePreview = () => {
     setMediaFile(null);
     setMediaPreview("");
@@ -66,15 +53,16 @@ const PostingContainer = () => {
     }
   };
 
+  // Query that saves a new post to the database.
   const createPost = async () => {
     if (!text) {
-      alert("Post text cannot be empty!");
+      setMessage("Post text cannot be empty!");
       return;
     }
 
     let Post = new Parse.Object("POSTS");
     try {
-      if (mediaFile) {
+      if (mediaFile instanceof Parse.File) {
         Post.set("media", mediaFile);
       }
 
@@ -85,16 +73,17 @@ const PostingContainer = () => {
       Post.set("numberOfComments", 0);
 
       await Post.save();
-      alert("Post created successfully!");
+      setMessage("Post created successfully!");
 
+      // Refreshes the posts section, so the new post can be displayed immediately, and resets all values.
+      refreshPosts();
       setText("");
       setMediaFile(null);
       setMediaPreview("");
     } catch (error) {
-      alert(`Error creating post: ${error.message}`);
+      setMessage(`Error creating post: ${error.message}`);
     }
   };
-  
 
   return (
     <>
@@ -117,7 +106,7 @@ const PostingContainer = () => {
             </PreviewWrapper>
           )}
           <HiddenFileInput
-            type="file"
+            type="file" multiple
             ref={fileInputRef}
             onChange={handleFileUpload}
           />
@@ -132,13 +121,24 @@ const PostingContainer = () => {
           </Button>
         </ButtonContainer>
       </Actions>
+      {message && <MessageContainer>{message}</MessageContainer>}
     </>
   );
 };
 
-
-
 // Styled Components
+
+const MessageContainer = styled.div`
+  margin-top: 20px;
+  color: #e47347;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+
+  &.error {
+    color: #e47347;
+  }
+`;
 
 const PreviewWrapper = styled.div`
   display: flex;
@@ -189,6 +189,7 @@ const UserImage = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  object-fit: cover;
 `;
 
 const TextField = styled.textarea`
@@ -204,6 +205,7 @@ const TextField = styled.textarea`
   min-height: 80px;
   max-height: 300px;
   overflow-y: auto;
+  font-family: Inter;
 
   &::placeholder {
     color: #aaa;

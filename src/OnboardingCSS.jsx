@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+// Below CSS used for both Onboarding1 and Onboarding2 components.
 export const Container = styled.div`
   display: flex;
   align-items: center;
@@ -19,7 +20,7 @@ export const Form = styled.form`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 export const MainTitle = styled.h1`
-  font-size: 32px;
+  font-size: 30px;
   margin: 0 0 10px 0;
   color: #35415d;
   font-family: Inter, sans-serif;

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../Components/TypeAhead.css";
 import Tag from "./Tag";
+import { ErrorMessage } from "../SharedCSS";
 
 /**
  * Reusable component that allows the user to select an item from a set of options. 
@@ -32,10 +33,12 @@ const TypeAhead = ({
   tagType,
   onSelectionChange,
   maxNumber,
+  value,
 }) => {
   const [suggestions, setSuggestions] = useState([]);
   const [text, setText] = useState("");
-  const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState(value || []);
+  const [errorMsg, setErrorMsg] = useState("");
 
   /**
    * The function is triggered when the user starts typing in the input field.
@@ -71,8 +74,9 @@ const TypeAhead = ({
     setSelectedTags((prevTags) => {
       if (!prevTags.includes(value)) {
         if (prevTags.length >= maxNumber) {
-          alert(
-            "You can only select up to " + maxNumber + " " + tagType + "s."
+          //limiting the number of fields (or any type of tag) that can be added
+          setErrorMsg(
+            `You can only select up to ${maxNumber} ${tagType}s. Remove a field to add a new one.`
           );
           return prevTags;
         }
@@ -94,6 +98,9 @@ const TypeAhead = ({
     setSelectedTags((prevTags) => {
       const updatedTags = prevTags.filter((t) => t !== tag);
       onSelectionChange(updatedTags);
+      if (prevTags.length <= maxNumber) {
+        setErrorMsg("");
+      }
       return updatedTags;
     });
   };
@@ -144,11 +151,10 @@ const TypeAhead = ({
           value={text}
           type="text"
         />
-
         {renderSuggestions()}
       </div>
-
       <div className="tag-container">{createTags()}</div>
+      {errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}
     </div>
   );
 };

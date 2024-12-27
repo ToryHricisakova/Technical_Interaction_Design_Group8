@@ -5,30 +5,55 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import Button from "./Button";
 import Parse from "parse";
 import TagGenerator from "./TagGenerator";
+import { ErrorMessage } from "../SharedCSS";
+import EditProfile from "../Components/EditProfile";
+import Modal from "react-modal";
+import ConnectButton from "./ConnectButton";
 
-const ProfileHeader = ({ user, loading }) => {
+// Generates the profile header for the user passed as a prop ("USERS" object).
+// The component is modified depending on the "viewMode" boolean (own profile vs. looking at the profiles of other).
+const ProfileHeader = ({ user, viewMode }) => {
   const [bannerImg, setBannerImg] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
+  const [errorMsgBanner, setErrorMsgBanner] = useState("");
+  const [errorMsgPhoto, setErrorMsgPhoto] = useState("");
   const bannerRef = useRef(null);
   const profileImgRef = useRef(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [fields, setFields] = useState([]);
 
-  console.log("rendering ProfileHeader component");
-
+  // Removes error message after 2 second delay.
   useEffect(() => {
-    console.log("useEffect called for user having changed");
-    console.log(user);
-    console.dir(user);
+    if (errorMsgBanner || errorMsgPhoto) {
+      const timer = setTimeout(() => {
+        setErrorMsgBanner("");
+        setErrorMsgPhoto("");
+      }, 2000);
+      // Cleanup function - runs before the component unmounts or before the effect is re-executed.
+      return () => clearTimeout(timer);
+    }
+  }, [errorMsgBanner, errorMsgPhoto]);
+
+  // Retrieves profileImage and bannerImage from database (from the user passed as a prop to the component), and saves it in the state.
+  useEffect(() => {
     if (user) {
       setBannerImg(user.get("bannerImage").url());
       setProfileImg(user.get("profileImage").url());
     }
   }, [user]);
 
+  // Retrieves the fields for the user, generates styled tags from them, and saves the tags in the state as an array.
+  useEffect(() => {
+    setFields(user.get("fields") && generateTags());
+  }, [user]);
+
+  // Enables the usage of the icon for uploading pictures.
   const handleBannerEdit = (e) => {
     e.preventDefault();
     bannerRef.current.click();
   };
 
+  // Saves bannerImage to database and stores the url for it in the state.
   const saveBannerImg = async (event) => {
     const image = event.target.files[0];
     try {
@@ -37,19 +62,21 @@ const ProfileHeader = ({ user, loading }) => {
       console.log("bannerimg url: " + bannerImage.url());
       user.set("bannerImage", bannerImage);
       await user.save();
-
+      setErrorMsgBanner("");
       setBannerImg(bannerImage.url());
       console.log("bannerImage uploaded succesfully");
     } catch (error) {
-      console.log(error.message);
+      setErrorMsgBanner("There was an error saving your banner.");
     }
   };
 
+  // Enables the usage of the icon for uploading pictures.
   const handleProfileImageEdit = (e) => {
     e.preventDefault();
     profileImgRef.current.click();
   };
 
+  // Save profileImage to database and stores the url for it in the state.
   const saveProfileImg = async (event) => {
     const image = event.target.files[0];
     try {
@@ -58,53 +85,108 @@ const ProfileHeader = ({ user, loading }) => {
       console.log("profileImg url: " + profileImage.url());
       user.set("profileImage", profileImage);
       await user.save();
-
+      setErrorMsgPhoto("");
       setProfileImg(profileImage.url());
       console.log("profileImage uploaded succesfully");
     } catch (error) {
-      console.log(error.message);
+      setErrorMsgPhoto("There was an error saving your profile photo.");
     }
   };
 
+  // Retrieve user's tags from database and generate styled tags for display on profile.
   const generateTags = () => {
-    // console.log("generateTags running - " + user.get("fields"));
     if (user.get("fields") !== undefined) {
       return TagGenerator({ array: user.get("fields"), tagType: "field" });
     }
   };
 
-  if (loading) return <p>Loading</p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
+  // For Edit Profile pop-up functionality.
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
+  // Renders a component for either a personal profile that can be edited or a profile as it is viewed by others.
   return (
     <HeaderWrapper>
       <BannerWrapper>
-        <Banner src={bannerImg} />
-        <HiddenInput type="file" onChange={saveBannerImg} ref={bannerRef} />
-        <EditIconWrapper onClick={handleBannerEdit}>
-          <EditIcon icon={faEdit} />
-        </EditIconWrapper>
+        <Banner src={bannerImg} alt="Profile banner image" />
+        {!viewMode ? (
+          <>
+            <HiddenInput type="file" onChange={saveBannerImg} ref={bannerRef} />
+            <EditIconWrapper onClick={handleBannerEdit}>
+              <EditIcon icon={faEdit} />
+            </EditIconWrapper>
+          </>
+        ) : null}
+        {errorMsgBanner && (
+          <StyledErrorMessageBanner>{errorMsgBanner}</StyledErrorMessageBanner>
+        )}
+        {errorMsgPhoto && (
+          <StyledErrorMessagePhoto>{errorMsgPhoto}</StyledErrorMessagePhoto>
+        )}
       </BannerWrapper>
+
       <ProfileImageWrapper>
         <ProfileImage src={profileImg} />
-        <HiddenInput
-          type="file"
-          onChange={saveProfileImg}
-          ref={profileImgRef}
-        />
-        <EditIconWrapper onClick={handleProfileImageEdit}>
-          <EditIcon icon={faEdit} />
-        </EditIconWrapper>
+        {!viewMode ? (
+          <>
+            <HiddenInput
+              type="file"
+              onChange={saveProfileImg}
+              ref={profileImgRef}
+            />
+            <EditIconWrapper onClick={handleProfileImageEdit}>
+              <EditIcon icon={faEdit} />
+            </EditIconWrapper>
+          </>
+        ) : null}
       </ProfileImageWrapper>
+
       <ProfileBottom>
         <LeftBlock>
-          <Button className="secondary-button">Edit Profile</Button>
+          {!viewMode ? (
+            <Button className="secondary-button" onClick={handleOpenModal}>
+              Edit Profile
+            </Button>
+          ) : (
+            <ConnectButton />
+          )}
         </LeftBlock>
+
         <MiddleBlock>
           <Name>{user.get("firstName") + " " + user.get("lastName")}</Name>
           <Bio>{user.get("profileBio")}</Bio>
         </MiddleBlock>
-        <RightBlock>{generateTags()}</RightBlock>
+
+        <RightBlock>{fields}</RightBlock>
       </ProfileBottom>
+
+      {/* Modal for Onboarding Component */}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={handleCloseModal}
+        contentLabel="Edit Profile Modal"
+        style={{
+          content: {
+            top: "55%",
+            left: "50%",
+            right: "auto",
+            bottom: "auto",
+            transform: "translate(-50%, -50%)",
+            width: "600px",
+            borderRadius: "20px",
+            maxHeight: "70vh",
+            overflowY: "auto",
+            padding: "50px 25px 50px 25px",
+            zIndex: 10,
+          },
+          overlay: {
+            zIndex: 8,
+            paddingBottom: "50px",
+          },
+        }}
+      >
+        <EditProfile onClose={handleCloseModal} />
+      </Modal>
     </HeaderWrapper>
   );
 };
@@ -121,7 +203,7 @@ const HeaderWrapper = styled.div`
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
   height: 350px;
-  width: 800px;
+  width: 860px;
   min-width: 400px;
 `;
 const BannerWrapper = styled.div`
@@ -131,7 +213,6 @@ const BannerWrapper = styled.div`
   height: 50%;
   width: 100%;
   border-radius: 20px 20px 0 0;
-  border: 1px solid #ccc;
 `;
 const Banner = styled.img`
   display: flex;
@@ -140,7 +221,6 @@ const Banner = styled.img`
   height: 100%;
   width: 100%;
   border-radius: 20px 20px 0 0;
-  border: 1px solid #ccc;
   object-fit: cover;
 `;
 const EditIconWrapper = styled.div`
@@ -172,7 +252,7 @@ const ProfileImageWrapper = styled.div`
   height: 150px;
   position: absolute;
   left: 20px;
-  top: 100px; // (350px-150px/2)
+  top: 100px; // (350px-150px/2) finding center by subtracting height of image from height of HeaderWrapper and dividing by 2.
 `;
 const ProfileImage = styled.img`
   display: flex;
@@ -197,9 +277,10 @@ const LeftBlock = styled.div`
   align-items: end;
   justify-content: center;
   height: 100%;
-  width: 24%;
-  border-radius: 0 0 0px 40px;
-  margin-bottom: 80px;
+  width: 22%;
+  border-radius: 0 0 0px 20px;
+  box-sizing: border-box;
+  padding-bottom: 40px;
 `;
 const MiddleBlock = styled.div`
   display: flex;
@@ -208,8 +289,10 @@ const MiddleBlock = styled.div`
   align-items: left;
   text-align: left;
   height: 100%;
-  width: 51%;
+  width: 53%;
   overflow: hidden;
+  box-sizing: border-box;
+  padding: 5px 10px;
 `;
 const RightBlock = styled.div`
   display: flex;
@@ -218,7 +301,9 @@ const RightBlock = styled.div`
   align-items: center;
   height: 100%;
   width: 25%;
-  border-radius: 0 0 40px 0px;
+  border-radius: 0 0 20px 0px;
+  box-sizing: border-box;
+  padding-right: 10px;
 `;
 const Name = styled.h1`
   font-size: 24px;
@@ -233,4 +318,22 @@ const Bio = styled.p`
   color: #3a3a3a;
   font-family: Inter, sans-serif;
   line-height: 1.5;
+`;
+const StyledErrorMessageBanner = styled(ErrorMessage)`
+  z-index: 2;
+  position: absolute;
+  background-color: white;
+  right: 55px;
+  top: 3px;
+  border-radius: 8px;
+  padding: 5px 10px;
+`;
+const StyledErrorMessagePhoto = styled(ErrorMessage)`
+  z-index: 3;
+  position: absolute;
+  background-color: white;
+  left: 158px;
+  top: 103px;
+  border-radius: 8px;
+  padding: 5px 10px;
 `;

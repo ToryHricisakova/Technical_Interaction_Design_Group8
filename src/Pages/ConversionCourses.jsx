@@ -21,6 +21,8 @@ import {
   CheckboxLabel,
 } from "../ConversionCoursesCSS";
 import { fetchFields, fetchCountries } from "../DataforTypeAhead";
+import { Page } from "../SharedCSS";
+import ExpandNetworkBox from "../Components/ExpandNetworkBox";
 
 /**
  * State variables which store the list of respective data (e.g. fields fetches the list of fields) from the backend.
@@ -107,12 +109,13 @@ const ConversionCourses = () => {
    * Elements that we have reused: MainTitle, TypeAhead, HorizontalLine, RadioButton, CheckboxLabel, Button.
    */
   return (
+    <Page>
     <Container>
       <FilterContainer>
         <FilterWrapper>
           <MainTitle>Filter by:</MainTitle>
         </FilterWrapper>
-        <HorizontalLine width={150}></HorizontalLine>
+        <HorizontalLine width={200}></HorizontalLine>
         <FilterWrapper>
           <FilterName>Field</FilterName>
           <TypeAhead
@@ -129,7 +132,7 @@ const ConversionCourses = () => {
             }}
           />
         </FilterWrapper>
-        <HorizontalLine width={150}></HorizontalLine>
+        <HorizontalLine width={200}></HorizontalLine>
         <FilterWrapper>
           <FilterName>Education Type</FilterName>
           <RadioButton>
@@ -155,7 +158,7 @@ const ConversionCourses = () => {
             </CheckboxLabel>
           </RadioButton>
         </FilterWrapper>
-        <HorizontalLine width={150}></HorizontalLine>
+        <HorizontalLine width={200}></HorizontalLine>
         <FilterWrapper>
           <FilterName>Location</FilterName>
           <TypeAhead
@@ -172,7 +175,7 @@ const ConversionCourses = () => {
             }}
           />
         </FilterWrapper>
-        <HorizontalLine width={150}></HorizontalLine>
+        <HorizontalLine width={200}></HorizontalLine>
         <Button className="primary-button" onClick={() => doQueryByFieldID()}>
           Search courses
         </Button>
@@ -211,7 +214,9 @@ const ConversionCourses = () => {
           })
         )}
       </DisplayContainer>
+      <ExpandNetworkBox />
     </Container>
+    </Page>
   );
 };
 
