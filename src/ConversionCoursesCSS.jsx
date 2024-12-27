@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  margin-top: 100px;
+  padding-top: 74px;
 `;
 
 export const FilterContainer = styled.div`
-  width: 150px;
+  width: 200px;
   display: flex;
   flex-direction: column;
   padding: 30px;
@@ -14,10 +14,11 @@ export const FilterContainer = styled.div`
   background-color: rgba(255, 255, 255, 1);
   text-align: left;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: fit-content;
 `;
 
 export const DisplayContainer = styled.div`
-  width: 500px;
+  width: 510px;
   height: 550px;
   display: inline-block;
   overflow-y: auto;

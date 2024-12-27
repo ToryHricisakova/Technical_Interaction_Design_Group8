@@ -1,27 +1,52 @@
+import { Link } from "react-router-dom";
 import ConnectButton from "./ConnectButton";
 import TagGenerator from "./TagGenerator";
 import styled from "styled-components";
+import { useEffect, useState } from "react";
+import Parse from "parse";
 
+// Returns a component that is a miniature profile representation. Used for the ExpandNetworkBox.
 const MiniProfile = (props) => {
   const objectId = props.objectId;
   const firstName = props.firstName;
   const lastName = props.lastName;
   const fields = props.fields;
   const picture = props.picture;
-  //console.log("Props received in MiniProfile:", props);
 
+  const [profileURL, setProfileURL] = useState("");
+
+  // Retrieves the "_User" objectId & sets profileURL to enable linking to it.
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const query = new Parse.Query("USERS");
+        query.equalTo("objectId", objectId);
+        const userRecord = await query.first();
+        const userValue = userRecord.get("user");
+        setProfileURL("/" + userValue.id);
+      } catch (error) {
+        console.log("Error fetching user data: " + error.message);
+      }
+    };
+    getUser();
+  }, [objectId]);
+
+  // Returns styled profile-component containing profile picture, name, fields and a connect-button.
   return (
-    // profile picture, name, connect-button, fields
     <ProfileWrapper>
       <PictureNameConnectWrapper>
-        <PictureContainer>
-          <ProfileImage src={picture} />
-        </PictureContainer>
+        <Link to={profileURL}>
+          <PictureContainer>
+            <ProfileImage src={picture} />
+          </PictureContainer>
+        </Link>
         <NameConnectContainer>
-          <Name>
-            {firstName} {lastName}
-          </Name>
-          <ConnectButton />
+          <StyledLink to={profileURL}>
+            <Name>
+              {firstName} {lastName}
+            </Name>
+          </StyledLink>
+          <ConnectButton className="connect-button-small" />
         </NameConnectContainer>
       </PictureNameConnectWrapper>
       <FieldsContainer>
@@ -39,14 +64,12 @@ const ProfileWrapper = styled.div`
   height: fit-content;
   display: flex;
   flex-direction: column;
-  //border: solid 2px black;
 `;
 const PictureNameConnectWrapper = styled.div`
   width: 100%;
   height: fit-content;
   display: flex;
   flex-direction: row;
-  //border: solid 2px black;
 `;
 const ProfileImage = styled.img`
   width: 80px;
@@ -76,12 +99,13 @@ const NameConnectContainer = styled.div`
   align-items: left;
   text-align: left;
   width: 68%;
-  //border: 2px green dashed;
 `;
 const FieldsContainer = styled.div`
   margin-top: 5px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  //border: yellow 2px solid;
+`;
+const StyledLink = styled(Link)`
+  text-decoration: none;
 `;

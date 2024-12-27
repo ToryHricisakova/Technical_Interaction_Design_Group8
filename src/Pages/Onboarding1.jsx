@@ -21,6 +21,12 @@ import { useNavigate } from "react-router-dom";
 const Onboarding1 = () => {
   const navigate = useNavigate();
 
+  /**
+   * Saves user information to the USERS table, using Parse queries to fetch and
+   * update the current user's record.
+   *
+   * After saving the data, it navigates to onboarding2.
+   */
   async function handleSavingAdditionalInfo() {
     const currentUser = Parse.User.current();
 
@@ -40,10 +46,13 @@ const Onboarding1 = () => {
         return;
       }
 
+      /**
+       * These states store the personal information chosen by the user.
+       */
       userRow.set("dateOfBirth", dateOfBirth);
       userRow.set("gender", pronouns);
       userRow.set("profileBio", profileBio);
-      userRow.set("profilePhoto", profilePhoto);
+      if (profileImage !== null) userRow.set("profileImage", profileImage);
       await userRow.save();
       console.log("USERS entry updated successfully!");
 
@@ -54,52 +63,51 @@ const Onboarding1 = () => {
   }
 
   const [dateOfBirth, setDateOfBirth] = useState(null);
-  const [profilePhoto, setProfilePhoto] = useState(
-    "src/MediaFiles/DefaultProfile.svg"
-  );
+  const [profileImage, setProfileImage] = useState(null);
 
   const [pronouns, setPronouns] = useState("");
   const [profileBio, setProfileBio] = useState("");
 
+  /**
+   * fileRef is a reference to the hidden input (HiddenInput), which is 
+   * an element that allows the user to upload a file but is styled to be invisible.
+   */
   const fileRef = useRef(null);
 
+  /**
+   * startDate sets a minimum age requirement to 18 years.
+   */
   const tempDate = new Date();
   const startDate = tempDate.setFullYear(tempDate.getFullYear() - 18); // Open calendar at 18 years ago.
 
-  function getProfilePhoto(event) {
-    setProfilePhoto(URL.createObjectURL(event.target.files[0]));
-  }
+  /**
+   * Handles profile picture uploads by reading the selected file and
+   * updating the profilePhoto state with the file's URL.
+   */
+  const getProfilePhoto = async (event) => {
+    const image = event.target.files[0];
+    try {
+      const profilePhoto = new Parse.File(image.name, image);
+      await profilePhoto.save();
+      setProfileImage(profilePhoto);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
+  /**
+   * When the user clicks the upload picture button, handleClick is triggered.
+   *
+   * fileRef.current.click() simulates a click on the hidden file input, which opens the picker dialog for 
+   * the user to choose an image. 
+   */
   function handleClick(e) {
     e.preventDefault();
     fileRef.current.click();
   }
 
-  // function handleSubmit() {
-  //   return; // needs to be implemented with backend.
-  // }
-
-  // useEffects for debugging:
-
-  useEffect(() => {
-    console.log("Date of birth set to " + dateOfBirth);
-  }, [dateOfBirth]);
-
-  useEffect(() => {
-    console.log("Pronouns set to " + pronouns);
-  }, [pronouns]);
-
-  useEffect(() => {
-    console.log("Profile picture URL is " + profilePhoto);
-  }, [profilePhoto]);
-
-  useEffect(() => {
-    console.log("Bio is set to " + profileBio);
-  }, [profileBio]);
-
   return (
     <Container>
-      {/* <Form onSubmit={handleSubmit}> */}
       <Form>
         <MainTitle>Customize Profile - Basic Info</MainTitle>
         <HorizontalLine />
@@ -183,7 +191,14 @@ const Onboarding1 = () => {
           <InfoBlock className="ProfilePicture">
             <Boldparagraph>Profile Picture:</Boldparagraph>
             <UploadWrapper>
-              <ProfileImage src={profilePhoto} alt="Profile Picture" />
+              <ProfileImage
+                src={
+                  profileImage
+                    ? profileImage.url()
+                    : "src/MediaFiles/DefaultProfile.svg"
+                }
+                alt="Profile Picture"
+              />
               <HiddenInput
                 type="file"
                 onChange={getProfilePhoto}
@@ -242,6 +257,7 @@ const BioText = styled.textarea`
   color: black;
   margin-bottom: 15px;
   box-sizing: border-box; // Prevents box from expanding when extra padding is added.
+  font-family: Inter;
 `;
 const CalenderContainer = styled.div`
   display: flex;

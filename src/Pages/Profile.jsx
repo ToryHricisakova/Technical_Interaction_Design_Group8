@@ -6,7 +6,7 @@ import { Page } from "../SharedCSS";
 import styled from "styled-components";
 import ProfileBody from "../Components/ProfileBody";
 import useUserProfile from "../Hooks/useUserProfile";
-import "../Spinner.css";
+import "../Components/Spinner.css";
 
 const Profile = () => {
   const [user, loading] = useUserProfile();
@@ -17,8 +17,8 @@ const Profile = () => {
     <Page>
       <PageContentContainer>
         <ProfileContainer>
-          <ProfileHeader user={user} loading={loading} />
-          <ProfileBody user={user} loading={loading} />
+          <ProfileHeader user={user} />
+          <ProfileBody user={user} />
         </ProfileContainer>
 
         <ExpandNetworkBox />

@@ -1,38 +1,48 @@
 import React from "react";
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 import LikeIcon from "./LikeIcon";
-import Tag from "../Components/Tag";
+import TagGenerator from "../Components/TagGenerator";
 import Parse from "parse";
 
-const Post = ({ profileImage, name, text, media, fields, dateofPosting, numberOfLikes, objectId }) => {
-  const formattedDate = new Date(dateofPosting).toLocaleString();
+const Post = ({
+  profileImage,
+  name,
+  text,
+  media,
+  fields,
+  dateofPosting,
+  numberOfLikes,
+  objectId,
+  variant = "default", // "default" or "small"
+}) => {
+  const formattedDate = new Date(dateofPosting).toLocaleString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
   const mediaUrl = media instanceof Parse.File ? media.url() : media;
 
   return (
-    <PostContainer>
+    <PostContainer variant={variant}>
+      
       <PostHeader>
         <ProfileImage src={profileImage} alt={`${name}'s profile`} />
         <UserInfo>
           <UserName>{name}</UserName>
-          {/* Display tags under the name */}
+          {/* Tags under the name */}
           {fields && fields.length > 0 && (
             <TagsContainer>
-              {fields.map((field, index) => (
-                <Tag
-                  tagType="field"
-                  key={index}
-                  word={field}
-                  closable={false}
-                />
-              ))}
+              {TagGenerator({ array: fields, tagType: "field" })}
             </TagsContainer>
           )}
         </UserInfo>
       </PostHeader>
 
-      <PostContent>{text}</PostContent>
+      <PostContent variant={variant}>{text}</PostContent>
 
-      {mediaUrl && <Media src={mediaUrl} alt="Post Media" />}
+      {mediaUrl && <Media variant={variant} src={mediaUrl} alt="Post Media" />}
 
       <PostDate>{formattedDate}</PostDate>
 
@@ -41,6 +51,7 @@ const Post = ({ profileImage, name, text, media, fields, dateofPosting, numberOf
         <ActionIcon className="bi bi-chat" />
         <ActionIcon className="bi bi-share" />
       </PostActions>
+
     </PostContainer>
   );
 };
@@ -48,9 +59,10 @@ const Post = ({ profileImage, name, text, media, fields, dateofPosting, numberOf
 // Styled Components
 
 const PostContainer = styled.div`
-  max-width: 700px;  
-  width: 100%;      
-  padding: 32px 48px;
+  max-width: 700px;
+  width: 100%;
+  padding: ${(props) =>
+    props.variant === "small" ? "20px 25px" : "30px 45px"};
   border-radius: 20px;
   box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
@@ -60,6 +72,13 @@ const PostContainer = styled.div`
   justify-content: left;
   position: relative;
   margin-bottom: 30px;
+
+  ${(props) =>
+    props.variant === "small" &&
+    css`
+      max-width: 500px;
+      width: 85%;
+    `}
 `;
 
 const PostHeader = styled.div`
@@ -76,6 +95,7 @@ const ProfileImage = styled.img`
   border-radius: 50%;
   margin-right: 10px;
   align-items: flex-start;
+  object-fit: cover;
 `;
 
 const UserInfo = styled.div`
@@ -89,7 +109,6 @@ const UserName = styled.span`
   font-size: 16px;
   font-weight: bold;
   color: #34415d;
-
 `;
 
 const TagsContainer = styled.div`
@@ -121,13 +140,15 @@ const PostContent = styled.div`
   margin-bottom: 12px;
   line-height: 1.5;
   text-align: left;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 `;
 
 const PostActions = styled.div`
-  justify-content: flex-start;  
+  justify-content: flex-start;
   display: flex;
   gap: 20px;
-  margin-top: 10px; 
+  margin-top: 10px;
 `;
 
 const ActionIcon = styled.i`

@@ -5,10 +5,11 @@ import HorizontalLine from "./HorizontalLine";
 import { useState, useEffect } from "react";
 import PostGenerator from "./PostGenerator.jsx";
 
-const ProfileBody = ({ user, loading }) => {
-  const [displayPosts, setDisplayPosts] = useState([]);
+const ProfileBody = ({ user }) => {
+  const [styledPosts, setStyledPosts] = useState([]);
   const [fetchedPosts, setFetchedPosts] = useState([]);
 
+  // Fetch all posts that have been created by the "user" passed to the component as a prop.
   useEffect(() => {
     const fetchPosts = async () => {
       const query = new Parse.Query("POSTS");
@@ -22,17 +23,27 @@ const ProfileBody = ({ user, loading }) => {
         console.log("There was an error fetching the posts" + error.message);
       }
     };
-    fetchPosts();
-  }, []);
-
-  const createPosts = () => {
-    if (fetchedPosts.length !== 0) {
-      fetchedPosts && console.log("create post based on: " + fetchedPosts);
-
-      return <PostGenerator array={fetchedPosts} style="small" />;
+    if (user) {
+      fetchPosts();
     }
-  };
+  }, [user]);
 
+  // Empties the styledPosts array when the user is changed (in order to ensure an updated profile).
+  useEffect(() => {
+    setStyledPosts([]);
+  }, [user]);
+
+  // Create styled posts-components (small version) to be displayed on the profile.
+  // Update posts whenever new posts are fetched (happens when a new user is passed as a prop).
+  useEffect(() => {
+    if (fetchedPosts.length !== 0) {
+      setDisplayPosts(<PostGenerator array={fetchedPosts} variant="small" />);
+    } else {
+      setStyledPosts([]);
+    }
+  }, [fetchedPosts]);
+
+  // Generate fields for the profile based on the user passed as a prop.
   const generateFields = () => {
     if (user.get("fields") !== undefined) {
       return TagGenerator({ array: user.get("fields"), tagType: "field" });
@@ -40,6 +51,7 @@ const ProfileBody = ({ user, loading }) => {
     return null;
   };
 
+  // Generate tags for the profile based on the user passed as a prop.
   const generateSkills = () => {
     if (user.get("skills") !== undefined) {
       return TagGenerator({ array: user.get("skills"), tagType: "skill" });
@@ -47,27 +59,26 @@ const ProfileBody = ({ user, loading }) => {
     return null;
   };
 
-  if (loading) return <p></p>; // Ensures that the page is not rendered before the users-data is fetched from the database.
-
   return (
     <BodyWrapper>
       <ActivityWrapper>
-        <Title>Your Activity</Title>
+        <Title>Activity</Title>
         <HorizontalLine width="200px" />
-        {createPosts()}
+        {styledPosts}
       </ActivityWrapper>
-      <TagContainer>
-        <Title>Your Tags</Title>
-        <HorizontalLine width="200px" />
-        <div>
-          <SubTitle>Fields</SubTitle>
-          <TagsLayout>{user && generateFields()}</TagsLayout>
-        </div>
 
-        <div>
-          <SubTitle>Skills</SubTitle>
-          <TagsLayout>{user && generateSkills()}</TagsLayout>
-        </div>
+      <TagContainer>
+        <Title>Tags</Title>
+        <HorizontalLine width="200px" />
+
+        <SubTitle>Skills</SubTitle>
+        <TagsLayout>{user && generateSkills()}</TagsLayout>
+
+        <SubTitle>Fields</SubTitle>
+        <TagsLayout>{user && generateFields()}</TagsLayout>
+
+        <SubTitle>Education</SubTitle>
+        <SubTitle>Work experience</SubTitle>
       </TagContainer>
     </BodyWrapper>
   );
@@ -86,7 +97,7 @@ const BodyWrapper = styled.div`
   background-color: #ffffff;
   min-height: 350px;
   height: fit-content;
-  width: 800px;
+  width: 860px;
   min-width: 400px;
 `;
 const TagContainer = styled.div`

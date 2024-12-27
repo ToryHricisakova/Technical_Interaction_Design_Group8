@@ -33,3 +33,24 @@
   color: white;
   border-color: rgba(228, 115, 71, 1);
 }
+
+.connect-button-small {
+  background-color: white;
+  border-color: rgba(228, 115, 71, 1);
+  border: 1px solid;
+  color: rgba(228, 115, 71, 1);
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  text-decoration: none;
+  height: fit-content;
+  width: fit-content;
+  line-height: 1;
+  font-size: 15px;
+}
+
+.connect-button-small:hover {
+  background-color: rgba(228, 115, 71, 1);
+  color: white;
+  border-color: rgba(228, 115, 71, 1);
+}
