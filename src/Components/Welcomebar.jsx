@@ -7,7 +7,7 @@ import {
   BarRight,
   ElementContainer,
   Logo,
-} from "../SharedCSS";
+} from "../Components/NavigationBars";
 
 // Welcomebar to be displayed at the top of the page when no user is logged in.
 const Welcomebar = () => {

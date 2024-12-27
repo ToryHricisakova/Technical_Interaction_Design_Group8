@@ -8,7 +8,7 @@ import {
   BarRight,
   ElementContainer,
   Logo,
-} from "../SharedCSS";
+} from "../Components/NavigationBars";
 import Parse from "parse";
 import useUserProfile from "../Hooks/useUserProfile.js";
 
@@ -17,6 +17,7 @@ const Navbar = ({ setIsLoggedIn }) => {
   const [user] = useUserProfile();
   const profileImage = user && user.get("profileImage").url();
 
+  // Handles logging out in the database, as well as the App's isLoggedIn state.
   const handleLogout = async function () {
     try {
       await Parse.User.logOut();
@@ -92,6 +93,7 @@ const Navbar = ({ setIsLoggedIn }) => {
     </BarBackground>
   );
 };
+
 
 // Styled Components for Navbar
 

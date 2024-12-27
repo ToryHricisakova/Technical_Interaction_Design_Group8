@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import Button from "./Button";
 import useUserProfile from "../Hooks/useUserProfile";
@@ -26,15 +26,9 @@ const PostingContainer = ({ refreshPosts }) => {
     setText(e.target.value);
   };
 
-  useEffect(() => {
-    if (user && !loading) {
-      const existingMedia = user.get("media")?.url();
-      if (existingMedia) setMediaFile(existingMedia);
-    }
-  }, [user, loading]);
-
   const handleFileInput = () => fileInputRef.current?.click();
 
+  // Function that uploads a file to the post and sets a preview for it in the UI.
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -43,11 +37,6 @@ const PostingContainer = ({ refreshPosts }) => {
       const media = new Parse.File(file.name, file);
       await media.save();
 
-      if (user) {
-        user.set("media", media);
-        await user.save();
-      }
-
       setMediaFile(media);
       setMediaPreview(URL.createObjectURL(file));
     } catch (error) {
@@ -55,6 +44,7 @@ const PostingContainer = ({ refreshPosts }) => {
     }
   };
 
+  // Removes the attached image before posting.
   const removePreview = () => {
     setMediaFile(null);
     setMediaPreview("");
@@ -63,6 +53,7 @@ const PostingContainer = ({ refreshPosts }) => {
     }
   };
 
+  // Query that saves a new post to the database.
   const createPost = async () => {
     if (!text) {
       setMessage("Post text cannot be empty!");
@@ -84,8 +75,8 @@ const PostingContainer = ({ refreshPosts }) => {
       await Post.save();
       setMessage("Post created successfully!");
 
+      // Refreshes the posts section, so the new post can be displayed immediately, and resets all values.
       refreshPosts();
-
       setText("");
       setMediaFile(null);
       setMediaPreview("");
@@ -115,7 +106,7 @@ const PostingContainer = ({ refreshPosts }) => {
             </PreviewWrapper>
           )}
           <HiddenFileInput
-            type="file"
+            type="file" multiple
             ref={fileInputRef}
             onChange={handleFileUpload}
           />

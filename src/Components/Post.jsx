@@ -26,6 +26,7 @@ const Post = ({
 
   return (
     <PostContainer variant={variant}>
+      
       <PostHeader>
         <ProfileImage src={profileImage} alt={`${name}'s profile`} />
         <UserInfo>
@@ -50,6 +51,7 @@ const Post = ({
         <ActionIcon className="bi bi-chat" />
         <ActionIcon className="bi bi-share" />
       </PostActions>
+
     </PostContainer>
   );
 };

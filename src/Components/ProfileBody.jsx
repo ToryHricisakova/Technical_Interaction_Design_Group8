@@ -37,7 +37,7 @@ const ProfileBody = ({ user }) => {
   // Update posts whenever new posts are fetched (happens when a new user is passed as a prop).
   useEffect(() => {
     if (fetchedPosts.length !== 0) {
-      setStyledPosts(<PostGenerator array={fetchedPosts} style="small" />);
+      setDisplayPosts(<PostGenerator array={fetchedPosts} variant="small" />);
     } else {
       setStyledPosts([]);
     }
