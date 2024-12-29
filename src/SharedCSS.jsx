@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import backgroundImage from "./MediaFiles/FrontpageBackground.png";
 
-
 // Container for everything but the navbar:
 export const Page = styled.div`
   display: flex;

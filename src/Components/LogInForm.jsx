@@ -15,8 +15,12 @@ import {
 import Parse from "parse";
 import styled from "styled-components";
 
-// handleLogin inspired by back4app tutorials.
-
+/**
+ * A form for logging registered users in with e-mail as their username and their chosen password.
+ * Parse is used to handle the log in functionality.
+ *
+ * If incorrect login information is entered, an error message is displayed.
+ */
 const LogInForm = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -40,7 +44,7 @@ const LogInForm = ({ setIsLoggedIn }) => {
       navigate("/profile");
       return true;
     } catch (error) {
-      setErrorMsg(error.message);
+      setErrorMsg("Incorrect username or password");
       return false;
     }
   };

@@ -10,7 +10,7 @@ import {
   Logo,
 } from "../Components/NavigationBars";
 import Parse from "parse";
-import useUserProfile from "../Hooks/useUserProfile.js";
+import useUserProfile from "../Hooks/useUserProfile.jsx";
 
 const Navbar = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
@@ -93,7 +93,6 @@ const Navbar = ({ setIsLoggedIn }) => {
     </BarBackground>
   );
 };
-
 
 // Styled Components for Navbar
 

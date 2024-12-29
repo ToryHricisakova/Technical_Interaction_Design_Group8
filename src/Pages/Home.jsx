@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PostGenerator from "../Components/PostGenerator.jsx";
 import PostingContainer from "../Components/PostingContainer";
 import ExpandNetworkBox from "../Components/ExpandNetworkBox";
-import useUserProfile from "../Hooks/useUserProfile.js";
+import useUserProfile from "../Hooks/useUserProfile.jsx";
 import Parse from "parse";
 import "../Components/Spinner.css";
 
@@ -15,35 +15,35 @@ const Home = () => {
 
   // Reads all the posts for display
   useEffect(() => {
-      const fetchPosts = async () => {
-        const query = new Parse.Query("POSTS");
-        query.descending("dateofPosting");
-  
-        try {
-          const result = await query.find();
-          setFetchedPosts(result);
-        } catch (error) {
-          console.log("There was an error fetching the posts" + error.message);
-        }
-      };
-      if (user) {
-        fetchPosts();
-      }
-    }, [user]);
+    const fetchPosts = async () => {
+      const query = new Parse.Query("POSTS");
+      query.descending("dateofPosting");
 
-    useEffect(() => {
-      createPosts();
-    }, [fetchedPosts]);
-
-    const createPosts = () => {
-      if (fetchedPosts.length !== 0) {
-        fetchedPosts && console.log("create post based on: " + fetchedPosts);
-
-        setDisplayPosts(<PostGenerator array={fetchedPosts} variant="default" />);
-      } else {
-        setDisplayPosts([]);
+      try {
+        const result = await query.find();
+        setFetchedPosts(result);
+      } catch (error) {
+        console.log("There was an error fetching the posts" + error.message);
       }
     };
+    if (user) {
+      fetchPosts();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    createPosts();
+  }, [fetchedPosts]);
+
+  const createPosts = () => {
+    if (fetchedPosts.length !== 0) {
+      fetchedPosts && console.log("create post based on: " + fetchedPosts);
+
+      setDisplayPosts(<PostGenerator array={fetchedPosts} variant="default" />);
+    } else {
+      setDisplayPosts([]);
+    }
+  };
 
   const refreshPosts = () => {
     setLoading(true);

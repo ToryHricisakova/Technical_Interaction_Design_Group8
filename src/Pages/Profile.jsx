@@ -5,7 +5,7 @@ import ExpandNetworkBox from "../Components/ExpandNetworkBox";
 import { Page } from "../SharedCSS";
 import styled from "styled-components";
 import ProfileBody from "../Components/ProfileBody";
-import useUserProfile from "../Hooks/useUserProfile";
+import useUserProfile from "../Hooks/useUserProfile.jsx";
 import "../Components/Spinner.css";
 
 const Profile = () => {

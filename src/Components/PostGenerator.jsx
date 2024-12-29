@@ -1,7 +1,10 @@
 import Post from "./Post";
 import { useEffect, useState } from "react";
 
-// Generates post-objects based on an array of posts database objects.
+/**
+ * Component for generating post-objects based on an array of posts database objects.
+ * The "variant" prop designates whether it is a default post or a small post (for display on the profile page).
+ */
 const PostGenerator = ({ array, variant }) => {
   const [posts, setPosts] = useState([]);
   const fetchedPosts = array;
@@ -50,22 +53,21 @@ const PostGenerator = ({ array, variant }) => {
     <>
       {posts?.length > 0 ? (
         posts.map((post, index) => {
-            return (
-              <Post
-                objectId={post.objectId}
-                key={index}
-                profileImage={post.profileImage}
-                name={post.name}
-                text={post.text}
-                media={post.media}
-                fields={post.fields}
-                dateofPosting={post.dateofPosting}
-                numberOfLikes={post.numberOfLikes}
-                variant={variant}
-              />
-            );
-          }
-        )
+          return (
+            <Post
+              objectId={post.objectId}
+              key={index}
+              profileImage={post.profileImage}
+              name={post.name}
+              text={post.text}
+              media={post.media}
+              fields={post.fields}
+              dateofPosting={post.dateofPosting}
+              numberOfLikes={post.numberOfLikes}
+              variant={variant}
+            />
+          );
+        })
       ) : (
         <p>No posts available</p>
       )}

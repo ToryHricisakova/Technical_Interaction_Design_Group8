@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import Button from "./Button";
-import useUserProfile from "../Hooks/useUserProfile";
+import useUserProfile from "../Hooks/useUserProfile.jsx";
 import Parse from "parse";
 
 const PostingContainer = ({ refreshPosts }) => {
@@ -106,7 +106,8 @@ const PostingContainer = ({ refreshPosts }) => {
             </PreviewWrapper>
           )}
           <HiddenFileInput
-            type="file" multiple
+            type="file"
+            multiple
             ref={fileInputRef}
             onChange={handleFileUpload}
           />

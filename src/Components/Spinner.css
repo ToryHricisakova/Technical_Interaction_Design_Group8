@@ -1,5 +1,5 @@
 /* Full credit for loading spinner setup given to the user "vineethtrv" on github: https://github.com/vineethtrv/css-loader*/
-
+/* The spinner is used to display a loading animation when waiting for content on pages to load */
 .loader {
   width: 16px;
   height: 16px;
