@@ -14,7 +14,7 @@ import {
   Paragraph,
   Boldparagraph,
   Section,
-} from "../OnboardingCSS.jsx";
+} from "../Components/OnboardingCSS";
 import Parse from "parse";
 import { useNavigate } from "react-router-dom";
 

@@ -19,9 +19,9 @@ import {
   UniLogo,
   RadioButton,
   CheckboxLabel,
-} from "../ConversionCoursesCSS";
+} from "../Components/ConversionCoursesCSS";
 import { fetchFields, fetchCountries } from "../DataforTypeAhead";
-import { Page } from "../SharedCSS";
+import { Page } from "../Components/SharedCSS";
 import ExpandNetworkBox from "../Components/ExpandNetworkBox";
 
 /**

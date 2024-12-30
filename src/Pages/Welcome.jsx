@@ -9,8 +9,8 @@ import {
   PrimaryTextColor,
   Paragraph,
   ButtonContainer,
-} from "../WelcomeMessageCSS.jsx";
-import { PageWithImage } from "../SharedCSS";
+} from "../Components/WelcomeMessageCSS";
+import { PageWithImage } from "../Components/SharedCSS";
 
 const Welcome = () => {
   return (

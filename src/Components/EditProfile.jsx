@@ -12,7 +12,7 @@ import {
   Paragraph,
   Boldparagraph,
   Section,
-} from "../OnboardingCSS.jsx";
+} from "../Components/OnboardingCSS";
 import Parse from "parse";
 import { fetchFields, fetchSkills } from "../DataforTypeAhead";
 import useUserProfile from "../Hooks/useUserProfile";

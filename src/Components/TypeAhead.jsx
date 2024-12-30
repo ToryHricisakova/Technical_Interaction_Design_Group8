@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../Components/TypeAhead.css";
 import Tag from "./Tag";
-import { ErrorMessage } from "../SharedCSS";
+import { ErrorMessage } from "./SharedCSS";
 
 /**
  * Reusable component that allows the user to select an item from a set of options. 
