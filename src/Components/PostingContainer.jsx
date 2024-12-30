@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Button from "./Button";
 import useUserProfile from "../Hooks/useUserProfile";
 import Parse from "parse";
+import { ErrorMessage } from "./SharedCSS";
 
 const PostingContainer = ({ refreshPosts }) => {
   const [user, loading] = useUserProfile();
@@ -106,7 +107,8 @@ const PostingContainer = ({ refreshPosts }) => {
             </PreviewWrapper>
           )}
           <HiddenFileInput
-            type="file" multiple
+            type="file"
+            multiple
             ref={fileInputRef}
             onChange={handleFileUpload}
           />
@@ -121,24 +123,12 @@ const PostingContainer = ({ refreshPosts }) => {
           </Button>
         </ButtonContainer>
       </Actions>
-      {message && <MessageContainer>{message}</MessageContainer>}
+      {message && <ErrorMessage>{message}</ErrorMessage>}
     </>
   );
 };
 
 // Styled Components
-
-const MessageContainer = styled.div`
-  margin-top: 20px;
-  color: #e47347;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-
-  &.error {
-    color: #e47347;
-  }
-`;
 
 const PreviewWrapper = styled.div`
   display: flex;

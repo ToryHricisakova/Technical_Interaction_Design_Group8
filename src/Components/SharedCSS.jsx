@@ -80,7 +80,7 @@ export const StyledInput = styled.input`
   border-width: 1px;
   background-color: white;
 `;
-// Used for LogInForm, RegistrationForm, ProfileHeader, TypeAhead,
+// Used for LogInForm, RegistrationForm, ProfileHeader, TypeAhead, PostingContainer
 export const ErrorMessage = styled.p`
   color: red;
   font-weight: bold;
