@@ -11,7 +11,7 @@ import {
   InputContainer,
   StyledInput,
   StyledLabel,
-} from "../SharedCSS";
+} from "../Components/SharedCSS";
 import Parse from "parse";
 import styled from "styled-components";
 

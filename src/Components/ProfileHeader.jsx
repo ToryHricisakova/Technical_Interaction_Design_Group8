@@ -5,7 +5,7 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import Button from "./Button";
 import Parse from "parse";
 import TagGenerator from "./TagGenerator";
-import { ErrorMessage } from "../SharedCSS";
+import { ErrorMessage } from "../Components/SharedCSS";
 import EditProfile from "../Components/EditProfile";
 import Modal from "react-modal";
 import ConnectButton from "./ConnectButton";

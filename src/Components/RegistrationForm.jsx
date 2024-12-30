@@ -19,7 +19,7 @@ import {
   InputContainer,
   StyledLabel,
   ErrorMessage,
-} from "../SharedCSS";
+} from "../Components/SharedCSS";
 import styled from "styled-components";
 import Parse from "parse";
 

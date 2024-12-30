@@ -1,9 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import Button from "./Button";
 import useUserProfile from "../Hooks/useUserProfile";
 import Parse from "parse";
-import { ErrorMessage } from "./SharedCSS";
+import { ErrorMessage } from "../Components/SharedCSS";
 
 const PostingContainer = ({ refreshPosts }) => {
   const [user, loading] = useUserProfile();
@@ -85,6 +85,18 @@ const PostingContainer = ({ refreshPosts }) => {
       setMessage(`Error creating post: ${error.message}`);
     }
   };
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage("");
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
+
 
   return (
     <>

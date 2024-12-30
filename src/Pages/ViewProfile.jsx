@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Parse from "parse";
 import ExpandNetworkBox from "../Components/ExpandNetworkBox";
-import { Page } from "../SharedCSS";
+import { Page } from "../Components/SharedCSS";
 import ProfileHeader from "../Components/ProfileHeader";
 import ProfileBody from "../Components/ProfileBody";
 import "../Components/Spinner.css";
