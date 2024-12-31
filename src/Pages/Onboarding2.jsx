@@ -196,15 +196,15 @@ const Onboarding2 = ({ setIsLoggedIn }) => {
 export default Onboarding2;
 
 //Styling
-const Buttons = styled.div`
+export const Buttons = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 15px;
 `;
-const TypeAheadWrapper = styled.div`
+export const TypeAheadWrapper = styled.div`
   padding: 0 0 30px 0;
 `;
-const DividerLine = styled.hr`
+export const DividerLine = styled.hr`
   border: 1px solid #dbdbdb;
   margin-bottom: 30px;
 `;

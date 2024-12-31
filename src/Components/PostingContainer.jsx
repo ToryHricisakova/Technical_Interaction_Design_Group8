@@ -6,13 +6,14 @@ import Parse from "parse";
 import { ErrorMessage } from "../Components/SharedCSS";
 
 const PostingContainer = ({ refreshPosts }) => {
-  const [user, loading] = useUserProfile();
+  const [user, loading] = useUserProfile(); //imporiting the custom hook useUserProfile
   const [text, setText] = useState("");
   const [mediaFile, setMediaFile] = useState(null);
-  const [mediaPreview, setMediaPreview] = useState("");
+  const [mediaPreview, setMediaPreview] = useState(""); //media preview is what the image a user sees before posting
   const [message, setMessage] = useState("");
 
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef(null); // The useRef hook here is used to create a reference to the file input element in the DOM directly.
+  // It creates a reference object set to null.
 
   if (!loading && user) {
     console.log("Current User:", user);
@@ -27,6 +28,8 @@ const PostingContainer = ({ refreshPosts }) => {
     setText(e.target.value);
   };
 
+  // The handleFileInput function uses the ref to trigger the file input's click event.
+  // This allows the file input element to remain hidden while still enabling file selection when the UploadButton is clicked.
   const handleFileInput = () => fileInputRef.current?.click();
 
   // Function that uploads a file to the post and sets a preview for it in the UI.
@@ -47,10 +50,10 @@ const PostingContainer = ({ refreshPosts }) => {
 
   // Removes the attached image before posting.
   const removePreview = () => {
-    setMediaFile(null);
+    setMediaFile(null); // the media and media preview is reset to null
     setMediaPreview("");
     if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+      fileInputRef.current.value = ""; // the reference object is also set to an empty value
     }
   };
 
@@ -95,8 +98,6 @@ const PostingContainer = ({ refreshPosts }) => {
       return () => clearTimeout(timer);
     }
   }, [message]);
-
-
 
   return (
     <>
