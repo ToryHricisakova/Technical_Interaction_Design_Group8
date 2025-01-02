@@ -1,7 +1,7 @@
 import Tag from "./Tag";
 
-// Generate a collection of skill-tags or field-tags based on the tagType passed as a prop.
-// Default-value of "array" is an empty array to ease error handling.
+// Component for generating a collection of skill-tags or field-tags based on the tagType passed as a prop.
+// The default-value of "array" is an empty array to ease error handling.
 const TagGenerator = ({ array = [], tagType }) => {
   if (array.length === 0) {
     return null;

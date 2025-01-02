@@ -4,9 +4,12 @@ import { useState, useEffect, useRef } from "react";
 import Parse from "parse";
 import Tag from "./Tag";
 import MiniProfile from "./MiniProfile";
-import useUserProfile from "../Hooks/useUserProfile";
+import useUserProfile from "../Hooks/useUserProfile.jsx";
 import "../Components/Spinner.css";
 
+/**
+ * A box showing three suggested profiles to connect to, based on a random field from the logged in user.
+ */
 const ExpandNetworkBox = () => {
   const [field, setField] = useState(null);
   const [user] = useUserProfile();
