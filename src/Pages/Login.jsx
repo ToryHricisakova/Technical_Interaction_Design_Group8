@@ -1,6 +1,6 @@
 import React from 'react';
 import LogInForm from '../Components/LogInForm';
-import { PageWithImage } from '../SharedCSS';
+import { PageWithImage } from "../Components/SharedCSS";
 
 const Login = ({ setIsLoggedIn }) => {
   

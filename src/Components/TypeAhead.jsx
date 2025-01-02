@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Tag from "./Tag";
-import { ErrorMessage } from "../SharedCSS";
-import styled from "styled-components";
+import { ErrorMessage } from "../Components/SharedCSS";
 
 /**
  * Reusable component that allows the user to select an item from a set of options.

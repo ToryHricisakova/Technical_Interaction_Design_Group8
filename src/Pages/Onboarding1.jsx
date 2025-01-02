@@ -14,7 +14,7 @@ import {
   Paragraph,
   Boldparagraph,
   Section,
-} from "../OnboardingCSS.jsx";
+} from "../Components/OnboardingCSS";
 import Parse from "parse";
 import { useNavigate } from "react-router-dom";
 
@@ -240,16 +240,16 @@ const Onboarding1 = () => {
 export default Onboarding1;
 
 // Styling
-const InfoBlock = styled.div`
+export const InfoBlock = styled.div`
   padding-bottom: 15px;
   border-radius: 20px;
   width: 550px;
 `;
-const RadioButton = styled.div`
+export const RadioButton = styled.div`
   display: flex;
   align-items: center;
 `;
-const BioText = styled.textarea`
+export const BioText = styled.textarea`
   background-color: white;
   padding: 15px;
   width: 100%;
@@ -259,47 +259,47 @@ const BioText = styled.textarea`
   box-sizing: border-box; // Prevents box from expanding when extra padding is added.
   font-family: Inter;
 `;
-const CalenderContainer = styled.div`
+export const CalenderContainer = styled.div`
   display: flex;
   justify-content: left;
   align-items: center;
 `;
-const RadiobuttonGrouping = styled.div`
+export const RadiobuttonGrouping = styled.div`
   display: flex;
   gap: 15px;
   justify-content: left;
   height: 15px;
 `;
-const CheckboxLabel = styled.label`
+export const CheckboxLabel = styled.label`
   white-space: nowrap;
   font-size: 16px;
   margin: 10px 0;
   line-height: 1.5;
   color: #333;
 `;
-const NextButton = styled(Link)`
+export const NextButton = styled(Link)`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 15px;
   text-decoration: none;
 `;
-const CalendarIcon = styled(FontAwesomeIcon)`
+export const CalendarIcon = styled(FontAwesomeIcon)`
   margin-left: 5px;
   color: #424242;
 `;
-const ProfileImage = styled.img`
+export const ProfileImage = styled.img`
   width: 150px;
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
   border: 1px hidden;
 `;
-const UploadWrapper = styled.div`
+export const UploadWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
   margin-bottom: 15px;
 `;
-const HiddenInput = styled.input`
+export const HiddenInput = styled.input`
   display: none;
 `;

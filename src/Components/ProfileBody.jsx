@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import PostGenerator from "./PostGenerator.jsx";
 
 const ProfileBody = ({ user }) => {
-  const [styledPosts, setStyledPosts] = useState([]);
+  const [displayPosts, setDisplayPosts] = useState([]);
   const [fetchedPosts, setFetchedPosts] = useState([]);
 
   // Fetch all posts that have been created by the "user" passed to the component as a prop.
@@ -30,7 +30,7 @@ const ProfileBody = ({ user }) => {
 
   // Empties the styledPosts array when the user is changed (in order to ensure an updated profile).
   useEffect(() => {
-    setStyledPosts([]);
+    setDisplayPosts([]);
   }, [user]);
 
   // Create styled posts-components (small version) to be displayed on the profile.
@@ -39,7 +39,7 @@ const ProfileBody = ({ user }) => {
     if (fetchedPosts.length !== 0) {
       setStyledPosts(<PostGenerator array={fetchedPosts} variant="small" />);
     } else {
-      setStyledPosts([]);
+      setDisplayPosts([]);
     }
   }, [fetchedPosts]);
 
@@ -64,7 +64,7 @@ const ProfileBody = ({ user }) => {
       <ActivityWrapper>
         <Title>Activity</Title>
         <HorizontalLine width="200px" />
-        {styledPosts}
+        {displayPosts}
       </ActivityWrapper>
 
       <TagContainer>

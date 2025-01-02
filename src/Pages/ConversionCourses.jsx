@@ -3,8 +3,25 @@ import TypeAhead from "../Components/TypeAhead";
 import Button from "../Components/Button";
 import Parse from "parse";
 import HorizontalLine from "../Components/HorizontalLine";
-import { fetchFields, fetchCountries } from "../DataforTypeAhead.jsx";
-import { Page } from "../SharedCSS";
+import {
+  FilterContainer,
+  MainTitle,
+  FilterName,
+  FilterWrapper,
+  DisplayContainer,
+  Container,
+  CourseContainer,
+  CourseName,
+  UniName,
+  LocationName,
+  ButtonContainer,
+  CourseInformation,
+  UniLogo,
+  RadioButton,
+  CheckboxLabel,
+} from "../Components/ConversionCoursesCSS";
+import { fetchFields, fetchCountries } from "../DataforTypeAhead";
+import { Page } from "../Components/SharedCSS";
 import ExpandNetworkBox from "../Components/ExpandNetworkBox";
 import styled from "styled-components";
 
