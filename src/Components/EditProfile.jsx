@@ -14,11 +14,10 @@ import {
   Section,
 } from "../OnboardingCSS.jsx";
 import Parse from "parse";
-import { fetchFields, fetchSkills } from "../DataforTypeAhead";
-import useUserProfile from "../Hooks/useUserProfile";
+import { fetchFields, fetchSkills } from "../DataforTypeAhead.jsx";
+import useUserProfile from "../Hooks/useUserProfile.jsx";
 
 const EditProfile = ({ onClose }) => {
-
   const [user, loading] = useUserProfile();
   const [dateOfBirth, setDateOfBirth] = useState(null);
   const [pronouns, setPronouns] = useState("");
@@ -40,7 +39,7 @@ const EditProfile = ({ onClose }) => {
     }
   }, [user, loading]);
 
-  // Fetches total fields and skills data for selection 
+  // Fetches total fields and skills data for selection
   useEffect(() => {
     const loadFieldsAndSkills = async () => {
       //asynchronously fetches data for fields and skills from fetchFields() and fetchSkills()

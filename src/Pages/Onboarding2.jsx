@@ -13,7 +13,7 @@ import {
   Boldparagraph,
   Section,
 } from "../OnboardingCSS";
-import { fetchFields, fetchSkills } from "../DataforTypeAhead";
+import { fetchFields, fetchSkills } from "../DataforTypeAhead.jsx";
 import { useNavigate } from "react-router-dom";
 import Parse from "parse";
 

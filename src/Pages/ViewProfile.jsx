@@ -8,13 +8,16 @@ import ProfileHeader from "../Components/ProfileHeader";
 import ProfileBody from "../Components/ProfileBody";
 import "../Components/Spinner.css";
 
-// Page for viewing the profiles of other people.
+/**
+ * Page for viewing the profiles of other users.
+ * The "_User" objectId is used to link to profiles through the routing.
+ */
 const ViewProfile = () => {
   const { userObjectId } = useParams();
   const [userId, setUserId] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Retrieve relevant "_User" object:
+  // Retrieve relevant "USERS" object:
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -45,7 +48,7 @@ const ViewProfile = () => {
 
   if (loading) return <span className="loader"></span>;
 
-  // viewMode boolean is passed to remove
+  // viewMode boolean is passed to remove functionality that is intended only for the loggeed in user's personal profile page (edit options).
   return (
     <Page>
       <PageContentContainer>

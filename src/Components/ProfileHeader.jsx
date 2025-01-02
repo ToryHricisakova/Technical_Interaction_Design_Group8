@@ -10,8 +10,14 @@ import EditProfile from "../Components/EditProfile";
 import Modal from "react-modal";
 import ConnectButton from "./ConnectButton";
 
-// Generates the profile header for the user passed as a prop ("USERS" object).
-// The component is modified depending on the "viewMode" boolean (own profile vs. looking at the profiles of other).
+/**
+ * Component used for the profile page along with the ProfileBody and the ExpandNetworkBox.
+ * Generates the profile header for the user passed as a prop ("USERS" object).
+ *
+ * The component's behavior and appearance changes depending on the "viewMode" boolean.
+ * viewMode = false: Used for viewing the user's own profile.
+ * viewMode = true: Used for viewing another user's profile.
+ */
 const ProfileHeader = ({ user, viewMode }) => {
   const [bannerImg, setBannerImg] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
@@ -22,7 +28,7 @@ const ProfileHeader = ({ user, viewMode }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [fields, setFields] = useState([]);
 
-  // Removes error message after 2 second delay.
+  // Removes error message (if picture uploads fail) after a 2 second delay.
   useEffect(() => {
     if (errorMsgBanner || errorMsgPhoto) {
       const timer = setTimeout(() => {
