@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PostGenerator from "../Components/PostGenerator.jsx";
 import PostingContainer from "../Components/PostingContainer";
 import ExpandNetworkBox from "../Components/ExpandNetworkBox";
-import useUserProfile from "../Hooks/useUserProfile.js";
+import useUserProfile from "../Hooks/useUserProfile.jsx";
 import Parse from "parse";
 import "../Components/Spinner.css";
 
@@ -32,23 +32,35 @@ const Home = () => {
       }
     }, [user]);
 
-    useEffect(() => {
-      createPosts();
-    }, [fetchedPosts]);
+  useEffect(() => {
+    createPosts();
+  }, [fetchedPosts]);
 
-    const createPosts = () => {
-      if (fetchedPosts.length !== 0) {
-        fetchedPosts && console.log("create post based on: " + fetchedPosts);
+  const createPosts = () => {
+    if (fetchedPosts.length !== 0) {
+      fetchedPosts && console.log("create post based on: " + fetchedPosts);
 
-        setDisplayPosts(<PostGenerator array={fetchedPosts} variant="default" />);
-      } else {
-        setDisplayPosts([]);
-      }
-    };
+      setDisplayPosts(<PostGenerator array={fetchedPosts} variant="default" />);
+    } else {
+      setDisplayPosts([]);
+    }
+  };
 
-  const refreshPosts = () => {
-    setLoading(true);
-    readPosts();
+  const refreshPosts = async () => {
+    try {
+      setLoading(true);
+      const query = new Parse.Query("POSTS");
+      query.descending("dateofPosting");
+      query.include("postedBy");
+
+      const result = await query.find();
+      setFetchedPosts(result);
+      setDisplayPosts(<PostGenerator array={result} variant="default" />);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error refreshing posts:", error.message);
+      setLoading(false);
+    }
   };
 
   if (loading) return <span className="loader"></span>;
@@ -60,7 +72,7 @@ const Home = () => {
           <PostingContainer refreshPosts={refreshPosts}></PostingContainer>
         </Container>
         <Container>
-          {displayPosts} {/* : <p> No posts available...</p> */}
+          {displayPosts}
         </Container>
       </MainSection>
 

@@ -13,7 +13,7 @@ const Post = ({
   dateofPosting,
   numberOfLikes,
   objectId,
-  variant = "default", // "default" or "small"
+  variant = "default", // "default" is the post displayed on home page or "small" which is displayed on profile page activity section
 }) => {
   const formattedDate = new Date(dateofPosting).toLocaleString(undefined, {
     year: "numeric",
@@ -31,7 +31,6 @@ const Post = ({
         <ProfileImage src={profileImage} alt={`${name}'s profile`} />
         <UserInfo>
           <UserName>{name}</UserName>
-          {/* Tags under the name */}
           {fields && fields.length > 0 && (
             <TagsContainer>
               {TagGenerator({ array: fields, tagType: "field" })}

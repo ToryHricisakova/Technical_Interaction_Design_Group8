@@ -19,10 +19,15 @@ import {
   InputContainer,
   StyledLabel,
   ErrorMessage,
-} from "../SharedCSS";
+} from "../Components/SharedCSS";
 import styled from "styled-components";
 import Parse from "parse";
 
+/**
+ * A form for registering new users with login information ( in "_User" table)
+ * Also creates a row in the USERS table for additional information and links the rows in the two tables.
+ * Parse is used to handle the log in functionality.
+ */
 const RegistrationForm = () => {
   const navigate = useNavigate();
   const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // A simple check, e-mail might still not be valid.
@@ -280,7 +285,7 @@ const RegistrationForm = () => {
             </CheckboxLabel>
           </TermsContainer>
 
-          <Button className="primary-button" type="submit">
+          <Button variant="primary-button" type="submit">
             Register
           </Button>
         </form>

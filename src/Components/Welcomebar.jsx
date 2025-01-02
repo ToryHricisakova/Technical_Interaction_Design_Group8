@@ -9,7 +9,9 @@ import {
   Logo,
 } from "../Components/NavigationBars";
 
-// Welcomebar to be displayed at the top of the page when no user is logged in.
+/**
+ * Component for the navigationbar to be displayed at the top of the page whenever no user is logged in.
+ */
 const Welcomebar = () => {
   return (
     <BarBackground>
@@ -22,10 +24,10 @@ const Welcomebar = () => {
       <BarRight>
         <ElementContainer>
           <Link to="/login">
-            <Button className="primary-button">Login</Button>
+            <Button variant="primary-button">Login</Button>
           </Link>
           <Link to="/register">
-            <Button className="secondary-button">Register</Button>
+            <Button variant="secondary-button">Register</Button>
           </Link>
         </ElementContainer>
       </BarRight>

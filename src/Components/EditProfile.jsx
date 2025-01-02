@@ -4,22 +4,30 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "./Button.jsx";
 import TypeAhead from "../Components/TypeAhead";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
-import styled from "styled-components";
 import {
   MainTitle,
   Paragraph,
   Boldparagraph,
   Section,
-} from "../OnboardingCSS.jsx";
+} from "../Components/OnboardingCSS";
+import {
+  InfoBlock,
+  RadioButton,
+  BioText,
+  CalenderContainer,
+  RadiobuttonGrouping,
+  CheckboxLabel,
+  CalendarIcon,
+} from "../Pages/Onboarding1";
+import { TypeAheadWrapper, DividerLine } from "../Pages/Onboarding2";
 import Parse from "parse";
-import { fetchFields, fetchSkills } from "../DataforTypeAhead";
-import useUserProfile from "../Hooks/useUserProfile";
+import { fetchFields, fetchSkills } from "./DataforTypeAhead.jsx";
+import useUserProfile from "../Hooks/useUserProfile.jsx";
 
 const EditProfile = ({ onClose }) => {
 
-  const [user, loading] = useUserProfile();
+  const [user, loading] = useUserProfile(); //imporiting the custom hook useUserProfile
   const [dateOfBirth, setDateOfBirth] = useState(null);
   const [pronouns, setPronouns] = useState("");
   const [profileBio, setProfileBio] = useState("");
@@ -40,13 +48,13 @@ const EditProfile = ({ onClose }) => {
     }
   }, [user, loading]);
 
-  // Fetches total fields and skills data for selection 
+  // Fetches total fields and skills data for selection from the TypeAhead
   useEffect(() => {
     const loadFieldsAndSkills = async () => {
-      //asynchronously fetches data for fields and skills from fetchFields() and fetchSkills()
+      //asynchronously fetches data for fields and skills from fetchFields() and fetchSkills() from DataForTypeAhead
       const fieldsData = await fetchFields();
       const skillsData = await fetchSkills();
-      setFields(fieldsData); //once data is fetched, fields and skills array is updated with selected values
+      setFields(fieldsData); //once data is fetched, total fields and skills array is updated
       setSkills(skillsData);
     };
     loadFieldsAndSkills();
@@ -71,8 +79,7 @@ const EditProfile = ({ onClose }) => {
       user.set("skills", selectedSkills);
       await user.save();
 
-      console.log("USER infromation updated successfully!");
-      onClose(); // Closing the modal pop-up after saving
+      onClose(); // Closing the modal pop-up after saving and refreshing the profile page
       location.reload();
     } catch (error) {
       console.error("Error updating USER information:", error.message);
@@ -153,8 +160,8 @@ const EditProfile = ({ onClose }) => {
               tagType="field"
               maxNumber={3}
               value={selectedFields}
-              onSelectionChange={(updatedFields) => {
-                setSelectedFields(updatedFields);
+              onSelectionChange={(updatedFields) => {  // Callback function triggered when the selected items change.
+                setSelectedFields(updatedFields); // UpdatedFields contains the new list of selected fields.
               }}
             />
           </TypeAheadWrapper>
@@ -188,7 +195,7 @@ const EditProfile = ({ onClose }) => {
       </Section>
 
       <Button
-        className="primary-button"
+        variant="primary-button"
         type="button"
         onClick={handleSavingProfileInfo}
       >
@@ -199,54 +206,3 @@ const EditProfile = ({ onClose }) => {
 };
 
 export default EditProfile;
-
-// Styling
-
-const TypeAheadWrapper = styled.div`
-  padding: 0 0 30px 0;
-`;
-const DividerLine = styled.hr`
-  border: 1px solid #dbdbdb;
-  margin-bottom: 30px;
-`;
-const InfoBlock = styled.div`
-  padding-bottom: 15px;
-  border-radius: 20px;
-  width: 550px;
-`;
-const RadioButton = styled.div`
-  display: flex;
-  align-items: center;
-`;
-const BioText = styled.textarea`
-  background-color: white;
-  padding: 15px;
-  width: 100%;
-  resize: none;
-  color: black;
-  margin-bottom: 15px;
-  box-sizing: border-box; // Prevents box from expanding when extra padding is added.
-  font-family: Inter;
-`;
-const CalenderContainer = styled.div`
-  display: flex;
-  justify-content: left;
-  align-items: center;
-`;
-const RadiobuttonGrouping = styled.div`
-  display: flex;
-  gap: 15px;
-  justify-content: left;
-  height: 15px;
-`;
-const CheckboxLabel = styled.label`
-  white-space: nowrap;
-  font-size: 16px;
-  margin: 10px 0;
-  line-height: 1.5;
-  color: #333;
-`;
-const CalendarIcon = styled(FontAwesomeIcon)`
-  margin-left: 5px;
-  color: #424242;
-`;

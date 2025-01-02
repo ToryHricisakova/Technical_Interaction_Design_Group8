@@ -10,7 +10,7 @@ import {
   Logo,
 } from "../Components/NavigationBars";
 import Parse from "parse";
-import useUserProfile from "../Hooks/useUserProfile.js";
+import useUserProfile from "../Hooks/useUserProfile.jsx";
 
 const Navbar = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
@@ -85,7 +85,7 @@ const Navbar = ({ setIsLoggedIn }) => {
 
           <SearchBar type="text" placeholder="Start typing..." />
 
-          <Button className="secondary-button" onClick={handleLogout}>
+          <Button variant="secondary-button" onClick={handleLogout}>
             Log Out
           </Button>
         </ElementContainer>
@@ -93,7 +93,6 @@ const Navbar = ({ setIsLoggedIn }) => {
     </BarBackground>
   );
 };
-
 
 // Styled Components for Navbar
 

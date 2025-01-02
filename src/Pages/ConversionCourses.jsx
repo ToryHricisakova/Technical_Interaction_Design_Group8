@@ -3,26 +3,10 @@ import TypeAhead from "../Components/TypeAhead";
 import Button from "../Components/Button";
 import Parse from "parse";
 import HorizontalLine from "../Components/HorizontalLine";
-import {
-  FilterContainer,
-  MainTitle,
-  FilterName,
-  FilterWrapper,
-  DisplayContainer,
-  Container,
-  CourseContainer,
-  CourseName,
-  UniName,
-  LocationName,
-  ButtonContainer,
-  CourseInformation,
-  UniLogo,
-  RadioButton,
-  CheckboxLabel,
-} from "../ConversionCoursesCSS";
-import { fetchFields, fetchCountries } from "../DataforTypeAhead";
-import { Page } from "../SharedCSS";
+import { fetchFields, fetchCountries } from "../Components/DataforTypeAhead";
+import { Page } from "../Components/SharedCSS";
 import ExpandNetworkBox from "../Components/ExpandNetworkBox";
+import styled from "styled-components";
 
 /**
  * State variables which store the list of respective data (e.g. fields fetches the list of fields) from the backend.
@@ -77,7 +61,7 @@ const ConversionCourses = () => {
     }
     const parseQuery = new Parse.Query("CONVERSION_PROGRAMMES");
     parseQuery.contains("field", selectedField);
-    
+
     try {
       let courses = await parseQuery.find();
       setQueryResults(courses);
@@ -110,114 +94,226 @@ const ConversionCourses = () => {
    */
   return (
     <Page>
-    <Container>
-      <FilterContainer>
-        <FilterWrapper>
-          <MainTitle>Filter by:</MainTitle>
-        </FilterWrapper>
-        <HorizontalLine width={200}></HorizontalLine>
-        <FilterWrapper>
-          <FilterName>Field</FilterName>
-          <TypeAhead
-            items={fields}
-            placeholder="Choose the field here..."
-            tagType="field"
-            maxNumber={1}
-            onSelectionChange={(updatedField) => {
-              if (updatedField.length > 0) {
-                setSelectedField(updatedField[0]);
-              } else {
-                setSelectedField("");
-              }
-            }}
-          />
-        </FilterWrapper>
-        <HorizontalLine width={200}></HorizontalLine>
-        <FilterWrapper>
-          <FilterName>Education Type</FilterName>
-          <RadioButton>
-            <input
-              className="radioButton"
-              type="radio"
-              id="masters"
-              name="educationType"
+      <BaseContainer>
+        <FilterContainer>
+          <FilterWrapper>
+            <MainTitle>Filter by:</MainTitle>
+          </FilterWrapper>
+          <HorizontalLine width={200}></HorizontalLine>
+          <FilterWrapper>
+            <FilterName>Field</FilterName>
+            <TypeAhead
+              items={fields}
+              placeholder="Choose the field here..."
+              tagType="field"
+              maxNumber={1}
+              onSelectionChange={(updatedField) => {
+                if (updatedField.length > 0) {
+                  setSelectedField(updatedField[0]);
+                } else {
+                  setSelectedField("");
+                }
+              }}
             />
-            <CheckboxLabel className="checkboxLabel" htmlFor="masters">
-              Masters
-            </CheckboxLabel>
-          </RadioButton>
-          <RadioButton>
-            <input
-              className="radioButton"
-              type="radio"
-              id="apprenticeship"
-              name="educationType"
+          </FilterWrapper>
+          <HorizontalLine width={200}></HorizontalLine>
+          <FilterWrapper>
+            <FilterName>Education Type</FilterName>
+            <RadioButton>
+              <input
+                className="radioButton"
+                type="radio"
+                id="masters"
+                name="educationType"
+              />
+              <CheckboxLabel className="checkboxLabel" htmlFor="masters">
+                Masters
+              </CheckboxLabel>
+            </RadioButton>
+            <RadioButton>
+              <input
+                className="radioButton"
+                type="radio"
+                id="apprenticeship"
+                name="educationType"
+              />
+              <CheckboxLabel className="checkboxLabel" htmlFor="apprenticeship">
+                Apprenticeship
+              </CheckboxLabel>
+            </RadioButton>
+          </FilterWrapper>
+          <HorizontalLine width={200}></HorizontalLine>
+          <FilterWrapper>
+            <FilterName>Location</FilterName>
+            <TypeAhead
+              items={countries}
+              placeholder="Search countries here..."
+              tagType="country"
+              maxNumber={1}
+              onSelectionChange={(updatedCountry) => {
+                if (updatedCountry.length > 0) {
+                  setSelectedCountry(updatedCountry[0]);
+                } else {
+                  setSelectedCountry("");
+                }
+              }}
             />
-            <CheckboxLabel className="checkboxLabel" htmlFor="apprenticeship">
-              Apprenticeship
-            </CheckboxLabel>
-          </RadioButton>
-        </FilterWrapper>
-        <HorizontalLine width={200}></HorizontalLine>
-        <FilterWrapper>
-          <FilterName>Location</FilterName>
-          <TypeAhead
-            items={countries}
-            placeholder="Search countries here..."
-            tagType="country"
-            maxNumber={1}
-            onSelectionChange={(updatedCountry) => {
-              if (updatedCountry.length > 0) {
-                setSelectedCountry(updatedCountry[0]);
-              } else {
-                setSelectedCountry("");
+          </FilterWrapper>
+          <HorizontalLine width={200}></HorizontalLine>
+          <Button variant="primary-button" onClick={() => doQueryByFieldID()}>
+            Search courses
+          </Button>
+        </FilterContainer>
+        <DisplayContainer>
+          {queryResults && queryResults.length === 0 ? (
+            <p>
+              {
+                "No results here! Try typing 'Information Technology' or 'Law' in Field."
               }
-            }}
-          />
-        </FilterWrapper>
-        <HorizontalLine width={200}></HorizontalLine>
-        <Button className="primary-button" onClick={() => doQueryByFieldID()}>
-          Search courses
-        </Button>
-      </FilterContainer>
-      <DisplayContainer>
-        {queryResults && queryResults.length === 0 ? (
-          <p>
-            {
-              "No results here! Try typing 'Information Technology' or 'Law' in Field."
-            }
-          </p>
-        ) : (
-          queryResults !== undefined &&
-          queryResults.map((course) => {
-            return (
-              <CourseContainer key={course.objectId || course.id}>
-                <UniLogo
-                  src={course.get("uniLogoUrl")}
-                  alt="University of Birmingham Logo"
-                />
-                <CourseInformation>
-                  <CourseName>{course.get("programmeName")}</CourseName>
-                  <UniName>{course.get("institution")}</UniName>
-                  <LocationName>{course.get("location")}</LocationName>
-                </CourseInformation>
-                <ButtonContainer>
-                  <Button
-                    className="secondary-button"
-                    href={course.get("webUrl")}
-                  >
-                    Go to website
-                  </Button>
-                </ButtonContainer>
-              </CourseContainer>
-            );
-          })
-        )}
-      </DisplayContainer>
-      <ExpandNetworkBox />
-    </Container>
+            </p>
+          ) : (
+            queryResults !== undefined &&
+            queryResults.map((course) => {
+              return (
+                <CourseContainer key={course.objectId || course.id}>
+                  <UniLogo
+                    src={course.get("uniLogoUrl")}
+                    alt="University of Birmingham Logo"
+                  />
+                  <CourseInformation>
+                    <CourseName>{course.get("programmeName")}</CourseName>
+                    <UniName>{course.get("institution")}</UniName>
+                    <LocationName>{course.get("location")}</LocationName>
+                  </CourseInformation>
+                  <ButtonContainer>
+                    <Button
+                      variant="secondary-button"
+                      href={course.get("webUrl")}
+                    >
+                      Go to website
+                    </Button>
+                  </ButtonContainer>
+                </CourseContainer>
+              );
+            })
+          )}
+        </DisplayContainer>
+        <ExpandNetworkBox />
+      </BaseContainer>
     </Page>
   );
 };
 
 export default ConversionCourses;
+
+// Styled components
+
+const BaseContainer = styled.div`
+  display: flex;
+  padding-top: 74px;
+`;
+
+const FilterContainer = styled.div`
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 1);
+  text-align: left;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+`;
+
+const DisplayContainer = styled.div`
+  width: 510px;
+  height: 550px;
+  display: inline-block;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding: 30px;
+  margin: 0px 30px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 1);
+  text-align: left;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+`;
+
+const CourseContainer = styled.div`
+  display: flex;
+  width: 500px;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const FilterWrapper = styled.div`
+  padding: 0 0 10px 0;
+`;
+
+const MainTitle = styled.h1`
+  font-size: 24px;
+  margin: 0 0 5px 0;
+  color: #35415d;
+  font-family: Inter, sans-serif;
+  font-weight: bold;
+`;
+
+const FilterName = styled.h2`
+  font-size: 20px;
+  margin: 0 0 5px 0;
+  color: #e47347;
+  font-weight: bold;
+  font-family: Inter, sans-serif;
+`;
+
+const CourseName = styled.h3`
+  font-size: 16px;
+  margin: 0 0 5px 0;
+  color: #e47347;
+  font-weight: bold;
+  font-family: Inter, sans-serif;
+`;
+
+const UniName = styled.p`
+  font-size: 12px;
+  margin: 0 0 5px 0;
+  color: #35415d;
+  font-weight: light;
+  font-family: Inter, sans-serif;
+`;
+
+const LocationName = styled.p`
+  font-size: 12px;
+  margin: 0 0 5px 0;
+  color: rgba(172, 171, 169, 1);
+  font-weight: light;
+  font-family: Inter, sans-serif;
+`;
+
+const ButtonContainer = styled.div`
+  margin-left: auto;
+  flex-shrink: 0;
+`;
+
+const CourseInformation = styled.div`
+  flex-grow: 1;
+`;
+
+const UniLogo = styled.img`
+  height: 50px;
+  cursor: pointer;
+  margin: 0px 30px 10px 0px;
+`;
+
+const RadioButton = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0rem;
+`;
+
+const CheckboxLabel = styled.label`
+  white-space: nowrap;
+  font-size: 12px;
+  color: #35415d;
+`;
