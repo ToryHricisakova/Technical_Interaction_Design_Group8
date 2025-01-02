@@ -3,7 +3,7 @@ import TypeAhead from "../Components/TypeAhead";
 import Button from "../Components/Button";
 import Parse from "parse";
 import HorizontalLine from "../Components/HorizontalLine";
-import { fetchFields, fetchCountries } from "../DataforTypeAhead";
+import { fetchFields, fetchCountries } from "../Components/DataforTypeAhead";
 import { Page } from "../Components/SharedCSS";
 import ExpandNetworkBox from "../Components/ExpandNetworkBox";
 import styled from "styled-components";

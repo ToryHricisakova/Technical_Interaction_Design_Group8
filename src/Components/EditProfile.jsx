@@ -22,7 +22,7 @@ import {
 } from "../Pages/Onboarding1";
 import { TypeAheadWrapper, DividerLine } from "../Pages/Onboarding2";
 import Parse from "parse";
-import { fetchFields, fetchSkills } from "../DataforTypeAhead.jsx";
+import { fetchFields, fetchSkills } from "./DataforTypeAhead.jsx";
 import useUserProfile from "../Hooks/useUserProfile.jsx";
 
 const EditProfile = ({ onClose }) => {
