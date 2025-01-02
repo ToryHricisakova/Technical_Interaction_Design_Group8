@@ -188,7 +188,7 @@ const EditProfile = ({ onClose }) => {
       </Section>
 
       <Button
-        className="primary-button"
+        variant="primary-button"
         type="button"
         onClick={handleSavingProfileInfo}
       >

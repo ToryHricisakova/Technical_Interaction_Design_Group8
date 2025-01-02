@@ -84,7 +84,7 @@ const LogInForm = ({ setIsLoggedIn }) => {
           </InputContainer>
 
           {/* Primary Button */}
-          <Button className="primary-button" type="submit">
+          <Button variant="primary-button" type="submit">
             Log In
           </Button>
         </form>

@@ -1,5 +1,5 @@
 import React from "react";
-import "../Components/Tag.css";
+import styled from "styled-components";
 
 /**
  * Reusable component for displaying the tags (fields, skills, countries).
@@ -19,7 +19,7 @@ import "../Components/Tag.css";
  * of tagType. Those classes are defined in Tag.css and determine the style of the tags.
  */
 const Tag = ({ word, tagType, closable = true, removeTag }) => {
-  const tagStyle = tagType === "field" ? "fieldTag" : "skillTag";
+  const TagStyle = tagType === "field" ? FieldTag : SkillTag;
 
   /**
    * Prevent reloading the page on click. We do this because otherwise if we have more than one tag
@@ -39,19 +39,56 @@ const Tag = ({ word, tagType, closable = true, removeTag }) => {
    * upon clicking the "x" button the tag will dissapear and be removed from the list of selected tags.
    */
   return (
-    <div>
-      <div className={tagStyle}>
-        <p>
-          {word}
-          {closable && (
-            <button className="closingTag" onClick={handleRemove}>
-              x
-            </button>
-          )}
-        </p>
-      </div>
-    </div>
+    <TagStyle>
+      {word}
+      {closable && <ClosingTag onClick={handleRemove}>x</ClosingTag>}
+    </TagStyle>
   );
 };
 
 export default Tag;
+
+const FieldTag = styled.div`
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  max-width: 100%;
+  background-color: #f19e7d;
+  color: #000000;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin: 5px;
+  line-height: 1;
+  white-space: nowrap;
+`;
+
+const SkillTag = styled.div`
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  position: relative;
+  background-color: #d5dee4;
+  color: #000000;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin: 5px;
+  line-height: 1;
+  white-space: nowrap;
+`;
+
+const ClosingTag = styled.button`
+  top: 50%;
+  background-color: transparent;
+  border-color: #ed7748;
+  border-radius: 40px;
+  color: #ed7748;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 1px 5px;
+  cursor: pointer;
+  margin-left: 5px;
+`;

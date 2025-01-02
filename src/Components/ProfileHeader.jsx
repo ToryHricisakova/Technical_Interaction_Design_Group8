@@ -144,7 +144,7 @@ const ProfileHeader = ({ user, viewMode }) => {
       <ProfileBottom>
         <LeftBlock>
           {!viewMode ? (
-            <Button className="secondary-button" onClick={handleOpenModal}>
+            <Button variant="secondary-button" onClick={handleOpenModal}>
               Edit Profile
             </Button>
           ) : (

@@ -106,7 +106,8 @@ const PostingContainer = ({ refreshPosts }) => {
             </PreviewWrapper>
           )}
           <HiddenFileInput
-            type="file" multiple
+            type="file"
+            multiple
             ref={fileInputRef}
             onChange={handleFileUpload}
           />
@@ -116,7 +117,7 @@ const PostingContainer = ({ refreshPosts }) => {
           </UploadButton>
         </FileUploadWrapper>
         <ButtonContainer>
-          <Button className="primary-button" type="button" onClick={createPost}>
+          <Button variant="primary-button" type="button" onClick={createPost}>
             Create Post
           </Button>
         </ButtonContainer>

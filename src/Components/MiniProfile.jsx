@@ -46,7 +46,7 @@ const MiniProfile = (props) => {
               {firstName} {lastName}
             </Name>
           </StyledLink>
-          <ConnectButton className="connect-button-small" />
+          <ConnectButton variant="connect-button-small" />
         </NameConnectContainer>
       </PictureNameConnectWrapper>
       <FieldsContainer>

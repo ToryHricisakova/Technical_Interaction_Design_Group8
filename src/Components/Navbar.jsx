@@ -85,7 +85,7 @@ const Navbar = ({ setIsLoggedIn }) => {
 
           <SearchBar type="text" placeholder="Start typing..." />
 
-          <Button className="secondary-button" onClick={handleLogout}>
+          <Button variant="secondary-button" onClick={handleLogout}>
             Log Out
           </Button>
         </ElementContainer>
