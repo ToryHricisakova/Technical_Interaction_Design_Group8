@@ -1,16 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Button from "../Components/Button";
-import {
-  Container,
-  MainTitle,
-  SubTitle,
-  HighlightTextColor,
-  PrimaryTextColor,
-  Paragraph,
-  ButtonContainer,
-} from "../Components/WelcomeMessageCSS";
 import { PageWithImage } from "../Components/SharedCSS";
+import styled from "styled-components";
 
 const Welcome = () => {
   return (

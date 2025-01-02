@@ -3,23 +3,6 @@ import TypeAhead from "../Components/TypeAhead";
 import Button from "../Components/Button";
 import Parse from "parse";
 import HorizontalLine from "../Components/HorizontalLine";
-import {
-  FilterContainer,
-  MainTitle,
-  FilterName,
-  FilterWrapper,
-  DisplayContainer,
-  Container,
-  CourseContainer,
-  CourseName,
-  UniName,
-  LocationName,
-  ButtonContainer,
-  CourseInformation,
-  UniLogo,
-  RadioButton,
-  CheckboxLabel,
-} from "../Components/ConversionCoursesCSS";
 import { fetchFields, fetchCountries } from "../DataforTypeAhead";
 import { Page } from "../Components/SharedCSS";
 import ExpandNetworkBox from "../Components/ExpandNetworkBox";
@@ -111,7 +94,7 @@ const ConversionCourses = () => {
    */
   return (
     <Page>
-      <Container>
+      <BaseContainer>
         <FilterContainer>
           <FilterWrapper>
             <MainTitle>Filter by:</MainTitle>
@@ -216,7 +199,7 @@ const ConversionCourses = () => {
           )}
         </DisplayContainer>
         <ExpandNetworkBox />
-      </Container>
+      </BaseContainer>
     </Page>
   );
 };
@@ -225,7 +208,7 @@ export default ConversionCourses;
 
 // Styled components
 
-const Container = styled.div`
+const BaseContainer = styled.div`
   display: flex;
   padding-top: 74px;
 `;
