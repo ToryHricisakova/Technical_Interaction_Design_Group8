@@ -3,26 +3,10 @@ import TypeAhead from "../Components/TypeAhead";
 import Button from "../Components/Button";
 import Parse from "parse";
 import HorizontalLine from "../Components/HorizontalLine";
-import {
-  FilterContainer,
-  MainTitle,
-  FilterName,
-  FilterWrapper,
-  DisplayContainer,
-  Container,
-  CourseContainer,
-  CourseName,
-  UniName,
-  LocationName,
-  ButtonContainer,
-  CourseInformation,
-  UniLogo,
-  RadioButton,
-  CheckboxLabel,
-} from "../ConversionCoursesCSS";
 import { fetchFields, fetchCountries } from "../DataforTypeAhead.jsx";
 import { Page } from "../SharedCSS";
 import ExpandNetworkBox from "../Components/ExpandNetworkBox";
+import styled from "styled-components";
 
 /**
  * State variables which store the list of respective data (e.g. fields fetches the list of fields) from the backend.
@@ -176,7 +160,7 @@ const ConversionCourses = () => {
             />
           </FilterWrapper>
           <HorizontalLine width={200}></HorizontalLine>
-          <Button className="primary-button" onClick={() => doQueryByFieldID()}>
+          <Button variant="primary-button" onClick={() => doQueryByFieldID()}>
             Search courses
           </Button>
         </FilterContainer>
@@ -203,7 +187,7 @@ const ConversionCourses = () => {
                   </CourseInformation>
                   <ButtonContainer>
                     <Button
-                      className="secondary-button"
+                      variant="secondary-button"
                       href={course.get("webUrl")}
                     >
                       Go to website
@@ -221,3 +205,115 @@ const ConversionCourses = () => {
 };
 
 export default ConversionCourses;
+
+// Styled components
+
+const Container = styled.div`
+  display: flex;
+  padding-top: 74px;
+`;
+
+const FilterContainer = styled.div`
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 1);
+  text-align: left;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+`;
+
+const DisplayContainer = styled.div`
+  width: 510px;
+  height: 550px;
+  display: inline-block;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding: 30px;
+  margin: 0px 30px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 1);
+  text-align: left;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+`;
+
+const CourseContainer = styled.div`
+  display: flex;
+  width: 500px;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const FilterWrapper = styled.div`
+  padding: 0 0 10px 0;
+`;
+
+const MainTitle = styled.h1`
+  font-size: 24px;
+  margin: 0 0 5px 0;
+  color: #35415d;
+  font-family: Inter, sans-serif;
+  font-weight: bold;
+`;
+
+const FilterName = styled.h2`
+  font-size: 20px;
+  margin: 0 0 5px 0;
+  color: #e47347;
+  font-weight: bold;
+  font-family: Inter, sans-serif;
+`;
+
+const CourseName = styled.h3`
+  font-size: 16px;
+  margin: 0 0 5px 0;
+  color: #e47347;
+  font-weight: bold;
+  font-family: Inter, sans-serif;
+`;
+
+const UniName = styled.p`
+  font-size: 12px;
+  margin: 0 0 5px 0;
+  color: #35415d;
+  font-weight: light;
+  font-family: Inter, sans-serif;
+`;
+
+const LocationName = styled.p`
+  font-size: 12px;
+  margin: 0 0 5px 0;
+  color: rgba(172, 171, 169, 1);
+  font-weight: light;
+  font-family: Inter, sans-serif;
+`;
+
+const ButtonContainer = styled.div`
+  margin-left: auto;
+  flex-shrink: 0;
+`;
+
+const CourseInformation = styled.div`
+  flex-grow: 1;
+`;
+
+const UniLogo = styled.img`
+  height: 50px;
+  cursor: pointer;
+  margin: 0px 30px 10px 0px;
+`;
+
+const RadioButton = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0rem;
+`;
+
+const CheckboxLabel = styled.label`
+  white-space: nowrap;
+  font-size: 12px;
+  color: #35415d;
+`;

@@ -19,7 +19,7 @@ import Parse from "parse";
 
 /**
  *
- * fields and skils: arrays to store dynamically fetched career fields and skills data
+ * fields and skills: arrays to store dynamically fetched career fields and skills data
  *
  * selectedFields and selectedSkills: arrays to store user-selected fields and skills
  *
@@ -170,7 +170,7 @@ const Onboarding2 = ({ setIsLoggedIn }) => {
         <Buttons>
           <Link to="/onboarding1">
             <Button
-              className="secondary-button"
+              variant="secondary-button"
               onClick={() => navigate("/onboarding1")}
             >
               Back
@@ -178,7 +178,7 @@ const Onboarding2 = ({ setIsLoggedIn }) => {
           </Link>
           <Link to="/profile">
             <Button
-              className="primary-button"
+              variant="primary-button"
               onClick={() => {
                 handleFinish();
               }}

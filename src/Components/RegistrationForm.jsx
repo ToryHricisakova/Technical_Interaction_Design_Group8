@@ -285,7 +285,7 @@ const RegistrationForm = () => {
             </CheckboxLabel>
           </TermsContainer>
 
-          <Button className="primary-button" type="submit">
+          <Button variant="primary-button" type="submit">
             Register
           </Button>
         </form>

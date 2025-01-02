@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "./Button";
 
-const ConnectButton = ({ className }) => {
+const ConnectButton = ({ variant }) => {
   const [buttonText, setButtonText] = useState("+ Connect");
 
   const handleClick = () => {
@@ -10,7 +10,7 @@ const ConnectButton = ({ className }) => {
 
   return (
     <Button
-      className={className ? className : "secondary-button"}
+      variant={variant ? variant : "secondary-button"}
       onClick={handleClick}
     >
       {buttonText}

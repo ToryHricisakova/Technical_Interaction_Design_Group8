@@ -69,7 +69,7 @@ const Onboarding1 = () => {
   const [profileBio, setProfileBio] = useState("");
 
   /**
-   * fileRef is a reference to the hidden input (HiddenInput), which is 
+   * fileRef is a reference to the hidden input (HiddenInput), which is
    * an element that allows the user to upload a file but is styled to be invisible.
    */
   const fileRef = useRef(null);
@@ -98,8 +98,8 @@ const Onboarding1 = () => {
   /**
    * When the user clicks the upload picture button, handleClick is triggered.
    *
-   * fileRef.current.click() simulates a click on the hidden file input, which opens the picker dialog for 
-   * the user to choose an image. 
+   * fileRef.current.click() simulates a click on the hidden file input, which opens the picker dialog for
+   * the user to choose an image.
    */
   function handleClick(e) {
     e.preventDefault();
@@ -205,7 +205,7 @@ const Onboarding1 = () => {
                 ref={fileRef}
               />
             </UploadWrapper>
-            <Button className="secondary-button" onClick={handleClick}>
+            <Button variant="secondary-button" onClick={handleClick}>
               Upload Picture
             </Button>
           </InfoBlock>
@@ -223,7 +223,7 @@ const Onboarding1 = () => {
 
           <NextButton to="/onboarding2">
             <Button
-              className="primary-button"
+              variant="primary-button"
               type="button"
               onClick={handleSavingAdditionalInfo}
             >
